@@ -203,6 +203,9 @@ body {
   min-width: 500px;
   padding: 20px;
 
+  &.modal {
+    text-align: center;
+  }
 }
 
 .search-component {
@@ -214,4 +217,19 @@ body {
 .loader {
   position: relative !important;
   left: 227px !important;
+}
+
+.modal-button {
+  border: solid 1px $light-grey;
+  border-radius: 5px;
+  background-color: $darker-grey;
+  color: $off-white;
+
+  &:hover {
+    color: $light-blue;
+  }
+
+  &:active {
+    outline: 0;
+  }
 }

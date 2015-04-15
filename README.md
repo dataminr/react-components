@@ -1,12 +1,15 @@
+[![Build Status](https://travis-ci.org/dataminr/react-components.svg?branch=master)](https://travis-ci.org/dataminr/react-components)
 # react-components
 
 ## Just getting your project started?
 
 ##### Try our [Yeoman](http://yeoman.io) generator for testing, linting, watchers, and more!
 
-> [generator-react-flux](https://github.com/dataminr/generator-react-flux) for Facebook's React framework and Flux application architecture.
+> [generator-reactjs-flux](https://github.com/dataminr/generator-reactjs-flux) for Facebook's React framework and Flux application architecture.
 
 ## What's inside react-components?
+
+[Try the Demo](http://dataminr.github.io/react-components)
 
 #### [Table Component](./docs/table.md)
 
@@ -19,6 +22,10 @@ Search against large sets of data, populate results, and take action with all th
 #### [Pie Chart Component](./docs/piechart.md)
 
 Display complex data with our pie chart's drill in/out functionality, hover animations, and result list.
+
+#### [Modal Component](./docs/modal.md)
+
+A simple single page modal that renders in it's own DOM tree and operates outside the render cycles of an application.
 
 ## Getting Started
 
@@ -64,7 +71,7 @@ $ git checkout master
 * Pull requests should be made to the `master` branch with proper unit tests.
 * Do not include the minified files in your pull request. We build these when we tag a release.
 
-#### We use the following libraries within out project
+#### We use the following libraries within our project
 
 * [React](http://facebook.github.io/react/) JavaScript library for building user interfaces
 * [Flux](https://facebook.github.io/flux/) Application architecture for building user interfaces

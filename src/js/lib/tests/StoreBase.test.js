@@ -71,6 +71,15 @@ define(function(require) {
             expect(StoreBase.emit).toHaveBeenCalledWith('change');
             expect(StoreBase.emit).toHaveBeenCalledWith('change:foo');
         });
+
+        it('should emit a change with additional params', function(){
+            spyOn(StoreBase, 'emit');
+
+            StoreBase.emitChange('foo', 'param1', 'param2');
+            expect(StoreBase.emit.calls.count()).toEqual(2);
+            expect(StoreBase.emit).toHaveBeenCalledWith('change', 'param1', 'param2');
+            expect(StoreBase.emit).toHaveBeenCalledWith('change:foo', 'param1', 'param2');
+        });
     });
 
     describe('emitFail function', function(){
@@ -95,6 +104,15 @@ define(function(require) {
             expect(StoreBase.emit.calls.count()).toEqual(2);
             expect(StoreBase.emit).toHaveBeenCalledWith('fail');
             expect(StoreBase.emit).toHaveBeenCalledWith('fail:foo');
+        });
+
+        it('should emit a change with additional params', function(){
+            spyOn(StoreBase, 'emit');
+
+            StoreBase.emitFail('foo', 'param1', 'param2');
+            expect(StoreBase.emit.calls.count()).toEqual(2);
+            expect(StoreBase.emit).toHaveBeenCalledWith('fail', 'param1', 'param2');
+            expect(StoreBase.emit).toHaveBeenCalledWith('fail:foo', 'param1', 'param2');
         });
     });
 

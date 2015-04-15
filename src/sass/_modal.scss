@@ -1,0 +1,65 @@
+@import 'vars';
+
+#modal-container {
+  background: rgba(34, 42, 52, 0.76);
+  height: 100%;
+  width: 100%;
+  padding-top: 50px;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 2000;
+
+  > .content {
+    background-color: $darker-grey;
+    border: solid 1px $grey;
+    border-radius: 5px;
+    box-sizing: border-box;
+    color: $off-white;
+    margin: auto;
+    max-width: 960px;
+    min-height: 150px;
+    padding: 10px;
+    position: relative;
+    text-align: left;
+
+    &:focus {
+      outline: 0;
+    }
+
+    .header {
+      .title {
+        color: $light-blue;
+        display: inline-block;
+        font-size: 22pt;
+        margin-bottom: 15px;
+        text-align: left;
+        width: 100%;
+      }
+
+      .close {
+        cursor: pointer;
+        font-size: 15px;
+        position: absolute;
+        top: -24px;
+        right: 0;
+
+        .close-text {
+          font-style: italic;
+        }
+
+        &:hover {
+          color: white;
+        }
+      }
+    }
+
+    .body {
+      .table-component .pagination-controls {
+        margin-top: 0;
+      }
+    }
+  }
+}

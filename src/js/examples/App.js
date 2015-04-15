@@ -1,7 +1,9 @@
 define(function(require) {
     'use strict';
 
+    var Modal = require('drc/modal/Modal');
     var PieChart = require('drc/pie-chart/PieChart');
+    var PortalMixins = require('drc/mixins/PortalMixins');
     var React = require('react');
     var Search = require('drc/search/Search');
     var Table = require('drc/table/Table');
@@ -17,53 +19,61 @@ define(function(require) {
                 width: '35px'
             },
             {
+                headerLabel: 'SPACECRAFT',
+                dataProperty: 'spacecraft',
+                sortDirection: 'ascending',
+                dataType: 'string',
+                width: '12%',
+                quickFilter: true
+            },
+            {
                 headerLabel: 'NAME',
                 dataProperty: 'name',
+                sortDirection: 'ascending',
+                dataType: 'string',
+                width: '12%',
+                quickFilter: true
+            },
+            {
+                headerLabel: 'MISSION',
+                dataProperty: 'mission',
                 sortDirection: 'ascending',
                 dataType: 'string',
                 width: '20%',
                 quickFilter: true
             },
             {
-                headerLabel: 'MESSAGES',
-                dataProperty: 'messages',
+                headerLabel: 'LAUNCHED',
+                dataProperty: 'launched',
                 sortDirection: 'descending',
                 dataType: 'number',
-                width: '15%',
+                width: '12%',
                 quickFilter: true
             },
             {
-                headerLabel: 'USAGE',
-                dataProperty: 'usage',
-                sortDirection: 'descending',
-                dataType: 'percent',
-                width: '10%',
-                quickFilter: true
-            },
-            {
-                headerLabel: 'LAST LOGIN',
-                dataProperty: 'lastLogin',
+                headerLabel: 'LAST LAUNCH DATE',
+                dataProperty: 'lastLaunchDate',
                 sortDirection: 'descending',
                 dataType: 'time',
-                timeFormat: 'MMM Do, h A',
-                width: '25%',
+                timeFormat: 'MMM Do YYYY',
+                width: '20%',
                 quickFilter: true
             },
             {
-                headerLabel: 'LAST MESSAGE',
-                dataProperty: 'lastMessage',
+                headerLabel: 'LAST COMMUNICATION',
+                dataProperty: 'lastCommunication',
                 sortDirection: 'descending',
                 dataType: 'status',
                 onlineLimit: 4,
-                timeFormat: 'MMM Do, h:mm A',
-                width: '24%',
+                timeFormat: 'MMM Do, h:mm A YYYY',
+                width: '20%',
                 quickFilter: true
             }
         ],
         sortColIndex: 1,
         pagination: {
             cursor: 0,
-            size: 12
+            size: 5
         },
         rowClick: {
             callback: function(event, props, state) {
@@ -95,6 +105,8 @@ define(function(require) {
     return React.createClass({
         displayName: 'App',
 
+        mixins: [PortalMixins],
+
         getInitialState: function() {
             return {
                 selectedComponentSet: window.location.hash.split('#')[1] || 'piechart'
@@ -109,6 +121,13 @@ define(function(require) {
             var componentSet;
 
             switch (this.state.selectedComponentSet) {
+                case 'modal':
+                    componentSet = (
+                        <div className="component modal">
+                            <input type="button" className="modal-button" onClick={this.openModal} value="Open Modal" />
+                        </div>
+                    );
+                    break;
                 case 'piechart':
                     componentSet = (
                         <div className="component">
@@ -136,6 +155,7 @@ define(function(require) {
                         </div>
                     );
             }
+
             return (
                 <div className="app-component">
                     <div id="header-component">
@@ -148,6 +168,8 @@ define(function(require) {
                     </div>
                     <div className="sidebar">
                         <ul className="nav no-select">
+                            <li className={this.state.selectedComponentSet === 'modal' ? 'active' : null}
+                                onClick={this.handleLinkClick.bind(this, 'modal')}>Modal</li>
                             <li className={this.state.selectedComponentSet === 'piechart' ? 'active' : null}
                                 onClick={this.handleLinkClick.bind(this, 'piechart')}>Pie Chart</li>
                             <li className={this.state.selectedComponentSet === 'search' ? 'active' : null}
@@ -160,6 +182,18 @@ define(function(require) {
                         {componentSet}
                     </div>
                 </div>
+            );
+        },
+
+        openModal: function() {
+            this.openPortal(
+                <Modal title="Modal Title" closeModalCallback={this.closePortal}>
+                    Paleo hella meditation Thundercats. Artisan Wes Anderson plaid, meggings trust fund sartorial
+                    slow-carb flexitarian direct trade skateboard. Gentrify sriracha Kickstarter Godard butcher
+                    McSweeney's. Etsy keffiyeh hoodie irony vinyl. Ugh VHS hella, mlkshk craft beer meh banh mi.
+                    Whatever normcore Truffaut sustainable lo-fi literally, Vice leggings XOXO. Wayfarers Austin
+                    tattooed mlkshk asymmetrical plaid butcher, chia stumptown post-ironic.
+                </Modal>
             );
         },
 

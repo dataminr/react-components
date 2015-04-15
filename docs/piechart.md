@@ -2,7 +2,66 @@
 
 <img src="../src/js/examples/images/demo/piechart.gif" />
 
-### Setup
+### Usage
+
+```
+componentId
+    type: string
+    required: true
+    description: Used by the PieChartStore to keep track of PieChart state
+    
+key
+    type: string
+    required: true
+    description: Used by React when there are more than one pie chart displayed consecutively by a component
+    
+definition
+    type: object
+    required: true
+    definition: This defines the look, feel, and display of the pie chart
+    
+    url
+        type: string
+        required: true
+        description: The endpoint for requesting data
+        
+    label
+        type: string
+        required: true
+        description: The textual description of what the data is representative of
+        
+colors
+    type: array
+    required: false
+    default: [
+        '#00B0F1', //dark blue
+        '#6DD2F7', //light blue
+        '#58C99E', //light green
+        '#11B275', //dark green
+        '#53959C', //slate
+        '#545F88', //lavender
+        '#6E4A99', //grape
+        '#D35E5E', //pink
+        '#E4C000', //yellow
+        '#F37E1C', //orange
+        '#ECECEC', //off-white
+        '#BC0C0C'  //red
+    ]
+    description: The colors in priority order that will be used in the display of the pie chart
+        
+filters
+    type: object
+    required: false
+    description: Sent as data with requests to the server
+    
+loadingIconClasses
+    type: array|string
+    required: false
+    default: 'icon ion-loading-c'
+    description: Used to override the loading icon
+```
+
+### Example Usage
 
 ```javascript
 var pieChartDefinition = {
@@ -11,8 +70,6 @@ var pieChartDefinition = {
 };
 ```
 
-### Usage
-
 ```javascript
 <PieChart definition={pieChartDefinition}
                       componentId={'pieChartId'}
@@ -20,7 +77,7 @@ var pieChartDefinition = {
                       loadingIconClasses={['icon', 'ion-loading-c']} />
 ```
 
-### Data
+### Example Data
 
 ```javascript
 var pieChartData = [

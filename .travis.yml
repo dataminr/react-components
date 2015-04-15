@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+  - "0.12"
+before_install: 
+  - npm install -g grunt-cli
+  - npm install -g bower
+  - npm install -g react-tools
+install: npm install
+after_script: 
+  - bower install
+  - grunt test

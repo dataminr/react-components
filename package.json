@@ -1,6 +1,26 @@
 {
     "name": "react-components",
     "version": "0.1.0",
+    "keywords": [
+        "react-component"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:dataminr/react-components.git"
+    },
+    "engines": {
+        "node": ">=0.10.0",
+        "npm": ">=1.2.10"
+    },
+    "licenses": [
+        {
+            "type": "MIT"
+        }
+    ],
+    "bugs": {
+        "url": "https://github.com/dataminr/react-components/issues"
+    },
+    "homepage": "https://github.com/dataminr/react-components",
     "dependencies": {
         "lodash": "2.4.1"
     },
@@ -17,10 +37,12 @@
         "grunt-contrib-watch": "0.6.1",
         "grunt-jscs": "1.2.0",
         "grunt-open": "0.2.3",
-        "grunt-shell-spawn": "0.3.1",
+        "grunt-shell-spawn": "0.3.0",
         "grunt-template-jasmine-istanbul": "0.3.0",
         "grunt-template-jasmine-requirejs": "0.2.0",
         "load-grunt-configs": "0.4.1",
         "requirejs": "2.1.15"
-    }
+    },
+    "author": "Dataminr",
+    "license": "MIT"
 }

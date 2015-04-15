@@ -33,12 +33,16 @@ define(function(require) {
         /**
          * Fire change events for data. Fires two events, a generic 'change' event, and a
          * specific change event for the component that is changing.
-         * @param {string=} id - The unique identifier of the component instance.
+         * @param {string=} namespace - The name or identifier to associate with the change event.
+         * @param {...mixed} var_args - Additional arguments.
          */
-        emitChange: function(id) {
-            this.emit('change');
-            if(id !== null && id !== undefined){
-                this.emit('change:' + id);
+        emitChange: function(namespace) {
+            var args = Array.prototype.slice.call(arguments, 1);
+            args.unshift('change');
+            this.emit.apply(this, args);
+            if(namespace !== null && namespace !== undefined){
+                args[0] = 'change:' + namespace;
+                this.emit.apply(this, args);
             }
         },
 
@@ -46,12 +50,16 @@ define(function(require) {
          * Fire fail events. Fires two events, a generic 'fail' event, and a
          * specific fail event for the component that erred out. These event names would
          * be called 'error' but those are reserved in the EventEmitter we're using.
-         * @param {string} id - The unique identifier of the component instance.
+         * @param {string} namespace - The name or identifier to associate with the change event.
+         * @param {...mixed} var_args - Additional arguments.
          */
-        emitFail: function(id) {
-            this.emit('fail');
-            if(id !== null && id !== undefined){
-                this.emit('fail:' + id);
+        emitFail: function(namespace) {
+            var args = Array.prototype.slice.call(arguments, 1);
+            args.unshift('fail');
+            this.emit.apply(this, args);
+            if(namespace !== null && namespace !== undefined){
+                args[0] = 'fail:' + namespace;
+                this.emit.apply(this, args);
             }
         },
 
