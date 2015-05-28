@@ -138,77 +138,77 @@ define(function(require) {
             switch (this.state.selectedComponentSet) {
                 case 'modal':
                     componentSet = (
-                        <div className="component modal">
-                            <input type="button" className="modal-button" onClick={this.openModal} value="Open Modal" />
-                        </div>
+                        React.createElement("div", {className: "component modal"}, 
+                            React.createElement("input", {type: "button", className: "modal-button", onClick: this.openModal, value: "Open Modal"})
+                        )
                     );
                     break;
                 case 'piechart':
                     componentSet = (
-                        <div className="component">
-                            <PieChart definition={pieChartDefinition}
-                                      componentId={'pieChartId'}
-                                      key={'pieChartId'}
-                                      loadingIconClasses={['icon', 'ion-loading-c']} />
-                        </div>
+                        React.createElement("div", {className: "component"}, 
+                            React.createElement(PieChart, {definition: pieChartDefinition, 
+                                      componentId: 'pieChartId', 
+                                      key: 'pieChartId', 
+                                      loadingIconClasses: ['icon', 'ion-loading-c']})
+                        )
                     );
                     break;
                 case 'search':
                     componentSet = (
-                        <Search url={'/test/search'} onSelect={searchSubmitCallback} isFullDataResponse={true} minLength={1}/>
+                        React.createElement(Search, {url: '/test/search', onSelect: searchSubmitCallback, isFullDataResponse: true, minLength: 1})
                     );
                     break;
                 case 'table':
                     componentSet = (
-                        <div className="component">
-                            <div className="bulk-action-button" onClick={this.handleBulkActionClick}>Bulk Action</div>
-                            <Table definition={tableDefinition}
-                                   componentId='tableId'
-                                   key='tableId'
-                                   loadingIconClasses={['icon', 'ion-loading-c']}
-                                   quickFilterPlaceholder='Quick Filter' />
-                        </div>
+                        React.createElement("div", {className: "component"}, 
+                            React.createElement("div", {className: "bulk-action-button", onClick: this.handleBulkActionClick}, "Bulk Action"), 
+                            React.createElement(Table, {definition: tableDefinition, 
+                                   componentId: "tableId", 
+                                   key: "tableId", 
+                                   loadingIconClasses: ['icon', 'ion-loading-c'], 
+                                   quickFilterPlaceholder: "Quick Filter"})
+                        )
                     );
             }
 
             return (
-                <div className="app-component">
-                    <div id="header-component">
-                        <img id="application-logo" src="images/dataminr_logo_white-01.png" />
-                        <div className="header-divider"></div>
-                        <div className="application-description">
-                            <a href="http://facebook.github.io/react/" target="_blank" className="react"><img src="images/react_logo.png" /><span>React Components</span></a>
-                            <a href="https://facebook.github.io/flux/" target="_blank" className="flux"><img src="images/flux_logo.svg" /><span>Flux Architecture</span></a>
-                        </div>
-                    </div>
-                    <div className="sidebar">
-                        <ul className="nav no-select">
-                            <li className={this.state.selectedComponentSet === 'modal' ? 'active' : null}
-                                onClick={this.handleLinkClick.bind(this, 'modal')}>Modal</li>
-                            <li className={this.state.selectedComponentSet === 'piechart' ? 'active' : null}
-                                onClick={this.handleLinkClick.bind(this, 'piechart')}>Pie Chart</li>
-                            <li className={this.state.selectedComponentSet === 'search' ? 'active' : null}
-                                onClick={this.handleLinkClick.bind(this, 'search')}>Search</li>
-                            <li className={this.state.selectedComponentSet === 'table' ? 'active' : null}
-                                onClick={this.handleLinkClick.bind(this, 'table')}>Table</li>
-                        </ul>
-                    </div>
-                    <div className="content-component">
-                        {componentSet}
-                    </div>
-                </div>
+                React.createElement("div", {className: "app-component"}, 
+                    React.createElement("div", {id: "header-component"}, 
+                        React.createElement("img", {id: "application-logo", src: "images/dataminr_logo_white-01.png"}), 
+                        React.createElement("div", {className: "header-divider"}), 
+                        React.createElement("div", {className: "application-description"}, 
+                            React.createElement("a", {href: "http://facebook.github.io/react/", target: "_blank", className: "react"}, React.createElement("img", {src: "images/react_logo.png"}), React.createElement("span", null, "React Components")), 
+                            React.createElement("a", {href: "https://facebook.github.io/flux/", target: "_blank", className: "flux"}, React.createElement("img", {src: "images/flux_logo.svg"}), React.createElement("span", null, "Flux Architecture"))
+                        )
+                    ), 
+                    React.createElement("div", {className: "sidebar"}, 
+                        React.createElement("ul", {className: "nav no-select"}, 
+                            React.createElement("li", {className: this.state.selectedComponentSet === 'modal' ? 'active' : null, 
+                                onClick: this.handleLinkClick.bind(this, 'modal')}, "Modal"), 
+                            React.createElement("li", {className: this.state.selectedComponentSet === 'piechart' ? 'active' : null, 
+                                onClick: this.handleLinkClick.bind(this, 'piechart')}, "Pie Chart"), 
+                            React.createElement("li", {className: this.state.selectedComponentSet === 'search' ? 'active' : null, 
+                                onClick: this.handleLinkClick.bind(this, 'search')}, "Search"), 
+                            React.createElement("li", {className: this.state.selectedComponentSet === 'table' ? 'active' : null, 
+                                onClick: this.handleLinkClick.bind(this, 'table')}, "Table")
+                        )
+                    ), 
+                    React.createElement("div", {className: "content-component"}, 
+                        componentSet
+                    )
+                )
             );
         },
 
         openModal: function() {
             this.openPortal(
-                <Modal title="Modal Title" closeModalCallback={this.closePortal}>
-                    Paleo hella meditation Thundercats. Artisan Wes Anderson plaid, meggings trust fund sartorial
-                    slow-carb flexitarian direct trade skateboard. Gentrify sriracha Kickstarter Godard butcher
-                    McSweeney's. Etsy keffiyeh hoodie irony vinyl. Ugh VHS hella, mlkshk craft beer meh banh mi.
-                    Whatever normcore Truffaut sustainable lo-fi literally, Vice leggings XOXO. Wayfarers Austin
-                    tattooed mlkshk asymmetrical plaid butcher, chia stumptown post-ironic.
-                </Modal>
+                React.createElement(Modal, {title: "Modal Title", closeModalCallback: this.closePortal}, 
+                    "Paleo hella meditation Thundercats. Artisan Wes Anderson plaid, meggings trust fund sartorial" + ' ' +
+                    "slow-carb flexitarian direct trade skateboard. Gentrify sriracha Kickstarter Godard butcher" + ' ' +
+                    "McSweeney's. Etsy keffiyeh hoodie irony vinyl. Ugh VHS hella, mlkshk craft beer meh banh mi." + ' ' +
+                    "Whatever normcore Truffaut sustainable lo-fi literally, Vice leggings XOXO. Wayfarers Austin" + ' ' +
+                    "tattooed mlkshk asymmetrical plaid butcher, chia stumptown post-ironic."
+                )
             );
         },
 
