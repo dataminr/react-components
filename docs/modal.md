@@ -50,7 +50,7 @@ return React.createClass({
         <input type="button" className="modal-button" onClick={this.openModal} value="Open Modal" />
         // ...
         
-    }
+    },
     
     openModal: function() {
         this.openPortal(
@@ -63,5 +63,5 @@ return React.createClass({
             </Modal>
         );
     }
-}
+});
 ```
