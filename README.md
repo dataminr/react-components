@@ -4,8 +4,6 @@ A collection of reusable React components with their own Flux lifecycle.
 
 [![NPM version][npm-image]][npm-url] [![MIT License][license-image]][license-url] [![Build Status][travis-image]][travis-url]
 
-[![NPM version][npm-image]][npm-url] [![MIT License][license-image]][license-url] [![Build Status][travis-image]][travis-url]
-
 ## What's inside react-components?
 
 #### [Table Component](./docs/table.md)
