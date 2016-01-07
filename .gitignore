@@ -1,7 +1,4 @@
 **/node_modules
-**/bower_components
-**/dist
-**/compiled
 .jshintrc
 .idea
 .sass-cache/
@@ -10,3 +7,4 @@ _SpecRunner.html
 **/.module-cache
 **/coverage
 .DS_Store
+dist

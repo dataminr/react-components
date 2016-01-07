@@ -1,9 +1,9 @@
 define(function(require) {
-    var PortalMixins = require('drc/mixins/PortalMixins');
+    var PortalMixins = require('../../mixins/PortalMixins');
     var React = require('react');
-    var Utils = require('drc/utils/Utils');
+    var Utils = require('../Utils');
 
-    var TestUtils = React.addons.TestUtils;
+    var TestUtils = require('react-addons-test-utils');
 
     describe('Utils', function() {
         describe('guid', function() {

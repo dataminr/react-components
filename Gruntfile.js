@@ -9,60 +9,21 @@ module.exports = function(grunt) {
     });
 
     grunt.initConfig(configs);
-
-    grunt.loadNpmTasks('grunt-contrib-connect');
-    grunt.loadNpmTasks('grunt-contrib-compass');
-    grunt.loadNpmTasks('grunt-contrib-jasmine');
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks("grunt-eslint");
-    grunt.loadNpmTasks('grunt-open');
-    grunt.loadNpmTasks('grunt-shell-spawn');
+    require("matchdep").filterAll("grunt-*").forEach(grunt.loadNpmTasks);
 
     /**
-     * Default task to be used by developers. Kill any existing processes, compile JSX/SASS
+     * Default task to be used by developers. Startup webpack dev server
      */
     grunt.registerTask('default', [
-        'shell:cleanCompiledDirectory',
-        'compass',
-        'shell:jsxWatcher',
-        'watch'
-    ]);
-
-    /**
-     * Same as default but also runs init to populate NPM/Bower
-     */
-    grunt.registerTask('init', [
-        'shell:init',
-        'default'
-    ]);
-
-    /**
-     * Use --filter {/folder|file} to run filtered tests with coverage and without thresholds
-     */
-    grunt.registerTask('jasmineFilter',[
-        'jasmine:cov'
+        'webpack-dev-server:start',
     ]);
 
     /**
      * Runs all tests
      */
     grunt.registerTask('test',[
-        'shell:cleanCompiledDirectory',
-        'shell:jsxCompile',
         'eslint',
-        'jasmine:cov'
-    ]);
-
-    /**
-     * Run jasmine tests without coverage and open browser to run and view results there. Useful to
-     * help debug tests by being able to open dev tools and add debugger statements. It is also beneficial
-     * to use --filter {/folder|file} to limit the number of tests that run while developing unit tests.
-     */
-    grunt.registerTask('jasmineDebug', [
-        'jasmine:debug',
-        'open:test',
-        'connect'
+        'karma'
     ]);
 
     /**

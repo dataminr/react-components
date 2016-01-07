@@ -1,102 +1,93 @@
-var port = '9001';
-var connect = require('../node_modules/grunt-contrib-connect/tasks/connect');
-var jasmineConfig = {
-    src: ['src/compiled/**/*.js', '!src/compiled/examples/main.js', '!src/compiled/**/tests/*.js',
-          '!src/compiled/examples/**/*.js', '!src/compiled/lib/EventEmitter.js'],
-    specs: ['src/compiled/**/*.test.js'],
-    helpers: ['src/compiled/tests/bind-polyfill.js', 'src/compiled/tests/mock-ajax.js',
-              //Expanded Jasmine assertions - https://github.com/JamieMason/Jasmine-Matchers
-              'bower_components/jasmine-expect/dist/jasmine-matchers.js'],
-    requireConfigFile: 'src/require.config.js',
-    compiledDir: 'src/compiled',
-    paths: {
-        'drc/lib/EventEmitter': '../../src/compiled/lib/EventEmitter',
-        ExpandedTestUtils: '../../bower_components/expanded-react-test-utils/dist/ExpandedTestUtils',
-        RequestHandler: '../../src/compiled/utils/RequestHandler'
+var webpack = require('webpack'),
+    webpackConfig = require("../webpack.config.js"),
+    fileFilterRegex;
+
+module.exports = function(grunt) {
+    var fileFilter = grunt.option('filter');
+    if(fileFilter && typeof fileFilter === 'string'){
+        fileFilterRegex = new RegExp(fileFilter + '.test.js', "g");
     }
-};
-
-module.exports = function(grunt, options) {
     return { tasks: {
-        /**
-         * Jasmine client side JS test tasks
-         */
-        jasmine: {
-            debug: {
-                src: jasmineConfig.src,
-                options: {
-                    specs: jasmineConfig.specs,
-                    keepRunner: true,
-                    helpers: jasmineConfig.helpers,
-                    template: require('grunt-template-jasmine-requirejs'),
-                    templateOptions: {
-                        requireConfigFile: jasmineConfig.requireConfigFile,
-                        requireConfig: {
-                            baseUrl: jasmineConfig.compiledDir,
-                            paths: jasmineConfig.paths
-                        }
-                    }
-                }
+
+        karma: {
+            options: {
+                files: [
+                    'node_modules/phantomjs-polyfill/bind-polyfill.js',
+                    'tests.webpack.js',
+                ]
             },
-
-            cov: {
-                src: jasmineConfig.src,
-                options: {
-                    specs: jasmineConfig.specs,
-                    summary: true,
-                    helpers: jasmineConfig.helpers,
-                    template: require('grunt-template-jasmine-istanbul'),
-                    templateOptions: {
-                        replace: false,
-                        coverage: 'bin/coverage/src/coverage.json',
-                        report: 'bin/coverage/src',
-                        thresholds: grunt.cli.tasks[0] === "test" ? {
-                            lines: 98,
-                            statements: 98,
-                            branches: 98,
-                            functions: 97
-                        } : {},
-                        template: require('grunt-template-jasmine-requirejs'),
-                        templateOptions: {
-                            requireConfigFile: jasmineConfig.requireConfigFile,
-                            requireConfig: {
-                                baseUrl: '.grunt/grunt-contrib-jasmine/' + jasmineConfig.compiledDir,
-                                paths: jasmineConfig.paths,
-                                callback: function () {
-                                    define('instrumented', ['module'], function (module) {
-                                        return module.config().src;
-                                    });
-                                    require(['instrumented'], function () {
-                                        var oldLoad = requirejs.load;
-                                        requirejs.load = function (context, moduleName, url) {
-                                            if (url.indexOf('bower_components') !== -1 ||
-                                                url.indexOf('dist') !== -1 ||
-                                                url.indexOf('EventEmitter') !== -1) {
-                                                url = url.substring(48);
-                                            }
-
-                                            return oldLoad.apply(this, [context, moduleName, url]);
-                                        };
-                                    });
-                                }
+            unit: {
+                autoWatch: true, //Watch for file changes and re-run tests automatically
+                frameworks: ['jasmine', 'jasmine-matchers'],
+                browserNoActivityTimeout: 60000,
+                preprocessors: {
+                    'tests.webpack.js': ['webpack']
+                },
+                reporters: ['coverage', 'spec', 'threshold'],
+                coverageReporter: {
+                    dir: 'bin/coverage/',
+                    reporters: [
+                        {type: 'html', subdir: 'phantom'}
+                    ]
+                },
+                thresholdReporter: {
+                    statements: 85,
+                    branches: 80,
+                    functions: 80,
+                    lines: 75
+                },
+                webpack: {
+                    babel: {
+                        presets: ['es2015', 'react']
+                    },
+                    resolve: webpackConfig.resolve,
+                    resolveLoader: webpackConfig.resolveLoader,
+                    module: {
+                        preLoaders: [
+                            // transpile test files with babel as usual
+                            {
+                                test: /\.test\.js$/,
+                                loader: 'babel',
+                                exclude: /node_modules/
+                            },
+                            // transpile and instrument testing files with isparta
+                            {
+                                test: /\.js$/,
+                                exclude: [/node_modules/, /\.test\.js$/, /.webpack\.js$/],
+                                loader: 'isparta',
                             }
-                        }
-                    }
-                }
+                        ]
+                    },
+                    plugins: [
+                        new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
+                        new webpack.DefinePlugin({
+                            _DEVELOPMENT_: true,
+                            //Set define used in tests.webpack.js to either filter to a specific file or run all .test.js files
+                            _FILTER_REGEX_: fileFilterRegex || /\.test\.js$/
+                        })
+                    ]
+                },
+                webpackServer: {
+                    noInfo: true
+                },
+                browsers: ['PhantomJS'],
+                // singleRun: true unless filtering
+                // To run tests on a single file, use `grunt test -filter <FileName>`
+                // (File name is case sensitive, should not include file extension)
+                singleRun: grunt.option('filter') === undefined
             }
         },
 
         /**
-         * ESLint configuration. See http://eslint.org and .eslintrc files for details.
+         * ESLint configuration. See http://eslint.org and the .eslintrc file for details.
          */
         eslint:{
             target: [
                 'src/**/*.js',
-                '!src/compiled/**/*.js',
-                '!src/js/examples/*.js',
                 '!src/js/tests/*.js',
                 '!src/js/lib/EventEmitter.js',
-                '!src/**/*.test.js'
+                '!src/**/*.test.js',
+                '!examples/**/*.js',
             ]
         },
 
@@ -106,7 +97,7 @@ module.exports = function(grunt, options) {
         connect: {
             all: {
                 options: {
-                    port: port,
+                    port: "9001",
                     hostname: "0.0.0.0",
                     keepalive: true
                 }
