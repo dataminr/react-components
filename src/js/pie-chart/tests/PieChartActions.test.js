@@ -1,43 +1,41 @@
-define(function(require) {
-    var AppDispatcher = require('drc/dispatcher/AppDispatcher');
-    var PieChartActions = require('drc/pie-chart/PieChartActions');
+var AppDispatcher = require('../../dispatcher/AppDispatcher');
+var PieChartActions = require('../PieChartActions');
 
-    describe('PieChartActions', function() {
-        describe('requestData function', function() {
-            it('should request that an action be dispatched', function() {
-                var id = 'testID';
-                var definition = 'testDefinition';
-                var filters = {test: 'filter'};
+describe('PieChartActions', function() {
+    describe('requestData function', function() {
+        it('should request that an action be dispatched', function() {
+            var id = 'testID';
+            var definition = 'testDefinition';
+            var filters = {test: 'filter'};
 
-                spyOn(AppDispatcher, 'dispatchAction');
+            spyOn(AppDispatcher, 'dispatchAction');
 
-                PieChartActions.requestData(id, definition, filters);
+            PieChartActions.requestData(id, definition, filters);
 
-                expect(AppDispatcher.dispatchAction).toHaveBeenCalledWith({
-                    actionType: PieChartActions.actionTypes.REQUEST_DATA,
-                    component: 'PieChart',
-                    id: id,
-                    data: {
-                        definition: definition,
-                        filters: filters
-                    }
-                });
+            expect(AppDispatcher.dispatchAction).toHaveBeenCalledWith({
+                actionType: PieChartActions.actionTypes.REQUEST_DATA,
+                component: 'PieChart',
+                id: id,
+                data: {
+                    definition: definition,
+                    filters: filters
+                }
             });
         });
+    });
 
-        describe('destroyInstance function', function() {
-            it('should request that an action be dispatched', function() {
-                var id = 'testID';
+    describe('destroyInstance function', function() {
+        it('should request that an action be dispatched', function() {
+            var id = 'testID';
 
-                spyOn(AppDispatcher, 'dispatchAction');
+            spyOn(AppDispatcher, 'dispatchAction');
 
-                PieChartActions.destroyInstance(id);
+            PieChartActions.destroyInstance(id);
 
-                expect(AppDispatcher.dispatchAction).toHaveBeenCalledWith({
-                    actionType: PieChartActions.actionTypes.DESTROY_INSTANCE,
-                    component: 'PieChart',
-                    id: id
-                });
+            expect(AppDispatcher.dispatchAction).toHaveBeenCalledWith({
+                actionType: PieChartActions.actionTypes.DESTROY_INSTANCE,
+                component: 'PieChart',
+                id: id
             });
         });
     });
