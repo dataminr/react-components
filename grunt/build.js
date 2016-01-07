@@ -4,48 +4,41 @@ if (process.platform === 'darwin') {
     sedOptions += " ''";
 }
 
-module.exports = function(grunt, options) {
-    return {
-        tasks: {
-            uglify: {
-                options: {
-                    mangle: false
-                },
-                min: {
-                    files: grunt.file.expandMapping(['src/compiled/**/*.js',
-                                                     '!src/compiled/**/*.test.js',
-                                                     '!src/compiled/tests/**/*.js',
-                                                     '!src/compiled/examples/**/*.js'], './', {
-                        rename: function (destBase, destPath) {
-                            return destBase + destPath.replace('.js', '.min.js');
-                        }
-                    })
-                }
-            },
-            /**
-             * Shell command for building the minified files
-             */
-            shell:{
-                build: {
-                    command: [
-                        './init.sh',
-                        'grunt test',
-                        'grunt compass',
-                        'chmod 777 dist',
-                        'grunt uglify:min',
-                        // Modify require paths to use minified files.
-                        "find src\/compiled -name \'*.min.js\' -print0 | xargs -0 sed " + sedOptions + " \"s#\\(require[(][\'|\\\"]drc\/[^\'\\\"]*\\)#\\1.min#g\""
-                    ].join('&&'),
-                    options: {
-                        async: false
-                    }
-                },
-                options: {
-                    execOptions: {
-                        detached: true
-                    }
-                }
+module.exports.tasks = {
+    /**
+     * Shell command for compiling JS and SCSS and moving to dist directory. Also removes all unit test files.
+     */
+    shell:{
+        build: {
+            command: [
+                'grunt test',
+                'rm -rf dist',
+                'mkdir dist',
+                'chmod 777 dist',
+                'node_modules/babel-cli/bin/babel.js --presets="react,es2015" src/js --out-dir dist',
+                'grunt compass',
+                //Clear out all unit tests
+                "find dist -type d -name tests -prune -exec rm -rf {} \\;",
+            ].join('&&'),
+            options: {
+                async: false
+            }
+        },
+        options: {
+            execOptions: {
+                detached: true
             }
         }
-    };
+    },
+
+    compass: {
+        dist: {
+            options: {
+                cssDir: 'dist',
+                sassDir: 'src/sass',
+                environment: 'production'
+            }
+        },
+    },
 };
+

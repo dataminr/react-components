@@ -1,23 +1,21 @@
-define(function(require) {
-    var AppDispatcher = require('drc/dispatcher/AppDispatcher');
+var AppDispatcher = require('../AppDispatcher');
 
-    describe('AppDispatcher', function() {
-        var testAction;
+describe('AppDispatcher', function() {
+    var testAction;
 
-        beforeEach(function() {
-            testAction = {
-                data: 'test'
-            };
+    beforeEach(function() {
+        testAction = {
+            data: 'test'
+        };
 
-            spyOn(AppDispatcher, 'dispatch');
-        });
+        spyOn(AppDispatcher, 'dispatch');
+    });
 
-        it('should properly dispatch a view action', function() {
-            AppDispatcher.dispatchAction(testAction);
+    it('should properly dispatch a view action', function() {
+        AppDispatcher.dispatchAction(testAction);
 
-            expect(AppDispatcher.dispatch).toHaveBeenCalledWith({
-                action: testAction
-            });
+        expect(AppDispatcher.dispatch).toHaveBeenCalledWith({
+            action: testAction
         });
     });
 });
