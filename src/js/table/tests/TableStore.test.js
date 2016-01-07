@@ -69,72 +69,8 @@ describe('TableStore', function() {
             cursor: 3,
             size: 2
         };
-
-<<<<<<< HEAD
-        beforeEach(function() {
-            id = 'table-' + Utils.guid();
-
-            definition.url = '/test/url';
-            definition.sortColIndex = 0;
-            definition.cols = [
-                {
-                    dataProperty: 'string',
-                    dataType: 'string',
-                    sortDirection: 'ascending',
-                    quickFilter: true
-                },
-                {
-                    headerLabel: 'integer',
-                    dataProperty: 'integer',
-                    dataType: 'number',
-                    sortDirection: 'descending',
-                    quickFilter: true
-                },
-                {
-                    dataProperty: 'mixedCase',
-                    dataType: 'string',
-                    sortDirection: 'ascending'
-                },
-                {
-                    dataProperty: 'time',
-                    dataType: 'time',
-                    timeFormat: 'MMM Do, h A',
-                    sortDirection: 'ascending',
-                    quickFilter: true
-                },
-                {
-                    dataProperty: 'percent',
-                    dataType: 'percent',
-                    sortDirection: 'descending',
-                    quickFilter: true
-                },
-                {
-                    dataProperty: 'status',
-                    dataType: 'status',
-                    timeFormat: 'MMM Do, h A',
-                    sortDirection: 'descending',
-                    quickFilter: true
-                }
-            ];
-            definition.data = [
-                {string: 'aaa', integer: -2, mixedCase: 'Aaa', time: 1417455952, percent: 14, status: 1417455952},
-                {string: 'b', integer: 3, mixedCase: 'B', percent: 14},
-                {string: 'a', integer: 0, mixedCase: 'a', time: 1416591981, percent: 43, status: 1416591981},
-                {string: 'aa', integer: 2, mixedCase: 'Aa', time: 1417715098, percent: 78, status: 1417715098},
-                {string: null, integer: null, mixedCase: null, time: null, percent: null, status: null},
-                {string: 'aab', integer: -1, mixedCase: 'aAb', percent: 13},
-                {},
-                {string: 'ab', integer: 1, mixedCase: 'aB', percent: 76},
-                {string: 'aba', integer: 1, mixedCase: 'aBA', time: 1406479597, percent: 99, status: 1406479597}
-            ];
-            definition.pagination = {
-                cursor: 3,
-                size: 2
-            };
-=======
         TableStore.createInstance(id, definition, dataFormatter);
     });
->>>>>>> Convert library over to modern tooling. Change to use CommonJS modules instead of AMD. Upgrade to React 0.14. Switch to using webpack instead of requireJS. Use karma as a test runner. Other various improvements
 
     describe('Table', function() {
         var table;
@@ -612,7 +548,7 @@ describe('TableStore', function() {
                     {
                         dataProperty: 'time',
                         dataType: 'time',
-                        sortDirection: 'ascending'
+                        sortDirection: 'descending'
                     }
                 ];
                 table.data = [
@@ -620,8 +556,10 @@ describe('TableStore', function() {
                     {string: 'b', integer: 3, mixedCase: 'B'},
                     {string: 'a', integer: 0, mixedCase: 'a', time: 1416591981},
                     {string: 'aa', integer: 2, mixedCase: 'Aa', time: 1417715098},
+                    {},
                     {string: 'aab', integer: -1, mixedCase: 'aAb'},
                     {string: 'ab', integer: 1, mixedCase: 'aB'},
+                    {string: null, integer: null, mixedCase: null, time: null},
                     {string: 'aba', integer: 1, mixedCase: 'aBA', time: 1406479597}
                 ];
                 table.onDataReceived(table.data);
@@ -656,17 +594,21 @@ describe('TableStore', function() {
 
             it('should sort objects on a key of type integer in ascending order', function() {
                 table.sortData(1, 'ascending');
-                expect(table.data[0].integer).toEqual(-2);
-                expect(table.data[1].integer).toEqual(-1);
-                expect(table.data[2].integer).toEqual(0);
-                expect(table.data[3].integer).toEqual(1);
-                expect(table.data[4].integer).toEqual(1);
-                expect(table.data[5].integer).toEqual(2);
-                expect(table.data[6].integer).toEqual(3);
+                // null values will be first because sorting to opposite of default sort order
+                expect(table.data[0].integer).toBeUndefined();
+                expect(table.data[1].integer).toBeNull();
+                expect(table.data[2].integer).toEqual(-2);
+                expect(table.data[3].integer).toEqual(-1);
+                expect(table.data[4].integer).toEqual(0);
+                expect(table.data[5].integer).toEqual(1);
+                expect(table.data[6].integer).toEqual(1);
+                expect(table.data[7].integer).toEqual(2);
+                expect(table.data[8].integer).toEqual(3);
             });
 
             it('should sort objects on a key of type integer in descending order', function() {
                 table.sortData(1, 'descending');
+                // null values will be last because sorting to same as default sort order
                 expect(table.data[0].integer).toEqual(3);
                 expect(table.data[1].integer).toEqual(2);
                 expect(table.data[2].integer).toEqual(1);
@@ -674,10 +616,13 @@ describe('TableStore', function() {
                 expect(table.data[4].integer).toEqual(0);
                 expect(table.data[5].integer).toEqual(-1);
                 expect(table.data[6].integer).toEqual(-2);
+                expect(table.data[7].integer).toBeUndefined();
+                expect(table.data[8].integer).toBeNull();
             });
 
             it('should sort objects on a key of type strings in ascending order', function() {
                 table.sortData(0, 'ascending');
+                // null values will be last because sorting to same as default sort order
                 expect(table.data[0].string).toEqual('a');
                 expect(table.data[1].string).toEqual('aa');
                 expect(table.data[2].string).toEqual('aaa');
@@ -685,21 +630,27 @@ describe('TableStore', function() {
                 expect(table.data[4].string).toEqual('ab');
                 expect(table.data[5].string).toEqual('aba');
                 expect(table.data[6].string).toEqual('b');
+                expect(table.data[7].string).toBeUndefined();
+                expect(table.data[8].string).toBeNull();
             });
 
             it('should sort objects on a key of type strings in descending order', function() {
                 table.sortData(0, 'descending');
-                expect(table.data[0].string).toEqual('b');
-                expect(table.data[1].string).toEqual('aba');
-                expect(table.data[2].string).toEqual('ab');
-                expect(table.data[3].string).toEqual('aab');
-                expect(table.data[4].string).toEqual('aaa');
-                expect(table.data[5].string).toEqual('aa');
-                expect(table.data[6].string).toEqual('a');
+                // null values will be first because sorting to opposite of default sort order
+                expect(table.data[0].string).toBeUndefined();
+                expect(table.data[1].string).toBeNull();
+                expect(table.data[2].string).toEqual('b');
+                expect(table.data[3].string).toEqual('aba');
+                expect(table.data[4].string).toEqual('ab');
+                expect(table.data[5].string).toEqual('aab');
+                expect(table.data[6].string).toEqual('aaa');
+                expect(table.data[7].string).toEqual('aa');
+                expect(table.data[8].string).toEqual('a');
             });
 
             it('should sort objects on a key with mixed case strings in a case insensitive manner and in ascending order', function() {
                 table.sortData(2, 'ascending');
+                // null values will be last because sorting to same as default sort order
                 expect(table.data[0].mixedCase).toEqual('a');
                 expect(table.data[1].mixedCase).toEqual('Aa');
                 expect(table.data[2].mixedCase).toEqual('Aaa');
@@ -707,32 +658,41 @@ describe('TableStore', function() {
                 expect(table.data[4].mixedCase).toEqual('aB');
                 expect(table.data[5].mixedCase).toEqual('aBA');
                 expect(table.data[6].mixedCase).toEqual('B');
+                expect(table.data[7].string).toBeUndefined();
+                expect(table.data[8].string).toBeNull();
             });
 
             it('should sort objects on a key with mixed case strings in a case insensitive manner and in descending order', function() {
                 table.sortData(2, 'descending');
-                expect(table.data[0].mixedCase).toEqual('B');
-                expect(table.data[1].mixedCase).toEqual('aBA');
-                expect(table.data[2].mixedCase).toEqual('aB');
-                expect(table.data[3].mixedCase).toEqual('aAb');
-                expect(table.data[4].mixedCase).toEqual('Aaa');
-                expect(table.data[5].mixedCase).toEqual('Aa');
-                expect(table.data[6].mixedCase).toEqual('a');
+                // null values will be first because sorting to opposite of default sort order
+                expect(table.data[0].string).toBeUndefined();
+                expect(table.data[1].string).toBeNull();
+                expect(table.data[2].mixedCase).toEqual('B');
+                expect(table.data[3].mixedCase).toEqual('aBA');
+                expect(table.data[4].mixedCase).toEqual('aB');
+                expect(table.data[5].mixedCase).toEqual('aAb');
+                expect(table.data[6].mixedCase).toEqual('Aaa');
+                expect(table.data[7].mixedCase).toEqual('Aa');
+                expect(table.data[8].mixedCase).toEqual('a');
             });
 
-            it('should sort objects on a key with timestamps in ascending order if some timestamps are undefined', function() {
+            it('should sort objects on a key of type timestamps in ascending order', function() {
                 table.sortData(3, 'ascending');
+                // null values will be first because sorting to opposite of default sort order
                 expect(table.data[0].timeTimestamp).toBeNull();
                 expect(table.data[1].timeTimestamp).toBeNull();
                 expect(table.data[2].timeTimestamp).toBeNull();
-                expect(table.data[3].timeTimestamp).toEqual(1406479597);
-                expect(table.data[4].timeTimestamp).toEqual(1416591981);
-                expect(table.data[5].timeTimestamp).toEqual(1417455952);
-                expect(table.data[6].timeTimestamp).toEqual(1417715098);
+                expect(table.data[3].timeTimestamp).toBeNull();
+                expect(table.data[4].timeTimestamp).toBeNull();
+                expect(table.data[5].timeTimestamp).toEqual(1406479597);
+                expect(table.data[6].timeTimestamp).toEqual(1416591981);
+                expect(table.data[7].timeTimestamp).toEqual(1417455952);
+                expect(table.data[8].timeTimestamp).toEqual(1417715098);
             });
 
-            it('should sort objects on a key with timestamps in descending order if some timestamps are undefined', function() {
+            it('should sort objects on a key of type timestamps in descending order', function() {
                 table.sortData(3, 'descending');
+                // null values will be last because sorting to same as default sort order
                 expect(table.data[0].timeTimestamp).toEqual(1417715098);
                 expect(table.data[1].timeTimestamp).toEqual(1417455952);
                 expect(table.data[2].timeTimestamp).toEqual(1416591981);
@@ -740,20 +700,8 @@ describe('TableStore', function() {
                 expect(table.data[4].timeTimestamp).toBeNull();
                 expect(table.data[5].timeTimestamp).toBeNull();
                 expect(table.data[6].timeTimestamp).toBeNull();
-            });
-
-            it('should handle string type fields that are undefined', function(){
-                table.data[0].string = undefined;
-                table.data[3].string = null;
-
-                table.sortData(0, 'ascending');
-                expect(table.data[0].string).toBeUndefined();
-                expect(table.data[1].string).toBeNull();
-                expect(table.data[2].string).toEqual('aa');
-                expect(table.data[3].string).toEqual('aaa');
-                expect(table.data[4].string).toEqual('ab');
-                expect(table.data[5].string).toEqual('aba');
-                expect(table.data[6].string).toEqual('b');
+                expect(table.data[7].timeTimestamp).toBeNull();
+                expect(table.data[8].timeTimestamp).toBeNull();
             });
         });
 
