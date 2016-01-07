@@ -4,6 +4,8 @@ A collection of reusable React components with their own Flux lifecycle.
 
 [![NPM version][npm-image]][npm-url] [![MIT License][license-image]][license-url] [![Build Status][travis-image]][travis-url]
 
+[![NPM version][npm-image]][npm-url] [![MIT License][license-image]][license-url] [![Build Status][travis-image]][travis-url]
+
 ## What's inside react-components?
 
 #### [Table Component](./docs/table.md)
@@ -31,8 +33,6 @@ A page level component that displays a confirmation dialog to the user with OK/C
 A page level component that animates in and out for success, error, warning, info, and custom messages.
 
 ## Getting Started
-
-```
 
 #### NPM Install react-components
 
