@@ -2,17 +2,9 @@
 
 A collection of reusable React components with their own Flux lifecycle.
 
-[![Bower version][bower-image]][bower-url] [![MIT License][license-image]][license-url] [![Build Status][travis-image]][travis-url]
-
-## Just getting your project started?
-
-##### Try our [Yeoman](http://yeoman.io) generator for testing, linting, watchers, and more!
-
-> [generator-reactjs-flux](https://github.com/dataminr/generator-reactjs-flux) for Facebook's React framework and Flux application architecture.
+[![NPM version][npm-image]][npm-url] [![MIT License][license-image]][license-url] [![Build Status][travis-image]][travis-url]
 
 ## What's inside react-components?
-
-[Try the Demo](http://dataminr.github.io/react-components)
 
 #### [Table Component](./docs/table.md)
 
@@ -40,16 +32,6 @@ A page level component that animates in and out for success, error, warning, inf
 
 ## Getting Started
 
-#### Install Bower if it is not already installed
-
-```
-$ npm install -g bower
-```
-
-#### Bower Install react-components
-
-```
-$ bower install react-components --save
 ```
 
 #### NPM Install react-components
@@ -58,26 +40,18 @@ $ bower install react-components --save
 $ npm install dataminr-react-components --save
 ```
 
-#### Include the following in require config (alias names must match)
-
+#### If using a component which requests data from your APIs, add a mapping to your webpack config for the component which will be responsible for making requests
 ```
-RequestHandler: 'path/to/RequestHandler',
-drc: 'path/to/bower_components/react-components/src/compiled'
-```
-
-#### (Optional) Add mapping to require config to your Flux Dispatcher
-This step is only necessary if you have your own Flux Dispatcher. Otherwise you can just use the built-in one in this library.
-```
-map: {
-    "*":{
-        "drc/dispatcher/AppDispatcher.min": "path/to/your/dispatcher"
+resolve: {
+    alias: {
+        RequestHandler$: path.join(__dirname, 'path', 'to', 'request', 'library'),
     }
-}
+},
 ```
 
 #### Add external style sheet
 ```
-<link type="text/css" rel="stylesheet" href="/bower_components/react-components/dist/react-components.css" />
+<link type="text/css" rel="stylesheet" href="/node_modules/react-components/dist/react-components.css" />
 ```
 
 ## Submitting Issues
@@ -96,13 +70,12 @@ $ git checkout master
 #### Important Notes
 
 * Pull requests should be made to the `master` branch with proper unit tests.
-* Do not include the minified files in your pull request. We build these when we tag a release.
+* Do not include the distribution files in your pull request. These are only sent to NPM
 
 #### We use the following libraries within our project
 
 * [React](http://facebook.github.io/react/) JavaScript library for building user interfaces
 * [Flux](https://facebook.github.io/flux/) Application architecture for building user interfaces
-* [Require](http://requirejs.org/) JavaScript file and module loader optimized for in-browser use
 * [lodash](https://lodash.com/docs) JavaScript utility library
 * [Moment](http://momentjs.com/docs/) Parse, validate, manipulate, and display dates in JavaScript
 * [jQuery](http://jquery.com/) Fast, small, and feature-rich JavaScript library
@@ -125,12 +98,6 @@ $ git checkout master
 
 [node.js.org](nodejs.org)
 
-##### Bower
-
-```
-$ npm install -g bower
-```
-
 ##### Compass & Sass
 
 ```
@@ -143,57 +110,29 @@ $ gem install compass
 $ npm install -g grunt-cli
 ```
 
-##### React tools
-
-```
-$ npm install -g react-tools
-```
-
 ##### Finally, install third-party dependencies and start watchers:
 
 ```
 $ cd ~/path/to/react-components/root
 $ npm install
-$ grunt init
-```
-
-#### Bower link react-components to work locally
-```
-$ cd ~/path/to/react-components/root
-$ bower link
-$ cd ~/path/to/project/root
-$ bower link react-components
-```
-
-NPM Troubles? npm ERR! Are you seeing something like: `Error: EACCES, mkdir '/Users/user/.npm/dargs/2.1.0'` ?
-Try the following commands and try the previous step again:
-
-```
-$ cd ~
-$ sudo chown -R $(whoami) .npm
+$ grunt
 ```
 
 If you find your css build results are empty, update your sass gem.
 
 #### Use the sample app in your browser to develop
 
-> /react-components/src/js/examples/index.html
+> /react-components/examples/index.html
 
 ### Grunt Tasks
 
-The default grunt task will compile jsx and scss files as well as start a watcher for them.
+The default grunt task will start webpack to complile all JS/Sass and startup webpack dev server to server combined files.
 
 ```
 $ grunt
 ```
 
-Same as the default grunt task, however it will reinstall dependencies.
-
-```
-$ grunt init
-```
-
-Run Jasmine unit tests, JSHint, and JSCS
+Run Karma unit tests and eslint
 
 ```
 $ grunt test
@@ -203,18 +142,6 @@ Same as grunt test, however, this task will run code coverage and launch the cod
 
 ```
 $ grunt test:cov
-```
-
-Run unit tests in the browser on actual source rather than instrumented files from istanbul.
-
-```
-$ grunt jasmineDebug --filter {/folder|file}
-```
-
-Run unit tests for a filtered set of folders or files without code coverage thresholds.
-
-```
-$ grunt jasmineFilter --filter {/folder|file}
 ```
 
 ## License
@@ -230,8 +157,8 @@ The developers that made this project possible by contributing to the the follow
 [Istanbul](https://github.com/gotwarlost/istanbul), [ESLint](http://eslint.org/), [Watch](https://github.com/gruntjs/grunt-contrib-watch),
 [d3](http://d3js.org/), [lodash](https://lodash.com/docs), [jQuery](http://jquery.com/), and [Moment](http://momentjs.com/docs/)
 
-[bower-image]: https://badge.fury.io/bo/react-components.svg
-[bower-url]: http://badge.fury.io/bo/react-components
+[npm-image]: https://badge.fury.io/js/dataminr-react-components.svg
+[npm-url]: https://www.npmjs.com/package/dataminr-react-components
 
 [license-image]: http://img.shields.io/badge/license-MIT-blue.svg?style=flat
 [license-url]: LICENSE
