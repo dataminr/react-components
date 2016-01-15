@@ -23,18 +23,12 @@ module.exports = function(grunt) {
                 preprocessors: {
                     'tests.webpack.js': ['webpack']
                 },
-                reporters: ['coverage', 'spec', 'threshold'],
+                reporters: ['coverage', 'spec'],
                 coverageReporter: {
                     dir: 'bin/coverage/',
                     reporters: [
                         {type: 'html', subdir: 'phantom'}
                     ]
-                },
-                thresholdReporter: {
-                    statements: 85,
-                    branches: 80,
-                    functions: 80,
-                    lines: 75
                 },
                 webpack: {
                     babel: {

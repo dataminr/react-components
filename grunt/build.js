@@ -1,9 +1,3 @@
-//On OSX sed -i requires a different argument signature
-var sedOptions = '-i';
-if (process.platform === 'darwin') {
-    sedOptions += " ''";
-}
-
 module.exports.tasks = {
     /**
      * Shell command for compiling JS and SCSS and moving to dist directory. Also removes all unit test files.
