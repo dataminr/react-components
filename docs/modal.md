@@ -37,8 +37,8 @@ iconClasses
 #### Example Usage
 
 ```javascript
-var Modal = require('drc/modal/Modal');
-var PortalMixins = require('drc/mixins/PortalMixins');
+var Modal = require('dataminr-react-components/dist/modal/Modal');
+var PortalMixins = require('dataminr-react-components/dist/mixins/PortalMixins');
 
 return React.createClass({
     displayName: 'App',

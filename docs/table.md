@@ -114,7 +114,7 @@ definition
         dataType
             type: string
             required: true
-            description: one of ['string', 'number', 'percent', 'time', 'status', 'select']
+            description: one of ['string', 'number', 'percent', 'time', 'status', 'select', 'action']
             
         dataProperty
             type: string
@@ -152,6 +152,16 @@ definition
             type: string
             required: false
             description: css width for the column
+
+        onClick (only for action type columns)
+            type: function
+            required: true if column is of action type
+            description: Action to invoke when clicking on an action cell. Callback will be invoked with click event, and data of full row clicked. Event propogation will automatically be stopped as to not invoke both cell and row click handlers, if present.
+
+        markup (only for action type columns)
+            type: object
+            required: true if column is of action type
+            description: Markup to display for action type column. Usually JSX for an icon.
 ```
 
 #### Example Usage
@@ -213,8 +223,17 @@ var tableDefinition = {
             dataType: 'status',
             onlineLimit: 4,
             timeFormat: 'MMM Do, h:mm A YYYY',
-            width: '20%',
+            width: '15%',
             quickFilter: true
+        },
+        {
+            headerLabel: "REMOVE",
+            dataType: 'action',
+            markup: <i className="fa fa-times-circle"/>,
+            width: '5%',
+            onClick: function(evt, rowData){
+                alert('You clicked remove action for this row: ' + rowData.name);
+            }
         }
     ],
     advancedFilters: [
@@ -246,6 +265,8 @@ var tableDefinition = {
 ```
 
 ```javascript
+var Table = require('dataminr-react-components/dist/table/Table')
+
 <Table definition={tableDefinition}
                    componentId='tableId'
                    key='tableId'

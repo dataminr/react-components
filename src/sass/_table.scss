@@ -100,12 +100,21 @@
       }
     }
 
-    td .content {
-      display: inline-block;
-      max-width: 100%;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      width: 100%;
+    td {
+      .content {
+        display: inline-block;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
+      }
+      &.action-column-td{
+        text-align: center;
+        cursor: pointer;
+        &:hover{
+          background-color: #fefefe;
+        }
+      }
     }
   }
 

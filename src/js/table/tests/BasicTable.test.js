@@ -742,6 +742,32 @@ describe('Table', function() {
             expect(tableDataComponent.props.children[0].props.children).toEqual('abc');
             expect(tableDataComponent.props.children[0].props.title).toEqual('def');
         });
+
+        it('should return action row column markup', () => {
+            var rowMeta = {
+                dataType: 'action',
+                markup: <i className="foo"/>,
+                onClick: jasmine.createSpy('actionClick')
+            };
+
+            var cell = table.getTableData(null, rowMeta);
+            expect(cell).toBeObject();
+            expect(cell.props.className).toEqual('action-column-td no-select');
+            expect(cell.props.children).toEqual(rowMeta.markup);
+
+            var event = {
+                stopPropagation: jasmine.createSpy('stopPropagation'),
+                currentTarget: {
+                    parentNode: {
+                        rowIndex: 3
+                    }
+                }
+            };
+            expect(cell.props.onClick).toBeFunction();
+            cell.props.onClick(event);
+            expect(event.stopPropagation).toHaveBeenCalled();
+            expect(rowMeta.onClick).toHaveBeenCalledWith(event, tableData[2]);
+        });
     });
 
     describe('handleQuickFilterChange function', function() {

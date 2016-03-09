@@ -63,8 +63,17 @@ var tableDefinition = {
             dataType: 'status',
             onlineLimit: 4,
             timeFormat: 'MMM Do, h:mm A YYYY',
-            width: '20%',
+            width: '15%',
             quickFilter: true
+        },
+        {
+            headerLabel: "REMOVE",
+            dataType: 'action',
+            markup: <i className="fa fa-times-circle"/>,
+            width: '5%',
+            onClick: function(evt, rowData){
+                alert('You clicked remove action for this row: ' + rowData.spacecraft);
+            }
         }
     ],
     advancedFilters: [

@@ -40,7 +40,7 @@ options
 #### Example Usage
 
 ```javascript
-var Utils = require('drc/utils/Utils');
+var Utils = require('dataminr-react-components/dist/utils/Utils');
 
 Utils.pageMessage(message, 'success');
 Utils.pageMessage(message, 'error');

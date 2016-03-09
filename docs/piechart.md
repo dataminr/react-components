@@ -69,6 +69,8 @@ var pieChartDefinition = {
 ```
 
 ```javascript
+var PieChart = require('dataminr-react-components/dist/pie-chart/PieChart')
+
 <PieChart definition={pieChartDefinition}
                       componentId={'pieChartId'}
                       key={'pieChartId'}

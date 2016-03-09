@@ -147,7 +147,6 @@ module.exports = {
         if (!this.quickFilterEnabled || this.state.loading) {
             return null;
         }
-
         return <input ref="filter" className="quick-filter" type="search" placeholder={this.props.quickFilterPlaceholder} value={this.state.quickFilterValue} onChange={this.handleQuickFilterChange} />;
     },
 
@@ -156,14 +155,12 @@ module.exports = {
      * @returns {ReactElement} - A React div element containing all of the advanced filters.
      */
     getAdvancedFilters: function() {
-        var filtersMarkup = [];
-
         if (!this.state.advancedFilters || _.isEmpty(this.state.advancedFilters) || this.state.loading) {
             return null;
         }
 
-        _.each(this.state.advancedFilters, function(filter, index) {
-            filtersMarkup.push(this.getAdvancedFilterItemMarkup(filter, index));
+        var filtersMarkup = _.map(this.state.advancedFilters, function(filter, index) {
+            return this.getAdvancedFilterItemMarkup(filter, index);
         }, this);
 
         return (
@@ -182,8 +179,8 @@ module.exports = {
     getAdvancedFilterItemMarkup: function(filter, index) {
         return (
             <div key={index} className="advanced-filter-item">
-                <label htmlFor={"filter-" + index} className="no-select">{filter.label}</label>
-                <input id={"filter-" + index} type="checkbox" checked={filter.checked || false} onChange={this.handleAdvancedFilterToggle.bind(this, filter)} />
+                <label htmlFor={`filter-${index}`} className="no-select">{filter.label}</label>
+                <input id={`filter-${index}`} type="checkbox" checked={filter.checked || false} onChange={this.handleAdvancedFilterToggle.bind(this, filter)} />
             </div>
         );
     },
@@ -215,13 +212,12 @@ module.exports = {
             handlePageRightClick = this.handlePageRightClick;
         }
 
-        var cx = Utils.classSet;
-        var leftControl = cx({
+        var leftControl = Utils.classSet({
             'left-control': true,
             'disabled': disableLeft,
             'hide': disableLeft && disableRight
         });
-        var rightControl = cx({
+        var rightControl = Utils.classSet({
             'right-control': true,
             'disabled': disableRight,
             'hide': disableLeft && disableRight
@@ -246,20 +242,14 @@ module.exports = {
      * @returns {Array} - The list of sort directions ordered by column index.
      */
     getColSortDirections: function(colDefinitions) {
-        var colSortDirections = [];
-
-        colDefinitions.map(function(colData) {
+        return colDefinitions.map(function(colData) {
             var direction = colData.sortDirection;
 
             if (direction === 'ascending' || direction === 'descending') {
-                colSortDirections.push(direction);
+                return direction;
             }
-            else {
-                colSortDirections.push('off');
-            }
+            return 'off';
         });
-
-        return colSortDirections;
     },
 
     /**
@@ -271,7 +261,6 @@ module.exports = {
     getTableRowItem: function(rowData, index) {
         var handleRowClick;
         var onMouseDown;
-        var row = [];
 
         var rowClasses = Utils.classSet({
             'hover-enabled': this.state.rowClick,
@@ -283,8 +272,8 @@ module.exports = {
             rowClasses += ' table-filter-' + rowData.shownByAdvancedFilters.join(' table-filter-');
         }
 
-        _.forIn(this.state.colDefinitions, function(val, colIndex) {
-            row.push(this.getTableData(rowData[val.dataProperty], val, val.hoverProperty ? rowData[val.hoverProperty] : null, colIndex, rowData.online));
+        var row = _.map(this.state.colDefinitions, function(val, colIndex) {
+            return this.getTableData(rowData[val.dataProperty], val, val.hoverProperty ? rowData[val.hoverProperty] : null, colIndex, rowData.online);
         }.bind(this));
 
         if (this.state.rowClick) {
@@ -325,7 +314,7 @@ module.exports = {
         return (
             <th className={headerClasses}
                 title={colData.headerLabel}
-                key={'th-' + index}
+                key={`th-${index}`}
                 style={{width: colData.width}}
                 onClick={onClick}>{colData.headerLabel}
                 {icon}
@@ -403,6 +392,15 @@ module.exports = {
                     <i className={iconClassString}></i>
                 </td>
             );
+        }
+        else if(meta.dataType === 'action'){
+            var clickWrapper = _.bind(function(evt){
+                evt.stopPropagation();
+                var row = evt.currentTarget.parentNode;
+                var rowData = this.state.data[row.rowIndex - 1];
+                meta.onClick(evt, rowData);
+            }, this);
+            return <td className="action-column-td no-select" onClick={clickWrapper} key={'td-' + index}>{meta.markup}</td>;
         }
 
         if (meta.dataType === 'status') {

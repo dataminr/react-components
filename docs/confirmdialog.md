@@ -54,7 +54,7 @@ options
 #### Example Usage
 
 ```javascript
-var Utils = require('drc/utils/Utils');
+var Utils = require('dataminr-react-components/dist/utils/Utils');
 
 Utils.confirmDialog('Confirm Delete', 'Are you sure you want to delete this?', function(){
     //handle OK Click

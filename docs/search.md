@@ -69,6 +69,8 @@ var searchSubmitCallback = function(event) {
 ```
 
 ```javascript
+var Search = require('dataminr-react-components/dist/search/Search')
+
 <Search url={'/test/search'} onSelect={searchSubmitCallback} isFullDataResponse={true} minLength={1}/>
 ```
 
