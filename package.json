@@ -24,9 +24,9 @@
     "moment": "2.11.0"
   },
   "peerDependencies": {
-    "react": "^0.14.0",
-    "react-dom": "^0.14.0",
-    "react-addons-css-transition-group": "^0.14.0"
+    "react": "0.14.x",
+    "react-dom": "0.14.x",
+    "react-addons-css-transition-group": "0.14.x"
   },
   "devDependencies": {
     "babel-cli": "^6.4.0",
