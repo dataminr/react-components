@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var Modal = require('../Modal');
 var React = require('react');
 var ReactDOM = require('react-dom');
@@ -62,6 +63,22 @@ describe('Modal', function() {
             modal = ReactDOM.render(<Modal {...props}><span id="text">Text</span></Modal>, node);
 
             expect(modal.getCloseIconMarkup()).toBeObject();
+        });
+    });
+
+    describe('getFooter', function() {
+        it('should return the markup for the footer section if the footerButtonText prop was set', function() {
+            expect(modal.getFooter()).toBeNull();
+            props.footerButtonText = "foo";
+            props.footerButtonCallback = jasmine.createSpy();
+            modal = ReactDOM.render(<Modal {...props}><span id="text">Text</span></Modal>, node);
+
+            var footer = modal.getFooter();
+            expect(footer.props.className).toEqual('footer');
+            expect(footer.props.children.type).toEqual('button');
+
+            TestUtils.Simulate.click(document.getElementsByTagName('button')[0]);
+            expect(props.footerButtonCallback).toHaveBeenCalled();
         });
     });
 

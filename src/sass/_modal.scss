@@ -18,13 +18,15 @@
     border-radius: 5px;
     box-sizing: border-box;
     color: $off-white;
+    display: flex;
+    flex-direction: column;
+    left: 50%;
     margin: auto;
     max-width: 960px;
     min-width: 400px;
     min-height: 135px;
     padding: 10px 10px 0;
     position: absolute;
-    left: 50%;
     transform: translateX(-50%);
     -moz-transform: translateX(-50%);
     -webkit-transform: translateX(-50%);
@@ -65,6 +67,16 @@
     .body {
       .table-component .pagination-controls {
         margin-top: 0;
+      }
+    }
+
+    .footer {
+      display: flex;
+      flex-direction: row-reverse;
+      flex-shrink: 0;
+
+      button {
+        margin: 15px 0;
       }
     }
   }
