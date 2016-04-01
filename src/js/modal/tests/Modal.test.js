@@ -70,11 +70,18 @@ describe('Modal', function() {
         it('should return the markup for the footer section if the footerButtonText prop was set', function() {
             expect(modal.getFooter()).toBeNull();
             props.footerButtonText = "foo";
-            props.footerButtonCallback = _.noop;
+            props.footerButtonCallback = () => {
+                _.noop();
+            };
             modal = ReactDOM.render(<Modal {...props}><span id="text">Text</span></Modal>, node);
+
             var footer = modal.getFooter();
             expect(footer.props.className).toEqual('footer');
             expect(footer.props.children.type).toEqual('button');
+
+            spyOn(_, 'noop');
+            TestUtils.Simulate.click(document.getElementsByTagName('button')[0]);
+            expect(_.noop).toHaveBeenCalled();
         });
     });
 
