@@ -14,12 +14,12 @@ module.exports = React.createClass({
         backgroundClickToClose: React.PropTypes.bool,
         footerButtonCallback: function(props) {
             if(props.footerButtonCallback && (typeof props.footerButtonCallback !== 'function' || !props.footerButtonText)) {
-                return new Error('footerButtonCallback must be a function if included, and footerButtonText must be used with it');
+                return new Error('footerButtonCallback must be a function if included, and footerButtonText must be used with it.');
             }
         },
         footerButtonText: function(props) {
             if (props.footerButtonText && (typeof props.footerButtonText !== 'string' || !props.footerButtonCallback)) {
-                return new Error('footerButtonText must be a string if included, and footerButtonCallback must be used with it');
+                return new Error('footerButtonText must be a string if included, and footerButtonCallback must be used with it.');
             }
         },
         iconClasses: React.PropTypes.object,

@@ -11,7 +11,7 @@ title
 closeModalCallback
     type: function
     required: false
-    description: Triggered when the modal is closed by clicking on the close button or pressing escape
+    description: Triggered when the modal is closed by clicking on the upper-right close button or pressing escape
     
 footerButtonText
     type: string
