@@ -64,6 +64,9 @@ module.exports = React.createClass({
         );
     },
 
+    /**
+     * Returns the markup for the footer containing a button if the footerButtonText was passed in on props.
+     */
     getFooter(){
         if(!this.props.footerButtonText) {
             return null;
