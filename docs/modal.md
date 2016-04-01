@@ -12,6 +12,16 @@ closeModalCallback
     type: function
     required: false
     description: Triggered when the modal is closed by clicking on the close button or pressing escape
+    
+footerButtonText
+    type: string
+    required: false
+    description: The text that will be displayed in the footer button.  If not included, there is no footer
+    
+footerButtonCallback
+    type: function
+    required: false
+    description: Triggered when the footer button is clicked
         
 backgroundClickToClose
     type: boolean

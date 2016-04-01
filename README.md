@@ -124,7 +124,7 @@ If you find your css build results are empty, update your sass gem.
 
 ### Grunt Tasks
 
-The default grunt task will start webpack to complile all JS/Sass and startup webpack dev server to server combined files.
+The default grunt task will start webpack to complile all JS/Sass and startup webpack dev server to serve combined files.
 
 ```
 $ grunt

@@ -12,6 +12,16 @@ module.exports = React.createClass({
     propTypes: {
         closeModalCallback: React.PropTypes.func,
         backgroundClickToClose: React.PropTypes.bool,
+        footerButtonCallback: function(props) {
+            if(props.footerButtonCallback && (typeof props.footerButtonCallback !== 'function' || !props.footerButtonText)) {
+                return new Error('footerButtonCallback must be a function if included, and footerButtonText must be used with it');
+            }
+        },
+        footerButtonText: function(props) {
+            if (props.footerButtonText && (typeof props.footerButtonText !== 'string' || !props.footerButtonCallback)) {
+                return new Error('footerButtonText must be a string if included, and footerButtonCallback must be used with it');
+            }
+        },
         iconClasses: React.PropTypes.object,
         showCloseIcon: React.PropTypes.bool,
         title: React.PropTypes.string
@@ -54,6 +64,17 @@ module.exports = React.createClass({
         );
     },
 
+    getFooter(){
+        if(!this.props.footerButtonText) {
+            return null;
+        }
+        return (
+            <div className="footer" >
+                <button onClick={this.props.footerButtonCallback}>{this.props.footerButtonText}</button>
+            </div>
+        );
+    },
+
     render: function() {
         return (
             <div onClick={this.backgroundClickHandler} id="modal-container" data-clickcatcher="true">
@@ -65,6 +86,7 @@ module.exports = React.createClass({
                     <div className="body">
                         {this.props.children}
                     </div>
+                    {this.getFooter()}
                 </div>
             </div>
         );
