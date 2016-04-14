@@ -1,16 +1,21 @@
 @import 'vars';
 
 .table-component {
-  .advanced-filter-item {
-    display: inline-block;
-    margin: 3px 5px;
+  .advanced-filters {
+    display: flex;
 
-    span {
-      margin: 0 5px;
-    }
+    .advanced-filter-item {
+      display: flex;
+      flex-direction: row-reverse;
+      margin: 3px 5px;
 
-    input {
-      margin: 0 3px;
+      label {
+        margin: 0 5px;
+      }
+
+      input {
+        margin: 5px 3px 0 0;
+      }
     }
   }
 
