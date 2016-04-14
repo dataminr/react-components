@@ -885,7 +885,7 @@ describe('Table', function() {
         it('should trigger the rowClick callback', function() {
             var e = {
                 currentTarget: {
-                    rowIndex: 0
+                    rowIndex: 1
                 }
             };
             spyOnTableGetCalls(tableData, tableData.length, definition.cols, undefined, definition.rowClick, undefined);
@@ -907,7 +907,10 @@ describe('Table', function() {
 
         it('should not execute the rowClick callback if the user dragged the mouse more than 10 pixels', function() {
             var e = {
-                clientX: 111
+                clientX: 111,
+                currentTarget: {
+                    rowIndex: 1
+                }
             };
             spyOnTableGetCalls(tableData, tableData.length, definition.cols, undefined, definition.rowClick, undefined);
             spyOn(definition.rowClick, 'callback');
@@ -926,7 +929,10 @@ describe('Table', function() {
 
         it('should execute the rowClick callback if the user dragged the mouse less than 11 pixels', function() {
             var e = {
-                clientX: 110
+                clientX: 110,
+                currentTarget: {
+                    rowIndex: 1
+                }
             };
             spyOnTableGetCalls(tableData, tableData.length, definition.cols, undefined, definition.rowClick, undefined);
             spyOn(definition.rowClick, 'callback');
@@ -964,7 +970,7 @@ describe('Table', function() {
         it('should execute the table actions toggleRowSelect function and not propagate the click through to the row', function() {
             var e = {
                 stopPropagation: function(){},
-                currentTarget: {parentNode: {rowIndex: 0}}
+                currentTarget: {parentNode: {rowIndex: 1}}
             };
             spyOn(e, 'stopPropagation');
             spyOn(TableActions, 'toggleRowSelect');
