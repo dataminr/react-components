@@ -397,6 +397,7 @@ module.exports = {
             var clickWrapper = _.bind(function(evt){
                 evt.stopPropagation();
                 var row = evt.currentTarget.parentNode;
+                // The row index is off by one due to the table row that wraps the table header items.
                 var rowData = this.state.data[row.rowIndex - 1];
                 meta.onClick(evt, rowData);
             }, this);
@@ -496,7 +497,8 @@ module.exports = {
                 typeof this.state.rowClick + '.');
         }
         else {
-            this.state.rowClick.callback(e, this.props, this.state);
+            // The row index is off by one due to the table row that wraps the table header items.
+            this.state.rowClick.callback(e, this.props, this.state, e.currentTarget.rowIndex - 1);
         }
     },
 
@@ -516,6 +518,7 @@ module.exports = {
      */
     handleSelectClick: function(e) {
         e.stopPropagation();
-        TableActions.toggleRowSelect(this.props.componentId, e.currentTarget.parentNode.rowIndex);
+        // The row index is off by one due to the table row that wraps the table header items.
+        TableActions.toggleRowSelect(this.props.componentId, e.currentTarget.parentNode.rowIndex - 1);
     }
 };

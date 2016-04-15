@@ -249,14 +249,12 @@ var tableDefinition = {
         size: 5
     },
     rowClick: {
-        callback: function(event, props, state) {
-            var idx = event.currentTarget.rowIndex;
+        callback: function(event, props, state, rowIndex) {
             alert(
-                'You just clicked on ' + state.data[idx][state.rowClick.labelKey || 'name'] + '.' +
+                'You just clicked on ' + state.data[rowIndex][state.rowClick.labelKey || 'name'] + '.' +
                 'We just executed the user defined rowClick.callback:\n\n' +
-                'callback: function(event, props, state) {\n' +
-                '    var idx = event.currentTarget.rowIndex;\n' +
-                '    alert(\'You just clicked on +\'\n    state.data[idx][state.rowClick.labelKey \n    || \'name\'] + \'.\');\n' +
+                'callback: function(event, props, state, rowIndex) {\n' +
+                '    alert(\'You just clicked on +\'\n    state.data[rowIndex][state.rowClick.labelKey \n    || \'name\'] + \'.\');\n' +
                 '}'
             );
         }
