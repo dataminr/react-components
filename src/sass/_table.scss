@@ -5,16 +5,13 @@
     display: flex;
 
     .advanced-filter-item {
+      align-items: center;
       display: flex;
       flex-direction: row-reverse;
-      margin: 3px 5px;
+      margin: 3px 7px;
 
       label {
-        margin: 0 5px;
-      }
-
-      input {
-        margin: 5px 3px 0 0;
+        margin-right: 4px;
       }
     }
   }
