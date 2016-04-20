@@ -229,7 +229,7 @@ module.exports = {
                 {cursor}
                 <span>-</span>
                 {lastDisplayedVal}
-                <span>&nbsp; of &nbsp;</span>
+                <span>&nbsp;of&nbsp;</span>
                 {this.state.dataCount}
                 <i className={leftControl + ' ' + this.iconClasses.pageLeft} onClick={handlePageLeftClick} />
                 <i className={rightControl + ' ' + this.iconClasses.pageRight} onClick={handlePageRightClick} />
