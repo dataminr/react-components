@@ -330,11 +330,14 @@ describe('Table', function() {
             var markup = table.getAdvancedFilterItemMarkup(table.state.advancedFilters[0]);
 
             expect(markup.props.className).toEqual('advanced-filter-item');
-            expect(markup.props.children[0].type).toEqual('input');
-            expect(markup.props.children[0].props.type).toEqual('checkbox');
-            expect(markup.props.children[0].props.checked).toEqual(false);
-            expect(markup.props.children[1].props.children).toEqual('Show Archived');
 
+            var label = markup.props.children;
+            expect(label.type).toEqual('label');
+            expect(label.props.children[0]).toEqual('Show Archived');
+
+            expect(label.props.children[1].type).toEqual('input');
+            expect(label.props.children[1].props.type).toEqual('checkbox');
+            expect(label.props.children[1].props.checked).toEqual(false);
         });
     });
 

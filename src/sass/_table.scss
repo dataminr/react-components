@@ -1,18 +1,12 @@
 @import 'vars';
 
 .table-component {
-  .advanced-filters {
-    display: flex;
+  .advanced-filter-item {
+    display: inline-block;
+    margin: 3px 5px;
 
-    .advanced-filter-item {
-      align-items: center;
-      display: flex;
-      flex-direction: row-reverse;
-      margin: 3px 7px;
-
-      label {
-        margin-right: 4px;
-      }
+    input {
+      margin: 0 3px;
     }
   }
 

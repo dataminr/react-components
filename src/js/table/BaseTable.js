@@ -177,11 +177,12 @@ module.exports = {
      * @returns {ReactElement} - A React div element containing an advanced filter item.
      */
     getAdvancedFilterItemMarkup: function(filter, index) {
-        var filterId = `filter-${this.props.componentId}-${index}`;
         return (
             <div key={index} className="advanced-filter-item">
-                <input id={filterId} type="checkbox" checked={filter.checked || false} onChange={this.handleAdvancedFilterToggle.bind(this, filter)} />
-                <label htmlFor={filterId} className="no-select">{filter.label}</label>
+                <label className="no-select">
+                    {filter.label}
+                    <input type="checkbox" checked={filter.checked || false} onChange={this.handleAdvancedFilterToggle.bind(this, filter)} />
+                </label>
             </div>
         );
     },
