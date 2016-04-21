@@ -179,8 +179,10 @@ module.exports = {
     getAdvancedFilterItemMarkup: function(filter, index) {
         return (
             <div key={index} className="advanced-filter-item">
-                <label htmlFor={`filter-${index}`} className="no-select">{filter.label}</label>
-                <input id={`filter-${index}`} type="checkbox" checked={filter.checked || false} onChange={this.handleAdvancedFilterToggle.bind(this, filter)} />
+                <label className="no-select">
+                    {filter.label}
+                    <input type="checkbox" checked={filter.checked || false} onChange={this.handleAdvancedFilterToggle.bind(this, filter)} />
+                </label>
             </div>
         );
     },
@@ -228,7 +230,7 @@ module.exports = {
                 {cursor}
                 <span>-</span>
                 {lastDisplayedVal}
-                <span>&nbsp; of &nbsp;</span>
+                <span>&nbsp;of&nbsp;</span>
                 {this.state.dataCount}
                 <i className={leftControl + ' ' + this.iconClasses.pageLeft} onClick={handlePageLeftClick} />
                 <i className={rightControl + ' ' + this.iconClasses.pageRight} onClick={handlePageRightClick} />
