@@ -2,7 +2,7 @@
   "author": "Dataminr",
   "name": "dataminr-react-components",
   "description": "Collection of reusable React Components and utility functions",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "keywords": [
     "react-component"
   ],
@@ -20,13 +20,13 @@
     "d3": "3.5.12",
     "flux": "2.1.1",
     "jquery": "2.1.4",
-    "lodash": "3.10.1",
-    "moment": "2.11.0"
+    "lodash": "3.10.1"
   },
   "peerDependencies": {
-    "react": "0.14.x",
-    "react-dom": "0.14.x",
-    "react-addons-css-transition-group": "0.14.x"
+    "moment": "^2.11.0",
+    "react": "^0.14.0 || ^15.0.0",
+    "react-dom": "^0.14.0 || ^15.0.0",
+    "react-addons-css-transition-group": "^0.14.0 || ^15.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.4.0",
@@ -36,7 +36,7 @@
     "babel-preset-react": "^6.3.13",
     "css-loader": "^0.23.1",
     "eslint-plugin-react": "3.14.0",
-    "expanded-react-test-utils": "^0.5.1",
+    "expanded-react-test-utils": "^0.5.4",
     "file-loader": "^0.8.5",
     "grunt": "0.4.5",
     "grunt-contrib-compass": "^1.0.4",
@@ -59,13 +59,14 @@
     "karma-webpack": "^1.7.0",
     "load-grunt-configs": "0.4.3",
     "matchdep": "^1.0.0",
+    "moment": "^2.13.0",
     "node-sass": "^3.4.2",
     "phantomjs": "^1.9.19",
     "phantomjs-polyfill": "0.0.1",
-    "react": "^0.14.0",
-    "react-addons-css-transition-group": "^0.14.0",
-    "react-addons-test-utils": "^0.14.5",
-    "react-dom": "^0.14.0",
+    "react": "^15.0.2",
+    "react-addons-css-transition-group": "^15.0.2",
+    "react-addons-test-utils": "^15.0.2",
+    "react-dom": "^15.0.2",
     "sass-loader": "^3.1.2",
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.7",

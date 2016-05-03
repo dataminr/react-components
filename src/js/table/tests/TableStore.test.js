@@ -116,7 +116,7 @@ describe('TableStore', function() {
                 table.filterValue = 'abc';
                 table.onDataReceived(data);
                 expect(table.data).not.toBeNull();
-                expect(table.filterValue).toBeNull();
+                expect(table.filterValue).toBeEmptyString();
             });
 
             describe('percent formatter', function() {
