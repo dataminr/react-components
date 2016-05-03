@@ -78,7 +78,7 @@ Table.prototype = {
         this.selectedItems = {};
         //Reset the filter value on data change to clear any filtered state. Anytime new data comes in we want to clear all quick filters
         //that might applied and show the full result set.
-        this.filterValue = null;
+        this.filterValue = '';
 
         if (typeof this.sortColIndex === 'number') {
             this.sortData(this.sortColIndex, this.cols[this.sortColIndex].sortDirection);
