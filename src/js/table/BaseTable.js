@@ -318,7 +318,8 @@ module.exports = {
                 title={colData.headerLabel}
                 key={`th-${index}`}
                 style={{width: colData.width}}
-                onClick={onClick}>{colData.headerLabel}
+                onClick={onClick}>
+                <span>{colData.headerLabel}</span>
                 {icon}
             </th>
         );
