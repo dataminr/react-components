@@ -549,18 +549,23 @@ describe('TableStore', function() {
                         dataProperty: 'time',
                         dataType: 'time',
                         sortDirection: 'descending'
+                    },
+                    {
+                        dataProperty: 'percent',
+                        dataType: 'percent',
+                        sortDirection: 'descending'
                     }
                 ];
                 table.data = [
-                    {string: 'aaa', integer: -2, mixedCase: 'Aaa', time: 1417455952},
-                    {string: 'b', integer: 3, mixedCase: 'B'},
-                    {string: 'a', integer: 0, mixedCase: 'a', time: 1416591981},
-                    {string: 'aa', integer: 2, mixedCase: 'Aa', time: 1417715098},
+                    {string: 'aaa', integer: -2, mixedCase: 'Aaa', time: 1417455952, percent: 0},
+                    {string: 'b', integer: 3, mixedCase: 'B', percent: 83},
+                    {string: 'a', integer: 0, mixedCase: 'a', time: 1416591981, percent: 70},
+                    {string: 'aa', integer: 2, mixedCase: 'Aa', time: 1417715098, percent: 82},
                     {},
-                    {string: 'aab', integer: -1, mixedCase: 'aAb'},
-                    {string: 'ab', integer: 1, mixedCase: 'aB'},
-                    {string: null, integer: null, mixedCase: null, time: null},
-                    {string: 'aba', integer: 1, mixedCase: 'aBA', time: 1406479597}
+                    {string: 'aab', integer: -1, mixedCase: 'aAb', percent: 8},
+                    {string: 'ab', integer: 1, mixedCase: 'aB', percent: 80},
+                    {string: null, integer: null, mixedCase: null, time: null, percent: null},
+                    {string: 'aba', integer: 1, mixedCase: 'aBA', time: 1406479597, percent: 80}
                 ];
                 table.onDataReceived(table.data);
             });
@@ -702,6 +707,32 @@ describe('TableStore', function() {
                 expect(table.data[6].timeTimestamp).toBeNull();
                 expect(table.data[7].timeTimestamp).toBeNull();
                 expect(table.data[8].timeTimestamp).toBeNull();
+            });
+
+            it('should sort objects on a key of type percent in ascending order', function() {
+                table.sortData(4, 'ascending');
+                expect(table.data[0].percentPercent).toEqual(0);
+                expect(table.data[1].percentPercent).toEqual(0);
+                expect(table.data[2].percentPercent).toEqual(0);
+                expect(table.data[3].percentPercent).toEqual(8);
+                expect(table.data[4].percentPercent).toEqual(70);
+                expect(table.data[5].percentPercent).toEqual(80);
+                expect(table.data[6].percentPercent).toEqual(80);
+                expect(table.data[7].percentPercent).toEqual(82);
+                expect(table.data[8].percentPercent).toEqual(83);
+            });
+
+            it('should sort objects on a key of type percent in descending order', function() {
+                table.sortData(4, 'descending');
+                expect(table.data[0].percentPercent).toEqual(83);
+                expect(table.data[1].percentPercent).toEqual(82);
+                expect(table.data[2].percentPercent).toEqual(80);
+                expect(table.data[3].percentPercent).toEqual(80);
+                expect(table.data[4].percentPercent).toEqual(70);
+                expect(table.data[5].percentPercent).toEqual(8);
+                expect(table.data[6].percentPercent).toEqual(0);
+                expect(table.data[7].percentPercent).toEqual(0);
+                expect(table.data[8].percentPercent).toEqual(0);
             });
         });
 

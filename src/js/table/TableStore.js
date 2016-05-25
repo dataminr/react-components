@@ -61,6 +61,12 @@ Table.prototype = {
             }
             _.forEach(this.data, function(item) {
                 if (col.dataType === 'percent') {
+                    // Set any null or undefined percent values to 0.
+                    if (item[col.dataProperty] === null || typeof item[col.dataProperty] === 'undefined') {
+                        item[col.dataProperty] = 0;
+                    }
+                    // Need to keep track of the original value for column sorting to work properly.
+                    item[col.dataProperty + 'Percent'] = item[col.dataProperty];
                     item[col.dataProperty] += '%';
                 }
                 else if (col.dataType === 'time' || col.dataType === 'status') {
@@ -315,6 +321,9 @@ Table.prototype = {
 
         if (dataType === 'time' || dataType === 'status') {
             key = this.cols[this.sortColIndex].dataProperty + 'Timestamp';
+        }
+        else if (dataType === 'percent') {
+            key = this.cols[this.sortColIndex].dataProperty + 'Percent';
         }
         else {
             key = this.cols[this.sortColIndex].dataProperty;

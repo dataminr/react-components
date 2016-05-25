@@ -44,7 +44,7 @@ var tableDefinition = {
             dataProperty: 'launched',
             sortDirection: 'descending',
             dataType: 'number',
-            width: '12%',
+            width: '10%',
             quickFilter: true
         },
         {
@@ -53,7 +53,7 @@ var tableDefinition = {
             sortDirection: 'descending',
             dataType: 'time',
             timeFormat: 'MMM Do YYYY',
-            width: '20%',
+            width: '12%',
             quickFilter: true
         },
         {
@@ -64,6 +64,14 @@ var tableDefinition = {
             onlineLimit: 4,
             timeFormat: 'MMM Do, h:mm A YYYY',
             width: '15%',
+            quickFilter: true
+        },
+        {
+            headerLabel: 'PRIVATE %',
+            dataProperty: 'percentPrivate',
+            sortDirection: 'descending',
+            dataType: 'percent',
+            width: '10%',
             quickFilter: true
         },
         {
