@@ -50,6 +50,20 @@ describe('Modal', function() {
 
             expect(document.getElementById('text').innerText).toEqual('Text');
         });
+
+        it('should not focus the modal when autoFocusModal is false', function() {
+            var contentElement = document.getElementsByClassName('content')[0];
+            // blur the focused element from the initial beforeEach modal creation
+            contentElement.blur();
+
+            modal = ReactDOM.render(<Modal {...props} autoFocusModal={false}><span id="text">Text</span></Modal>, node);
+            contentElement = document.getElementsByClassName('content')[0];
+            expect(contentElement).not.toBe(document.activeElement);
+
+            spyOn(contentElement, 'focus');
+            modal.componentDidUpdate();
+            expect(contentElement.focus).not.toHaveBeenCalled();
+        });
     });
 
     describe('getCloseIconMarkup', function(){
