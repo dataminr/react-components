@@ -179,14 +179,14 @@ module.exports = {
      * @returns {ReactElement} - A React div element containing an advanced filter item.
      */
     getAdvancedFilterItemMarkup: function(filter, index) {
-        var iconClasses = Utils.classSet({
+        var filterIconClass = Utils.classSet({
             [this.iconClasses.advancedFilterOn]: filter.checked,
             [this.iconClasses.advancedFilterOff]: !filter.checked
         });
         return (
             <div key={index} onClick={this.handleAdvancedFilterToggle.bind(this, filter)} className="advanced-filter-item no-select">
                 {filter.label}
-                <i className={iconClasses} />
+                <i className={filterIconClass} />
             </div>
         );
     },
