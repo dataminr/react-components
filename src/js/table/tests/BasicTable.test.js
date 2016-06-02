@@ -11,6 +11,8 @@ describe('Table', function() {
     var table, id;
 
     var iconClasses = {
+        advancedFilterOn: 'test-advanced-filter-on',
+        advancedFilterOff: 'test-advanced-filter-off',
         deselectAll: 'test-deselect-all',
         pageLeft: 'test-page-left',
         pageRight: 'test-page-right',
@@ -317,27 +319,57 @@ describe('Table', function() {
     });
 
     describe('getAdvancedFilterItemMarkup', function() {
+        var filter;
+
+        beforeEach(function() {
+            filter = {
+                dataProperty: 'archived',
+                filterValue: true,
+                label: 'Show Archived'
+            };
+        });
+
         it('should return the markup for an advanced filter', function() {
-            table.state.loading = false;
-            table.state.advancedFilters = [
-                {
-                    dataProperty: 'archived',
-                    filterValue: true,
-                    label: 'Show Archived'
-                }
-            ];
+            var markup = table.getAdvancedFilterItemMarkup(filter, 23);
 
-            var markup = table.getAdvancedFilterItemMarkup(table.state.advancedFilters[0]);
+            expect(markup.key).toEqual('23');
+            expect(markup.props.className).toEqual('advanced-filter-item no-select');
 
-            expect(markup.props.className).toEqual('advanced-filter-item');
+            expect(markup.props.children[0]).toEqual('Show Archived');
 
-            var label = markup.props.children;
-            expect(label.type).toEqual('label');
-            expect(label.props.children[0]).toEqual('Show Archived');
+            expect(markup.props.children[1].type).toEqual('i');
+            expect(markup.props.children[1].props.className).toEqual('fa fa-square-o');
 
-            expect(label.props.children[1].type).toEqual('input');
-            expect(label.props.children[1].props.type).toEqual('checkbox');
-            expect(label.props.children[1].props.checked).toEqual(false);
+            filter.checked = true;
+            markup = table.getAdvancedFilterItemMarkup(filter, 23);
+            expect(markup.props.children[1].props.className).toEqual('fa fa-check-square-o');
+        });
+
+        it('should use advanced filter icons passed in on props if provided', function() {
+            var props = {
+                definition: definition,
+                componentId: id,
+                key: id,
+                filters: {},
+                iconClasses: iconClasses,
+                loadingIconClasses: ['icon', 'ion-loading-c']
+            };
+            table = TestUtils.renderIntoDocument(<BasicTable {...props} />);
+
+            var markup = table.getAdvancedFilterItemMarkup(filter, 23);
+
+            expect(markup.props.children[1].props.className).toEqual('test-advanced-filter-off');
+
+            filter.checked = true;
+            markup = table.getAdvancedFilterItemMarkup(filter, 23);
+            expect(markup.props.children[1].props.className).toEqual('test-advanced-filter-on');
+        });
+
+        it('should call handleAdvancedFilterToggle when clicked', function() {
+            table.handleAdvancedFilterToggle = jasmine.createSpy();
+            var markup = table.getAdvancedFilterItemMarkup(filter, 23);
+            TestUtils.Simulate.click(TestUtils.renderIntoDocument(markup));
+            expect(table.handleAdvancedFilterToggle.calls.argsFor(0)[0]).toBe(filter);
         });
     });
 

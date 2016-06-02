@@ -6,6 +6,8 @@ var TableStore = require('../table/TableStore');
 var Utils = require('../utils/Utils');
 
 var iconClasses = {
+    advancedFilterOn: 'fa fa-check-square-o',
+    advancedFilterOff: 'fa fa-square-o',
     deselectAll: 'fa fa-minus-square-o',
     pageLeft: 'fa fa-chevron-left',
     pageRight: 'fa fa-chevron-right',
@@ -171,18 +173,20 @@ module.exports = {
     },
 
     /**
-     * Builds the markup for a signle advanced filter item.
+     * Builds the markup for a single advanced filter item.
      * @param {Object} filter - One of the advanced filter items.
      * @param {Number} index - The position of the filter in the advancedFilters array.
      * @returns {ReactElement} - A React div element containing an advanced filter item.
      */
     getAdvancedFilterItemMarkup: function(filter, index) {
+        var filterIconClass = Utils.classSet({
+            [this.iconClasses.advancedFilterOn]: filter.checked,
+            [this.iconClasses.advancedFilterOff]: !filter.checked
+        });
         return (
-            <div key={index} className="advanced-filter-item">
-                <label className="no-select">
-                    {filter.label}
-                    <input type="checkbox" checked={filter.checked || false} onChange={this.handleAdvancedFilterToggle.bind(this, filter)} />
-                </label>
+            <div key={index} onClick={this.handleAdvancedFilterToggle.bind(this, filter)} className="advanced-filter-item no-select">
+                {filter.label}
+                <i className={filterIconClass} />
             </div>
         );
     },
