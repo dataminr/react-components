@@ -84,6 +84,8 @@ definition
         type: object
         required: false
         default: {
+            advancedFilterOn: 'fa fa-check-square-o',
+            advancedFilterOff: 'fa fa-square-o',
             deselectAll: 'fa fa-minus-square-o',
             pageLeft: 'fa fa-chevron-left',
             pageRight: 'fa fa-chevron-right',

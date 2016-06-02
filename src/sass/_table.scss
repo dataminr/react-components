@@ -2,11 +2,13 @@
 
 .table-component {
   .advanced-filter-item {
+    cursor: pointer;
     display: inline-block;
     margin: 3px 5px;
 
-    input {
+    i {
       margin: 0 3px;
+      min-width: 15px;
     }
   }
 
