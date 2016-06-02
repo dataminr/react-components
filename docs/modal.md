@@ -28,6 +28,12 @@ backgroundClickToClose
     required: false
     default: true
     description: Used to control whether or not a click outside the modal will cause it to close
+    
+autoFocusModal
+    type: boolean
+    required: false
+    default: true
+    description: Used to control whether the modal will gain focus when component is mounted and updated.  Set to false if you want handle the focusing.
 
 showCloseIcon
     type: boolean  

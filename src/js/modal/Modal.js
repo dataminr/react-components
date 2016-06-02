@@ -10,6 +10,7 @@ module.exports = React.createClass({
     displayName: 'Modal',
 
     propTypes: {
+        autoFocusModal: React.PropTypes.bool,
         closeModalCallback: React.PropTypes.func,
         backgroundClickToClose: React.PropTypes.bool,
         footerButtonCallback: function(props) {
@@ -29,6 +30,7 @@ module.exports = React.createClass({
 
     getDefaultProps: function() {
         return {
+            autoFocusModal: true,
             backgroundClickToClose: true,
             showCloseIcon: true
         };
@@ -41,11 +43,15 @@ module.exports = React.createClass({
     },
 
     componentDidMount: function() {
-        this.refs.content.focus();
+        if(this.props.autoFocusModal) {
+            this.refs.content.focus();
+        }
     },
 
     componentDidUpdate: function() {
-        this.refs.content.focus();
+        if(this.props.autoFocusModal) {
+            this.refs.content.focus();
+        }
     },
 
     /**
