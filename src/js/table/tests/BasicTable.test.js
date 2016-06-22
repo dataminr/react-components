@@ -802,7 +802,7 @@ describe('Table', function() {
             expect(cell.props.onClick).toBeFunction();
             cell.props.onClick(event);
             expect(event.stopPropagation).toHaveBeenCalled();
-            expect(rowMeta.onClick).toHaveBeenCalledWith(event, tableData[2]);
+            expect(rowMeta.onClick).toHaveBeenCalledWith(event, tableData[2], table.props, table.state, 2);
         });
     });
 

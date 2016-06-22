@@ -405,8 +405,9 @@ module.exports = {
                 evt.stopPropagation();
                 var row = evt.currentTarget.parentNode;
                 // The row index is off by one due to the table row that wraps the table header items.
-                var rowData = this.state.data[row.rowIndex - 1];
-                meta.onClick(evt, rowData);
+                var rowIdx = row.rowIndex - 1;
+                var rowData = this.state.data[rowIdx];
+                meta.onClick(evt, rowData, this.props, this.state, rowIdx);
             }, this);
             return <td className="action-column-td no-select" onClick={clickWrapper} key={'td-' + index}>{meta.markup}</td>;
         }
