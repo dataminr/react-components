@@ -67,6 +67,11 @@ definition
             type: function
             required: true
             description: A custom function to be called when a row is clicked
+            
+    selectedRowIndex
+        type: number
+        required: false
+        description: Adds a row-selected class to the matching row index
         
     noResultsText
         type: string
