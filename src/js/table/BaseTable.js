@@ -271,7 +271,8 @@ module.exports = {
         var rowClasses = Utils.classSet({
             'hover-enabled': this.state.rowClick,
             'text-select': true,
-            'error-row': rowData.isError
+            'error-row': rowData.isError,
+            'row-selected': this.props.selectedRowIndex === index
         });
 
         if (rowData.shownByAdvancedFilters) {

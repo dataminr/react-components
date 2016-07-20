@@ -28,7 +28,8 @@ module.exports = React.createClass({
         ]),
         noResultsText: React.PropTypes.string,
         type: React.PropTypes.oneOf([TABLE_TYPES.BASIC, TABLE_TYPES.GROUPED_ACTIONS]),
-        quickFilterPlaceholder: React.PropTypes.string
+        quickFilterPlaceholder: React.PropTypes.string,
+        selectedRowIndex: React.PropTypes.number
     },
 
     getTable: function() {

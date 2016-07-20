@@ -8,7 +8,7 @@ var Utils = require('../../utils/Utils');
 var TestUtils = require('react-addons-test-utils');
 
 describe('Table', function() {
-    var table, id;
+    var table, props, id;
 
     var iconClasses = {
         advancedFilterOn: 'test-advanced-filter-on',
@@ -97,7 +97,7 @@ describe('Table', function() {
 
     beforeEach(function() {
         id = 'table-' + Utils.guid();
-        var props = {
+        props = {
             definition: definition,
             dataFormatter: dataFormatter,
             componentId: id,
@@ -516,10 +516,22 @@ describe('Table', function() {
             expect(tableRowComponent.props.className).toEqual('text-select');
         });
 
-        it ('should add classes for advancedFilters', function() {
+        it('should add classes for advancedFilters', function() {
             rowData.shownByAdvancedFilters = ['test1', 'test2'];
             var tableRowComponent = table.getTableRowItem(rowData, index);
 
+            expect(tableRowComponent.props.className).toEqual('text-select table-filter-test1 table-filter-test2');
+        });
+
+        it('should add a selected row class if the the row item is the selected row index', function() {
+            props.selectedRowIndex = index;
+            table = TestUtils.renderIntoDocument(<BasicTable {...props} />);
+            table.requestData();
+
+            var tableRowComponent = table.getTableRowItem(rowData, index);
+            expect(tableRowComponent.props.className).toEqual('text-select row-selected table-filter-test1 table-filter-test2');
+
+            tableRowComponent = table.getTableRowItem(rowData, 1);
             expect(tableRowComponent.props.className).toEqual('text-select table-filter-test1 table-filter-test2');
         });
 
