@@ -57,7 +57,7 @@ Table.prototype = {
                 item[col.dataProperty] = 0;
             }
             // Need to keep track of the original value for column sorting to work properly.
-            item[col.dataProperty + 'Percent'] = item[col.dataProperty];
+            item[`${col.dataProperty}Percent`] = item[col.dataProperty];
             item[col.dataProperty] += '%';
         };
 
@@ -67,7 +67,7 @@ Table.prototype = {
             }
 
             // Need to keep track of the original timestamp for column sorting to work properly.
-            item[col.dataProperty + 'Timestamp'] = item[col.dataProperty] || null;
+            item[`${col.dataProperty}Timestamp`] = item[col.dataProperty] || null;
             item[col.dataProperty] = item[col.dataProperty] ? moment(item[col.dataProperty]).format(col.timeFormat) : '--';
         };
 
@@ -96,12 +96,12 @@ Table.prototype = {
                     if (currentTimeValue === 0 && formattedValue.length === 0) {
                         return '';
                     }
-                    return formattedValue + ' ' + currentTimeValue + currentTime.suffix;
+                    return `${formattedValue} ${currentTimeValue}${currentTime.suffix}`;
                 }, '').trim();
             };
 
             // Need to keep track of the original duration for column sorting to work properly.
-            item[col.dataProperty + 'Duration'] = item[col.dataProperty];
+            item[`${col.dataProperty}Duration`] = item[col.dataProperty];
             item[col.dataProperty] = formattedDuration(moment.duration(item[col.dataProperty]), col.durationFormat || 'minutes');
         };
 
