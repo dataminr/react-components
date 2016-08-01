@@ -7,27 +7,27 @@ componentId
     type: string
     required: true
     description: Used by the TableStore to keep track of Table state
-    
+
 key
     type: string
     required: true
     description: Used by React when there are more than one table displayed consecutively by a component
-    
+
 definition
     type: object
     required: true
     definition: This defines the look, feel, and display of the table
-    
+
     url
         type: string
         required: true
         description: The endpoint for requesting data
-    
+
     dataFormatter
         type: function
         required: false
         description: Will be called first whenever data is received from the server for custom post processing of data
-    
+
     filters
         type: object
         required: false
@@ -36,55 +36,55 @@ definition
     advancedFilters
         type: array
         required: false
-        description: Array of advanced filters that provide toggles to hide/show certain elements in the table results. 
+        description: Array of advanced filters that provide toggles to hide/show certain elements in the table results.
 
     pagination
         type: object
         required: false
         description: Enables Table pagination
-        
+
         cursor
             type: number
             required: true
             description: The starting index of the table pagination (usually this is initially set to 0)
-            
+
         size
             type: number
             required: true
             description: The number of elements to show within a paginated view of the table
-            
+
     sortColIndex
         type: number
         required: false
         description: The default column to sort which requires sortDirection to be depicted in at least one object in definition.cols
-        
+
     rowClick
         type: object
         required: false
         description: Enables row clicks on a Table
-        
+
         callback
             type: function
             required: true
             description: A custom function to be called when a row is clicked
-            
+
     selectedRowIndex
         type: number
         required: false
         description: Adds a row-selected class to the matching row index
-        
+
     noResultsText
         type: string
         required: false
         default: "No results found."
         description: The text that will be displayed when there are no items in the table
-        
+
     quickFilterPlaceholder
         type: string
         required: false
         default: "Filter"
         description: The placeholder text to display in the filter input field
-        
+
     iconClasses
         type: object
         required: false
@@ -106,55 +106,60 @@ definition
             statusOff: 'fa fa-circle-o'
         }
         description: Used to override default icons
-        
+
     loadingIconClasses
         type: array|string
         required: false
         default: 'icon ion-loading-c'
         description: Used to override the loading icon
-        
+
     cols
         type: array
         required: true
         description: An array of column definitions
-        
+
         dataType
             type: string
             required: true
-            description: one of ['string', 'number', 'percent', 'time', 'status', 'select', 'action']
-            
+            description: one of ['string', 'number', 'percent', 'time', 'status', 'select', 'action', 'duration']
+
         dataProperty
             type: string
             required: true
             description: The property to use as the value from the data that came from the server
-        
+
         headerLabel
             type: string
             required: false
             description: The label displayed in the header of the column
-        
+
         onlineLimit
             type: number
             required: false
             description: Used with dataType of status to depict the time frame for the online indicator to display
-        
+
         quickFilter
             type: boolean
             required: false
             description: Setting this to true will cause a quick filter input to display where users can client-side filter data.
             Searching in the form {header_name}:{search_term} will limit search results to just rows where the {header_name}
             column value exactly matches {search_term}
-        
+
         sortDirection
             type: string
             required: false
             description: one of ['ascending', 'descending'] for the default sorting direction of a column
-        
+
         timeFormat
             type: string
             required: false
             description: see [Momentjs](http://momentjs.com/docs/#/displaying/) used for dataTypes of time and status to display timestamps
-        
+
+        durationFormat
+            type: string
+            required: false
+            description: Specifies the minimum time segment to display for the duration dataType. Valid options are 'days', 'hours', 'minutes', 'seconds', and 'milliseconds'. Default is 'minutes'. The value of a column of type duration is expected to be in milliseconds, similar to a timestamp. Any preceding zero time segments will not appear, e.g. '4h 0m 10s' will be displayed, not '0d 4h 0m 10s'. If all time segments to display are zero, then an empty string will display. For example, if durationFormat is 'minutes', then a value less than 60,000 (one minute) will be empty.
+
         width
             type: string
             required: false

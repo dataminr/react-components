@@ -54,16 +54,33 @@ describe('TableStore', function() {
                 timeFormat: 'MMM Do, h A',
                 sortDirection: 'descending',
                 quickFilter: true
+            },
+            {
+                dataProperty: 'duration',
+                dataType: 'duration',
+                sortDirection: 'descending'
+            },
+            {
+                dataProperty: 'durationToHours',
+                dataType: 'duration',
+                durationFormat: 'hours',
+                sortDirection: 'descending'
+            },
+            {
+                dataProperty: 'durationToMilliseconds',
+                dataType: 'duration',
+                durationFormat: 'milliseconds',
+                sortDirection: 'descending'
             }
         ];
         definition.data = [
-            {string: 'aaa', integer: -2, mixedCase: 'Aaa', time: 1417455952, percent: 14, status: 1417455952},
-            {string: 'b', integer: 3, mixedCase: 'B', percent: 14},
-            {string: 'a', integer: 0, mixedCase: 'a', time: 1416591981, percent: 43, status: 1416591981},
-            {string: 'aa', integer: 2, mixedCase: 'Aa', time: 1417715098, percent: 78, status: 1417715098},
-            {string: 'aab', integer: -1, mixedCase: 'aAb', percent: 13},
-            {string: 'ab', integer: 1, mixedCase: 'aB', percent: 76},
-            {string: 'aba', integer: 1, mixedCase: 'aBA', time: 1406479597, percent: 99, status: 1406479597}
+            {string: 'aaa', integer: -2, mixedCase: 'Aaa', time: 1417455952, percent: 14, status: 1417455952, duration: 1234, durationToHours: 1234, durationToMilliseconds: 1234},
+            {string: 'b', integer: 3, mixedCase: 'B', percent: 14, duration: 59999, durationToHours: 59999, durationToMilliseconds: 59999},
+            {string: 'a', integer: 0, mixedCase: 'a', time: 1416591981, percent: 43, status: 1416591981, duration: 123456789, durationToHours: 123456789, durationToMilliseconds: 123456789},
+            {string: 'aa', integer: 2, mixedCase: 'Aa', time: 1417715098, percent: 78, status: 1417715098, duration: 123456, durationToHours: 123456, durationToMilliseconds: 123456},
+            {string: 'aab', integer: -1, mixedCase: 'aAb', percent: 13, duration: 12345678912, durationToHours: 12345678912, durationToMilliseconds: 12345678912},
+            {string: 'ab', integer: 1, mixedCase: 'aB', percent: 76, duration: 122436789, durationToHours: 122436789, durationToMilliseconds: 122436789},
+            {string: 'aba', integer: 1, mixedCase: 'aBA', time: 1406479597, percent: 99, status: 1406479597, duration: 60000, durationToHours: 60000, durationToMilliseconds: 60000}
         ];
         definition.pagination = {
             cursor: 3,
@@ -187,6 +204,61 @@ describe('TableStore', function() {
                     table.onDataReceived(definition.data);
 
                     expect(table.data[0].online).toBeFalsy();
+                });
+            });
+
+            describe('duration formatter', function() {
+                it('should format the time and keep track of the original timestamp', function() {
+                    table.onDataReceived(definition.data);
+
+                    expect(table.data[0].duration).toEqual('1d 10h 17m');
+                    expect(table.data[0].durationDuration).toEqual(123456789);
+                    expect(table.data[0].durationToHours).toEqual('1d 10h');
+                    expect(table.data[0].durationToHoursDuration).toEqual(123456789);
+                    expect(table.data[0].durationToMilliseconds).toEqual('1d 10h 17m 36s 789ms');
+                    expect(table.data[0].durationToMillisecondsDuration).toEqual(123456789);
+
+                    expect(table.data[1].duration).toEqual('2m');
+                    expect(table.data[1].durationDuration).toEqual(123456);
+                    expect(table.data[1].durationToHours).toEqual('');
+                    expect(table.data[1].durationToHoursDuration).toEqual(123456);
+                    expect(table.data[1].durationToMilliseconds).toEqual('2m 3s 456ms');
+                    expect(table.data[1].durationToMillisecondsDuration).toEqual(123456);
+
+                    expect(table.data[2].duration).toEqual('');
+                    expect(table.data[2].durationDuration).toEqual(1234);
+                    expect(table.data[2].durationToHours).toEqual('');
+                    expect(table.data[2].durationToHoursDuration).toEqual(1234);
+                    expect(table.data[2].durationToMilliseconds).toEqual('1s 234ms');
+                    expect(table.data[2].durationToMillisecondsDuration).toEqual(1234);
+
+                    expect(table.data[3].duration).toEqual('142d 21h 21m');
+                    expect(table.data[3].durationDuration).toEqual(12345678912);
+                    expect(table.data[3].durationToHours).toEqual('142d 21h');
+                    expect(table.data[3].durationToHoursDuration).toEqual(12345678912);
+                    expect(table.data[3].durationToMilliseconds).toEqual('142d 21h 21m 18s 912ms');
+                    expect(table.data[3].durationToMillisecondsDuration).toEqual(12345678912);
+
+                    expect(table.data[4].duration).toEqual('1d 10h 0m');
+                    expect(table.data[4].durationDuration).toEqual(122436789);
+                    expect(table.data[4].durationToHours).toEqual('1d 10h');
+                    expect(table.data[4].durationToHoursDuration).toEqual(122436789);
+                    expect(table.data[4].durationToMilliseconds).toEqual('1d 10h 0m 36s 789ms');
+                    expect(table.data[4].durationToMillisecondsDuration).toEqual(122436789);
+
+                    expect(table.data[5].duration).toEqual('1m');
+                    expect(table.data[5].durationDuration).toEqual(60000);
+                    expect(table.data[5].durationToHours).toEqual('');
+                    expect(table.data[5].durationToHoursDuration).toEqual(60000);
+                    expect(table.data[5].durationToMilliseconds).toEqual('1m 0s 0ms');
+                    expect(table.data[5].durationToMillisecondsDuration).toEqual(60000);
+
+                    expect(table.data[6].duration).toEqual('');
+                    expect(table.data[6].durationDuration).toEqual(59999);
+                    expect(table.data[6].durationToHours).toEqual('');
+                    expect(table.data[6].durationToHoursDuration).toEqual(59999);
+                    expect(table.data[6].durationToMilliseconds).toEqual('59s 999ms');
+                    expect(table.data[6].durationToMillisecondsDuration).toEqual(59999);
                 });
             });
 
@@ -554,18 +626,23 @@ describe('TableStore', function() {
                         dataProperty: 'percent',
                         dataType: 'percent',
                         sortDirection: 'descending'
+                    },
+                    {
+                        dataProperty: 'duration',
+                        dataType: 'duration',
+                        sortDirection: 'descending'
                     }
                 ];
                 table.data = [
-                    {string: 'aaa', integer: -2, mixedCase: 'Aaa', time: 1417455952, percent: 0},
-                    {string: 'b', integer: 3, mixedCase: 'B', percent: 83},
-                    {string: 'a', integer: 0, mixedCase: 'a', time: 1416591981, percent: 70},
-                    {string: 'aa', integer: 2, mixedCase: 'Aa', time: 1417715098, percent: 82},
+                    {string: 'aaa', integer: -2, mixedCase: 'Aaa', time: 1417455952, percent: 0, duration: 0},
+                    {string: 'b', integer: 3, mixedCase: 'B', percent: 83, duration: 83},
+                    {string: 'a', integer: 0, mixedCase: 'a', time: 1416591981, percent: 70, duration: 70},
+                    {string: 'aa', integer: 2, mixedCase: 'Aa', time: 1417715098, percent: 82, duration: 82},
                     {},
-                    {string: 'aab', integer: -1, mixedCase: 'aAb', percent: 8},
-                    {string: 'ab', integer: 1, mixedCase: 'aB', percent: 80},
-                    {string: null, integer: null, mixedCase: null, time: null, percent: null},
-                    {string: 'aba', integer: 1, mixedCase: 'aBA', time: 1406479597, percent: 80}
+                    {string: 'aab', integer: -1, mixedCase: 'aAb', percent: 8, duration: 8},
+                    {string: 'ab', integer: 1, mixedCase: 'aB', percent: 80, duration: 80},
+                    {string: null, integer: null, mixedCase: null, time: null, percent: null, duration: null},
+                    {string: 'aba', integer: 1, mixedCase: 'aBA', time: 1406479597, percent: 80, duration: 80}
                 ];
                 table.onDataReceived(table.data);
             });
@@ -733,6 +810,32 @@ describe('TableStore', function() {
                 expect(table.data[6].percentPercent).toEqual(0);
                 expect(table.data[7].percentPercent).toEqual(0);
                 expect(table.data[8].percentPercent).toEqual(0);
+            });
+
+            it('should sort objects on a key of type duration in ascending order', function() {
+                table.sortData(5, 'ascending');
+                expect(table.data[0].durationDuration).toEqual(0);
+                expect(table.data[1].durationDuration).toEqual(0);
+                expect(table.data[2].durationDuration).toEqual(0);
+                expect(table.data[3].durationDuration).toEqual(8);
+                expect(table.data[4].durationDuration).toEqual(70);
+                expect(table.data[5].durationDuration).toEqual(80);
+                expect(table.data[6].durationDuration).toEqual(80);
+                expect(table.data[7].durationDuration).toEqual(82);
+                expect(table.data[8].durationDuration).toEqual(83);
+            });
+
+            it('should sort objects on a key of type duration in descending order', function() {
+                table.sortData(5, 'descending');
+                expect(table.data[0].durationDuration).toEqual(83);
+                expect(table.data[1].durationDuration).toEqual(82);
+                expect(table.data[2].durationDuration).toEqual(80);
+                expect(table.data[3].durationDuration).toEqual(80);
+                expect(table.data[4].durationDuration).toEqual(70);
+                expect(table.data[5].durationDuration).toEqual(8);
+                expect(table.data[6].durationDuration).toEqual(0);
+                expect(table.data[7].durationDuration).toEqual(0);
+                expect(table.data[8].durationDuration).toEqual(0);
             });
         });
 
