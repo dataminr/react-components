@@ -51,6 +51,60 @@ Table.prototype = {
 
         this.dataCount = this.data.length;
 
+        var formatPercent = (col, item) => {
+            // Set any null or undefined percent values to 0.
+            if (item[col.dataProperty] === null || typeof item[col.dataProperty] === 'undefined') {
+                item[col.dataProperty] = 0;
+            }
+            // Need to keep track of the original value for column sorting to work properly.
+            item[col.dataProperty + 'Percent'] = item[col.dataProperty];
+            item[col.dataProperty] += '%';
+        };
+
+        var formatTimeStatus = (col, item) => {
+            if (col.dataType === 'status' && item[col.dataProperty]) {
+                item.online = moment(item[col.dataProperty]).valueOf() > moment(Date.now()).subtract(col.onlineLimit, 'minutes').valueOf();
+            }
+
+            // Need to keep track of the original timestamp for column sorting to work properly.
+            item[col.dataProperty + 'Timestamp'] = item[col.dataProperty] || null;
+            item[col.dataProperty] = item[col.dataProperty] ? moment(item[col.dataProperty]).format(col.timeFormat) : '--';
+        };
+
+        var formatDuration = (col, item) => {
+            // Set any null or undefined duration values to 0.
+            if (item[col.dataProperty] === null || typeof item[col.dataProperty] === 'undefined') {
+                item[col.dataProperty] = 0;
+            }
+            // Format the duration, e.g. '2d 0h 5m', '40m'.
+            var formattedDuration = (value, limit) => {
+                var times = [
+                        // Use `asDays` instead of `days` since we are not looking at longer segments of time (i.e. years and months).
+                        {time: 'days', formatter: 'asDays', suffix: 'd'},
+                        {time: 'hours', formatter: 'hours', suffix: 'h'},
+                        {time: 'minutes', formatter: 'minutes', suffix: 'm'},
+                        {time: 'seconds', formatter: 'seconds', suffix: 's'},
+                        {time: 'milliseconds', formatter: 'milliseconds', suffix: 'ms'}
+                    ],
+                    indexOfTime = _.findIndex(times, {time: limit});
+                if (indexOfTime !== -1) {
+                    times = times.slice(0, indexOfTime + 1);
+                }
+                return _.reduce(times, (formattedValue, currentTime) => {
+                    var currentTimeValue = Math.floor(value[currentTime.formatter]());
+                    // Do not return a zero value for the current time if it would be the first value in the result.
+                    if (currentTimeValue === 0 && formattedValue.length === 0) {
+                        return '';
+                    }
+                    return formattedValue + ' ' + currentTimeValue + currentTime.suffix;
+                }, '').trim();
+            };
+
+            // Need to keep track of the original duration for column sorting to work properly.
+            item[col.dataProperty + 'Duration'] = item[col.dataProperty];
+            item[col.dataProperty] = formattedDuration(moment.duration(item[col.dataProperty]), col.durationFormat || 'minutes');
+        };
+
         // Run data through built in data formatters.
         _.forEach(this.cols, function(col) {
             // store the original passed in sort direction
@@ -61,22 +115,13 @@ Table.prototype = {
             }
             _.forEach(this.data, function(item) {
                 if (col.dataType === 'percent') {
-                    // Set any null or undefined percent values to 0.
-                    if (item[col.dataProperty] === null || typeof item[col.dataProperty] === 'undefined') {
-                        item[col.dataProperty] = 0;
-                    }
-                    // Need to keep track of the original value for column sorting to work properly.
-                    item[col.dataProperty + 'Percent'] = item[col.dataProperty];
-                    item[col.dataProperty] += '%';
+                    formatPercent(col, item);
                 }
                 else if (col.dataType === 'time' || col.dataType === 'status') {
-                    if (col.dataType === 'status' && item[col.dataProperty]) {
-                        item.online = moment(item[col.dataProperty]).valueOf() > moment(Date.now()).subtract(col.onlineLimit, 'minutes').valueOf();
-                    }
-
-                    // Need to keep track of the original timestamp for column sorting to work properly.
-                    item[col.dataProperty + 'Timestamp'] = item[col.dataProperty] || null;
-                    item[col.dataProperty] = item[col.dataProperty] ? moment(item[col.dataProperty]).format(col.timeFormat) : '--';
+                    formatTimeStatus(col, item);
+                }
+                else if (col.dataType === 'duration') {
+                    formatDuration(col, item);
                 }
             });
         }, this);
@@ -324,6 +369,9 @@ Table.prototype = {
         }
         else if (dataType === 'percent') {
             key = this.cols[this.sortColIndex].dataProperty + 'Percent';
+        }
+        else if (dataType === 'duration') {
+            key = this.cols[this.sortColIndex].dataProperty + 'Duration';
         }
         else {
             key = this.cols[this.sortColIndex].dataProperty;
