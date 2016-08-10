@@ -68,10 +68,10 @@ definition
             required: true
             description: A custom function to be called when a row is clicked
 
-    selectedRowIndex
-        type: number
+    selectedRowPredicate
+        type: object
         required: false
-        description: Adds a row-selected class to the matching row index
+        description: Adds a row-selected class to any row matching the predicate
 
     noResultsText
         type: string
