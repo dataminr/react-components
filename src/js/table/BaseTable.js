@@ -272,7 +272,7 @@ module.exports = {
             'hover-enabled': this.state.rowClick,
             'text-select': true,
             'error-row': rowData.isError,
-            'row-selected': this.props.selectedRowIndex === index
+            'row-selected': this.props.selectedRowPredicate ? _.findIndex([rowData], this.props.selectedRowPredicate) === 0 : false
         });
 
         if (rowData.shownByAdvancedFilters) {

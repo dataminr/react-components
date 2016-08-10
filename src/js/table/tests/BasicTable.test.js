@@ -524,15 +524,32 @@ describe('Table', function() {
         });
 
         it('should add a selected row class if the the row item is the selected row index', function() {
-            props.selectedRowIndex = index;
-            table = TestUtils.renderIntoDocument(<BasicTable {...props} />);
-            table.requestData();
+            var setupTable = function(predicate) {
+                props.selectedRowPredicate = predicate;
+                table = TestUtils.renderIntoDocument(<BasicTable {...props} />);
+                table.requestData();
+            };
 
-            var tableRowComponent = table.getTableRowItem(rowData, index);
-            expect(tableRowComponent.props.className).toEqual('text-select row-selected table-filter-test1 table-filter-test2');
+            setupTable({integer: 1});
+            expect(table.getTableRowItem({string: 'a', integer: 1, percent: 3}, index).props.className).toEqual('text-select row-selected');
+            expect(table.getTableRowItem({string: 'a', integer: 3, percent: 5}, index).props.className).toEqual('text-select');
 
-            tableRowComponent = table.getTableRowItem(rowData, 1);
-            expect(tableRowComponent.props.className).toEqual('text-select table-filter-test1 table-filter-test2');
+            setupTable({integer: 1, percent: 5});
+            expect(table.getTableRowItem({string: 'a', integer: 1, percent: 3}, index).props.className).toEqual('text-select');
+            expect(table.getTableRowItem({string: 'a', integer: 3, percent: 5}, index).props.className).toEqual('text-select');
+
+            setupTable({integer: 3, percent: 5});
+            expect(table.getTableRowItem({string: 'a', integer: 1, percent: 3}, index).props.className).toEqual('text-select');
+            expect(table.getTableRowItem({string: 'a', integer: 3, percent: 5}, index).props.className).toEqual('text-select row-selected');
+
+            setupTable();
+            expect(table.getTableRowItem({string: 'a', integer: 1, percent: 3}, index).props.className).toEqual('text-select');
+
+            setupTable(null);
+            expect(table.getTableRowItem({string: 'a', integer: 1, percent: 3}, index).props.className).toEqual('text-select');
+
+            setupTable(0);
+            expect(table.getTableRowItem({string: 'a', integer: 1, percent: 3}, index).props.className).toEqual('text-select');
         });
 
         it('should have an onClick function if row clicks are defined', function() {
