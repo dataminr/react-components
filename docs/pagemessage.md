@@ -9,32 +9,37 @@ message
     type: string
     required: true
     description: The message to be displayed.
-    
+
 type
     type: string
     required: true
     description: The type of message (success, error, warning, info, or some custom type).
-    
+
 options
     type: object
     required: false
     definition: Configuration overrides for icon, closeIcon, and duration.
-    
+
     icon
         type: string
         required: false
         description: The icon to display next to the message.
-    
+
     closeIcon
         type: string
         required: false
         description: The icon used to dismiss the message.
-    
+
     duration
         type: number
         required: false
         description: How long the message will be displayed before automatically dismissing itself. Set to 0 to force user to dismiss manually.
         default: 3000
+
+    disableTransition
+        type: boolean
+        required: false
+        description: Whether to show a transition when the message appears and disappears.
 ```
 
 #### Example Usage

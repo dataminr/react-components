@@ -66,6 +66,15 @@ describe('PageMessage', function() {
             expect(markup.props.children.props.transitionName).toEqual('message');
             expect(markup.props.children.props.transitionAppear).toBeTrue();
         });
+
+        it('should ignore transition if props are set appropriately', function() {
+            pageMessage = TestUtils.renderIntoDocument(<PageMessage message='Message' type='message' disableTransition />);
+            var markup = pageMessage.render();
+            expect(markup.type).toEqual('div');
+            expect(markup.props.className).toEqual('page-message');
+            expect(markup.props.children.props.transitionName).toBeUndefined();
+            expect(markup.props.children.props.className).toEqual('message message');
+        });
     });
 
     describe('getMessageMarkup', function() {

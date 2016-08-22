@@ -9,6 +9,14 @@ describe('PortalMixins', function() {
 
             expect(PortalMixins.portalNode.childNodes[0].id).toEqual('portal');
         });
+
+        it('should use the provide HTML element', function() {
+            var childNode;
+            PortalMixins.openPortal(<div id="portal"></div>, {appendChild: function(node) { childNode = node; }});
+
+            expect(PortalMixins.portalNode.childNodes[0].id).toEqual('portal');
+            expect(childNode.childNodes[0].id).toEqual('portal');
+        });
     });
 
     describe('setPortalConfirmOnClose', function() {

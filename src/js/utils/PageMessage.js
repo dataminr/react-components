@@ -8,7 +8,8 @@ var PageMessage = React.createClass({
         type: React.PropTypes.string.isRequired,
         duration: React.PropTypes.number,
         icon: React.PropTypes.string,
-        closeIcon: React.PropTypes.string
+        closeIcon: React.PropTypes.string,
+        disableTransition: React.PropTypes.bool
     },
 
     getDefaultProps: function() {
@@ -39,11 +40,18 @@ var PageMessage = React.createClass({
     },
 
     render: function() {
+        var messageMarkup = this.getMessageMarkup();
+        if (!this.props.disableTransition) {
+            // wrap message markup in ReactCSSTransitionGroup if transitioning is not disabled
+            messageMarkup = (
+                <ReactCSSTransitionGroup transitionName="message" transitionAppear transitionEnterTimeout={300} transitionLeaveTimeout={300} transitionAppearTimeout={300}>
+                    {messageMarkup}
+                </ReactCSSTransitionGroup>
+            );
+        }
         return (
             <div className="page-message">
-                <ReactCSSTransitionGroup transitionName="message" transitionAppear transitionEnterTimeout={300} transitionLeaveTimeout={300} transitionAppearTimeout={300}>
-                    {this.getMessageMarkup()}
-                </ReactCSSTransitionGroup>
+                {messageMarkup}
             </div>
         );
     },
