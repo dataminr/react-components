@@ -173,6 +173,13 @@ define(function(require) {
                 expect(PortalMixins.openPortal.calls.argsFor(0)[1]).toEqual({element: true});
             });
 
+            it('should work without any options object passed in', function() {
+                spyOn(PortalMixins, 'closePortal');
+                spyOn(PortalMixins, 'openPortal');
+
+                expect(function() {Utils.pageMessage('Some instructional or informational message.', 'Type')}).not.toThrow();
+            });
+
             it('should use a message of a pre-configured type', function() {
                 spyOn(PortalMixins, 'closePortal');
                 spyOn(PortalMixins, 'openPortal');

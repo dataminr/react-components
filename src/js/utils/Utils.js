@@ -147,8 +147,11 @@ var Utils = {
      */
     pageMessage: function(message, type, options) {
         // The 'element' option is specifically for PortalMixins.openPortal and not for PageMessage.
-        var element = options.element;
-        delete options.element;
+        var element = null;
+        if (options) {
+            element = options.element;
+            delete options.element;
+        }
 
         if (pageMessageOptions[type]) {
             options = _.merge(_.clone(pageMessageOptions[type]), options);
