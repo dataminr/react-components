@@ -4,10 +4,11 @@ module.exports = {
     /**
      * Creates a new detatched DOM node to render child components within.
      * @param {Object} children - The items to be displayed in the portal.
+     * @param {Object} [element] - Optional HTML Element to append PageMessage object to.
      */
-    openPortal: function(children) {
+    openPortal: function(children, element) {
         this.portalNode = document.createElement('div');
-        document.body.appendChild(this.portalNode);
+        (element || document.body).appendChild(this.portalNode);
         ReactDOM.render(children, this.portalNode);
     },
 

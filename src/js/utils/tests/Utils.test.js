@@ -162,13 +162,14 @@ define(function(require) {
                 spyOn(PortalMixins, 'closePortal');
                 spyOn(PortalMixins, 'openPortal');
 
-                Utils.pageMessage('Some instructional or informational message.', 'Type', {option: 'val'});
+                Utils.pageMessage('Some instructional or informational message.', 'Type', {option: 'val'}, {element: true});
 
                 expect(PortalMixins.closePortal.calls.count()).toEqual(1);
                 expect(PortalMixins.openPortal.calls.count()).toEqual(1);
                 expect(PortalMixins.openPortal.calls.argsFor(0)[0].props.message).toEqual('Some instructional or informational message.');
                 expect(PortalMixins.openPortal.calls.argsFor(0)[0].props.type).toEqual('type');
                 expect(PortalMixins.openPortal.calls.argsFor(0)[0].props.option).toEqual('val');
+                expect(PortalMixins.openPortal.calls.argsFor(0)[1]).toEqual({element: true});
             });
 
             it('should use a message of a pre-configured type', function() {

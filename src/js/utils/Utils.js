@@ -141,17 +141,18 @@ var Utils = {
 
     /**
      * Opens a portal to display a PageMessage for the user.
-     * @param {String} message - The text to be displayed inside of PageMessage.
-     * @param {String} type - The kind of message to be displayed such as success, error, warning, or info.
-     * @param {Object} options - Optional PageMessage configurations.
+     * @param {String} message   The text to be displayed inside of PageMessage.
+     * @param {String} type      The kind of message to be displayed such as success, error, warning, or info.
+     * @param {Object} options   Optional PageMessage configurations.
+     * @param {Object} [element] Optional HTML Element to append PageMessage object to.
      */
-    pageMessage: function(message, type, options) {
+    pageMessage: function(message, type, options, element) {
         if (pageMessageOptions[type]) {
             options = _.merge(_.clone(pageMessageOptions[type]), options);
         }
 
         PortalMixins.closePortal();
-        PortalMixins.openPortal(<PageMessage message={message} type={type.toLowerCase()} {...options} />);
+        PortalMixins.openPortal(<PageMessage message={message} type={type.toLowerCase()} {...options} />, element);
     },
 
     /**
