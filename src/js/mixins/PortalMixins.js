@@ -3,8 +3,8 @@ var ReactDOM = require('react-dom');
 module.exports = {
     /**
      * Creates a new detatched DOM node to render child components within.
-     * @param {Object} children - The items to be displayed in the portal.
-     * @param {Object} [element] - Optional HTML Element to append PageMessage object to.
+     * @param {Object} children  The items to be displayed in the portal.
+     * @param {Object} [element] Optional HTML Element to append PageMessage object to.
      */
     openPortal: function(children, element) {
         this.portalNode = document.createElement('div');
@@ -15,7 +15,7 @@ module.exports = {
     /**
      * When passed a string, a confirmation dialog will show with the string before the dialog is about to close.
      * Provides a way to make the user confirm that they want to close the modal.
-     * @param {String|Null} message - The text to display in the confirm dialog or null to clear.
+     * @param {String|Null} message The text to display in the confirm dialog or null to clear.
      */
     setPortalConfirmOnClose: function(message) {
         this.portalConfirmOnCloseMessage = message;
