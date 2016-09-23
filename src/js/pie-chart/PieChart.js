@@ -93,7 +93,7 @@ var PieChart = React.createClass({
         //Clear out any existing svg path nodes
         d3.select("#" + this.state.svgID + "-container").selectAll("*").remove();
 
-        var pie = d3.layout.pie()
+        var pie = d3.pie()
             .padAngle(0.03)
             .value(function(dataNode){return dataNode.value; })
             //Data comes pre-sorted from the server so don't let d3 to any additional sorting
@@ -123,7 +123,7 @@ var PieChart = React.createClass({
                 }.bind(this);
             }.bind(this))
             //Add mouse events only after animation is complete.
-            .each("end", function(){
+            .each(function(){
                 setTimeout(function(){
                     group.on("click", this.drillIn);
                     group.on("mouseover", this.mouseover);
@@ -237,7 +237,7 @@ var PieChart = React.createClass({
 
         this.chart = d3.select('#' + this.state.svgID + '-container');
 
-        this.arc = d3.svg.arc()
+        this.arc = d3.arc()
             .outerRadius(_.bind(function(){
                 return radius + this.extraRadius;
             }, this))
