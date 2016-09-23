@@ -2,7 +2,7 @@
   "author": "Dataminr",
   "name": "dataminr-react-components",
   "description": "Collection of reusable React Components and utility functions",
-  "version": "0.8.1",
+  "version": "0.9.0",
   "keywords": [
     "react-component"
   ],
@@ -17,7 +17,7 @@
   "homepage": "https://github.com/dataminr/react-components",
   "main": "src/js/",
   "dependencies": {
-    "d3": "3.5.12",
+    "d3": "4.2.6",
     "flux": "2.1.1",
     "jquery": "2.1.4",
     "lodash": "3.10.1"
