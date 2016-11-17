@@ -51,7 +51,12 @@ describe('TableStore', function() {
             {
                 dataProperty: 'status',
                 dataType: 'status',
-                timeFormat: 'MMM Do, h A',
+                timeFormatter: function(value) {
+                    if(value > Moment('1970-01-17').startOf('d')) {
+                        return Moment(value).format('h:mm A');
+                    }
+                    return Moment(value).format('MMM Do YYYY');
+                },
                 sortDirection: 'descending',
                 quickFilter: true
             },
@@ -150,6 +155,21 @@ describe('TableStore', function() {
 
                     expect(table.data[0].time).toBeNonEmptyString();
                     expect(table.data[0].timeTimestamp).toEqual(1416591981);
+
+                    expect(table.data[0].time).toEqual('Jan 17th, 2 AM');
+                    expect(table.data[0].status).toEqual('2:29 AM');
+                    expect(table.data[1].time).toEqual('Jan 17th, 2 AM');
+                    expect(table.data[1].status).toEqual('2:48 AM');
+                    expect(table.data[2].time).toEqual('Jan 17th, 2 AM');
+                    expect(table.data[2].status).toEqual('2:44 AM');
+                    expect(table.data[3].time).toEqual('--');
+                    expect(table.data[3].status).toEqual('--');
+                    expect(table.data[4].time).toEqual('--');
+                    expect(table.data[4].status).toEqual('--');
+                    expect(table.data[5].time).toEqual('Jan 16th, 11 PM');
+                    expect(table.data[5].status).toEqual('Jan 16th 1970');
+                    expect(table.data[6].time).toEqual('--');
+                    expect(table.data[6].status).toEqual('--');
                 });
             });
 

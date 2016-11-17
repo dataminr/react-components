@@ -155,6 +155,11 @@ definition
             required: false
             description: see [Momentjs](http://momentjs.com/docs/#/displaying/) used for dataTypes of time and status to display timestamps
 
+        timeFormatter
+            type: function
+            required: false
+            description: Passes in current value to allow custom data formatting. Useful if you wish to tweak the date format based on its value relative to now or today.
+
         durationFormat
             type: string
             required: false
@@ -234,7 +239,12 @@ var tableDefinition = {
             sortDirection: 'descending',
             dataType: 'status',
             onlineLimit: 4,
-            timeFormat: 'MMM Do, h:mm A YYYY',
+            timeFormatter: function(value) {
+                if(value > Moment().startOf('d')) {
+                    return Moment(value).format('h:mm A');
+                }
+                return Moment(value).format('MMM Do');
+            },
             width: '15%',
             quickFilter: true
         },
