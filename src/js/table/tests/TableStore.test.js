@@ -51,7 +51,7 @@ describe('TableStore', function() {
             {
                 dataProperty: 'status',
                 dataType: 'status',
-                timeFormatter: function(value) {
+                timeFormat: function(value) {
                     if(value > Moment('1970-01-17').startOf('d')) {
                         return Moment(value).format('h:mm A');
                     }
