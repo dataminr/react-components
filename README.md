@@ -124,7 +124,7 @@ If you find your css build results are empty, update your sass gem.
 
 ### Grunt Tasks
 
-The default grunt task will start webpack to complile all JS/Sass and startup webpack dev server to serve combined files.
+The default grunt task will start webpack to compile all JS/Sass and startup webpack dev server to serve combined files.
 
 ```
 $ grunt
@@ -150,7 +150,7 @@ MIT
 
 The developers that made this project possible by contributing to the the following libraries and frameworks:
 
-[React](http://facebook.github.io/react/), [Flux](https://facebook.github.io/flux/), [Compass](http://compass-style.org/), 
+[React](http://facebook.github.io/react/), [Flux](https://facebook.github.io/flux/), [Compass](http://compass-style.org/),
 [Sass](http://sass-lang.com/), [Require](http://requirejs.org/), [Grunt](http://gruntjs.com/), [Jasmine](http://jasmine.github.io/2.2/introduction.html),
 [Istanbul](https://github.com/gotwarlost/istanbul), [ESLint](http://eslint.org/), [Watch](https://github.com/gruntjs/grunt-contrib-watch),
 [d3](http://d3js.org/), [lodash](https://lodash.com/docs), [jQuery](http://jquery.com/), and [Moment](http://momentjs.com/docs/)
