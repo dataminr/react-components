@@ -304,14 +304,19 @@ var PieChart = React.createClass({
                     'table-even': i % 2,
                     'table-odd': i % 2 === 0,
                     'selected': isSelected
-                });
+                }),
+                value = <span className="table-val" title={"Count: " + data.value}>{data.percent + "%"}</span>;
+
+            if (typeof this.props.definition.valueFormat === 'function') {
+                value = this.props.definition.valueFormat(data);
+            }
 
             rows.push(
                 <tr key={'table-row-' + i} className={rowClasses}><td>
                     <div className="row-container" style={rowBackground}>
-                        <span className="color-legend" style={color}></span>
+                        <span className="color-legend" style={color} />
                         <span className="table-key">{data.name}</span>
-                        <span className="table-val" title={"Count: " + data.value}>{data.percent + "%"}</span>
+                        {value}
                     </div>
                 </td></tr>
             );
@@ -325,7 +330,7 @@ var PieChart = React.createClass({
             currentData = _.last(this.state.dataStack),
             breadCrumb;
         if(currentData && currentData.label){
-            breadCrumb = <span className="breadCrumb" onClick={this.drillOut}><i className="ion ion-chevron-left"></i>{currentData.label}</span>;
+            breadCrumb = <span className="breadCrumb" onClick={this.drillOut}><i className="ion ion-chevron-left" />{currentData.label}</span>;
         }
 
         var containerClasses = Utils.classSet({
@@ -342,14 +347,13 @@ var PieChart = React.createClass({
             <div className="data-component pie-chart">
                 <span className="module-sub-heading">{PieChartStore.getLabel(this.props.componentId)}</span>
                 <div className={containerClasses}>
-                    <i className={Utils.getLoaderClasses(this.state.loading, this.props.loadingIconClasses)}></i>
+                    <i className={Utils.getLoaderClasses(this.state.loading, this.props.loadingIconClasses)} />
                     <div className="pie-chart-data">
                         {breadCrumb}
                         {noResults}
                         <div id={this.state.svgID} ref="chartNode" className="pie-chart-wrapper">
                             <svg height={this.state.height} width={this.state.width}>
-                                <g key={this.state.svgID} id={this.state.svgID + '-container'} transform={'translate(' + this.state.width / 2 + ',' + this.state.height / 2 + ')'}>
-                                </g>
+                                <g key={this.state.svgID} id={this.state.svgID + '-container'} transform={'translate(' + this.state.width / 2 + ',' + this.state.height / 2 + ')'} />
                             </svg>
                         </div>
                     </div>

@@ -7,27 +7,32 @@ componentId
     type: string
     required: true
     description: Used by the PieChartStore to keep track of PieChart state
-    
+
 key
     type: string
     required: true
     description: Used by React when there are more than one pie chart displayed consecutively by a component
-    
+
 definition
     type: object
     required: true
     definition: This defines the look, feel, and display of the pie chart
-    
+
     url
         type: string
         required: true
         description: The endpoint for requesting data
-        
+
     label
         type: string
         required: true
         description: The textual description of what the data is representative of
-        
+
+    valueFormat
+        type: function
+        required: false
+        description: Function called with data object to override the value span displayed for each row
+
 colors
     type: array
     required: false
@@ -46,12 +51,12 @@ colors
         '#BC0C0C'  //red
     ]
     description: The colors in priority order that will be used in the display of the pie chart
-        
+
 filters
     type: object
     required: false
     description: Sent as data with requests to the server
-    
+
 loadingIconClasses
     type: array|string
     required: false
@@ -64,7 +69,10 @@ loadingIconClasses
 ```javascript
 var pieChartDefinition = {
     url: '/test/piechart',
-    label: 'BROWSERS'
+    label: 'BROWSERS',
+    valueFormat: function(data) {
+        return <span className="table-val" title={"Count: " + data.value}>{data.percent + "%"}</span>;
+    }
 };
 ```
 
