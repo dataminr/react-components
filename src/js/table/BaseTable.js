@@ -80,7 +80,7 @@ module.exports = {
         return (
             <div className="data-component table-component no-select">
                 <div className={containerClasses}>
-                    <i className={Utils.getLoaderClasses(this.state.loading, this.props.loadingIconClasses)}></i>
+                    <i className={Utils.getLoaderClasses(this.state.loading, this.props.loadingIconClasses)} />
                     {quickFilter}
                     {advancedFiltersMarkup}
                     {paginationControls}
@@ -397,7 +397,7 @@ module.exports = {
                     title={this.state.selectedItems && this.state.selectedItems[val] ? "Deselect" : "Select"}
                     key={'td-' + index}
                     onClick={this.handleSelectClick}>
-                    <i className={iconClassString}></i>
+                    <i className={iconClassString} />
                 </td>
             );
         }

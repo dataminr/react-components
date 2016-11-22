@@ -75,13 +75,9 @@ module.exports = function(grunt) {
         /**
          * ESLint configuration. See http://eslint.org and the .eslintrc file for details.
          */
-        eslint:{
+        eslint: {
             target: [
-                'src/**/*.js',
-                '!src/js/tests/*.js',
-                '!src/js/lib/EventEmitter.js',
-                '!src/**/*.test.js',
-                '!examples/**/*.js',
+                'src/'
             ]
         },
 

@@ -286,37 +286,38 @@ var PieChart = React.createClass({
      * @returns {Array|Boolean} - The rows for the data list
      */
     getRowDisplay: function(){
-        var rows = [],
-            dataList = _.last(this.state.dataStack),
-            i;
+        var dataList = _.last(this.state.dataStack);
 
         if(!dataList){
             return false;
         }
         dataList = dataList.data;
 
-        for(i = 0; i < dataList.length; i++){
-            var data = dataList[i],
-                color = {backgroundColor: this.colors[i]},
+        return _.map(dataList, function(data, index){
+            var color = {backgroundColor: this.colors[index]},
                 isSelected = this.state.selectedRowName === data.name,
-                rowBackground = isSelected ? {'borderLeft': "solid 6px " + this.colors[i]} : {},
+                rowBackground = isSelected ? {'borderLeft': "solid 6px " + this.colors[index]} : {},
                 rowClasses = Utils.classSet({
-                    'table-even': i % 2,
-                    'table-odd': i % 2 === 0,
+                    'table-even': index % 2,
+                    'table-odd': index % 2 === 0,
                     'selected': isSelected
-                });
+                }),
+                value = <span className="table-val" title={"Count: " + data.value}>{data.percent + "%"}</span>;
 
-            rows.push(
-                <tr key={'table-row-' + i} className={rowClasses}><td>
+            if (typeof this.props.definition.valueFormat === 'function') {
+                value = this.props.definition.valueFormat(data);
+            }
+
+            return (
+                <tr key={'table-row-' + index} className={rowClasses}><td>
                     <div className="row-container" style={rowBackground}>
-                        <span className="color-legend" style={color}></span>
+                        <span className="color-legend" style={color} />
                         <span className="table-key">{data.name}</span>
-                        <span className="table-val" title={"Count: " + data.value}>{data.percent + "%"}</span>
+                        {value}
                     </div>
                 </td></tr>
             );
-        }
-        return rows;
+        }, this);
     },
 
     render: function() {
@@ -325,7 +326,7 @@ var PieChart = React.createClass({
             currentData = _.last(this.state.dataStack),
             breadCrumb;
         if(currentData && currentData.label){
-            breadCrumb = <span className="breadCrumb" onClick={this.drillOut}><i className="ion ion-chevron-left"></i>{currentData.label}</span>;
+            breadCrumb = <span className="breadCrumb" onClick={this.drillOut}><i className="ion ion-chevron-left" />{currentData.label}</span>;
         }
 
         var containerClasses = Utils.classSet({
@@ -342,14 +343,13 @@ var PieChart = React.createClass({
             <div className="data-component pie-chart">
                 <span className="module-sub-heading">{PieChartStore.getLabel(this.props.componentId)}</span>
                 <div className={containerClasses}>
-                    <i className={Utils.getLoaderClasses(this.state.loading, this.props.loadingIconClasses)}></i>
+                    <i className={Utils.getLoaderClasses(this.state.loading, this.props.loadingIconClasses)} />
                     <div className="pie-chart-data">
                         {breadCrumb}
                         {noResults}
                         <div id={this.state.svgID} ref="chartNode" className="pie-chart-wrapper">
                             <svg height={this.state.height} width={this.state.width}>
-                                <g key={this.state.svgID} id={this.state.svgID + '-container'} transform={'translate(' + this.state.width / 2 + ',' + this.state.height / 2 + ')'}>
-                                </g>
+                                <g key={this.state.svgID} id={this.state.svgID + '-container'} transform={'translate(' + this.state.width / 2 + ',' + this.state.height / 2 + ')'} />
                             </svg>
                         </div>
                     </div>
