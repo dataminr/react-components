@@ -72,6 +72,12 @@ describe('PieChart', function() {
             var markup = pieChart.getRowDisplay();
             expect(markup.length).toEqual(3);
             var assertions = function(index, companyName, companyValue, companyPercent){
+                if(index % 2 === 0) {
+                    expect(markup[index].props.className).toEqual('table-odd');
+                }
+                else {
+                    expect(markup[index].props.className).toEqual('table-even');
+                }
                 var row = markup[index].props.children.props.children.props.children,
                     name = row[1],
                     value = row[2];

@@ -286,23 +286,20 @@ var PieChart = React.createClass({
      * @returns {Array|Boolean} - The rows for the data list
      */
     getRowDisplay: function(){
-        var rows = [],
-            dataList = _.last(this.state.dataStack),
-            i;
+        var dataList = _.last(this.state.dataStack);
 
         if(!dataList){
             return false;
         }
         dataList = dataList.data;
 
-        for(i = 0; i < dataList.length; i++){
-            var data = dataList[i],
-                color = {backgroundColor: this.colors[i]},
+        return _.map(dataList, function(data, index){
+            var color = {backgroundColor: this.colors[index]},
                 isSelected = this.state.selectedRowName === data.name,
-                rowBackground = isSelected ? {'borderLeft': "solid 6px " + this.colors[i]} : {},
+                rowBackground = isSelected ? {'borderLeft': "solid 6px " + this.colors[index]} : {},
                 rowClasses = Utils.classSet({
-                    'table-even': i % 2,
-                    'table-odd': i % 2 === 0,
+                    'table-even': index % 2,
+                    'table-odd': index % 2 === 0,
                     'selected': isSelected
                 }),
                 value = <span className="table-val" title={"Count: " + data.value}>{data.percent + "%"}</span>;
@@ -311,8 +308,8 @@ var PieChart = React.createClass({
                 value = this.props.definition.valueFormat(data);
             }
 
-            rows.push(
-                <tr key={'table-row-' + i} className={rowClasses}><td>
+            return (
+                <tr key={'table-row-' + index} className={rowClasses}><td>
                     <div className="row-container" style={rowBackground}>
                         <span className="color-legend" style={color} />
                         <span className="table-key">{data.name}</span>
@@ -320,8 +317,7 @@ var PieChart = React.createClass({
                     </div>
                 </td></tr>
             );
-        }
-        return rows;
+        }, this);
     },
 
     render: function() {
