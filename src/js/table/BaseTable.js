@@ -280,7 +280,8 @@ module.exports = {
         }
 
         var row = _.map(this.state.colDefinitions, function(val, colIndex) {
-            return this.getTableData(rowData[val.dataProperty], val, val.hoverProperty ? rowData[val.hoverProperty] : null, colIndex, rowData.online);
+            var hoverProperty = val.hoverProperty ? (typeof val.hoverProperty === 'function' ? val.hoverProperty(rowData) : rowData[val.hoverProperty]) : null;
+            return this.getTableData(rowData[val.dataProperty], val, hoverProperty, colIndex, rowData.online);
         }.bind(this));
 
         if (this.state.rowClick) {

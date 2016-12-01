@@ -133,6 +133,12 @@ definition
             required: false
             description: The label displayed in the header of the column
 
+        hoverProperty
+            type: string|function
+            required: false
+            description: If a string, indicates a different dataProperty to use to provide the title value instead of the current value.
+            If a function, the current data row is passed in to allow a custom value to be used.
+
         onlineLimit
             type: number
             required: false
@@ -170,7 +176,7 @@ definition
         onClick (only for action type columns)
             type: function
             required: true if column is of action type
-            description: Action to invoke when clicking on an action cell. Callback will be invoked with click event, and data of full row clicked. Event propogation will automatically be stopped as to not invoke both cell and row click handlers, if present.
+            description: Action to invoke when clicking on an action cell. Callback will be invoked with click event, and data of full row clicked. Event propagation will automatically be stopped as to not invoke both cell and row click handlers, if present.
 
         markup (only for action type columns)
             type: object
@@ -202,6 +208,7 @@ var tableDefinition = {
             dataProperty: 'name',
             sortDirection: 'ascending',
             dataType: 'string',
+            hoverProperty: 'mission',
             width: '12%',
             quickFilter: true
         },
@@ -235,6 +242,9 @@ var tableDefinition = {
             dataProperty: 'lastCommunication',
             sortDirection: 'descending',
             dataType: 'status',
+            hoverProperty: function(row) {
+                return Moment(row.lastCommunicationTimestamp).format('MMM Do YYYY h:mm A');
+            },
             onlineLimit: 4,
             timeFormat: function(value) {
                 if(value > Moment().startOf('d')) {
