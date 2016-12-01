@@ -30,7 +30,7 @@ describe('Table', function() {
             {
                 dataProperty: 'string',
                 dataType: 'string',
-                hoverProperty: 'string',
+                hoverProperty: 'integer',
                 sortDirection: 'ascending'
             },
             {
@@ -46,6 +46,9 @@ describe('Table', function() {
             {
                 dataProperty: 'time',
                 dataType: 'time',
+                hoverProperty: function(row) {
+                    return Moment(row.time).format('MMM Do YYYY h:mm A');
+                },
                 sortDirection: 'ascending',
                 timeFormat: 'MMM Do, h A'
             },
@@ -581,6 +584,17 @@ describe('Table', function() {
             table.getTableRowItem(rowData, index);
 
             expect(table.getTableData.calls.count()).toEqual(2);
+        });
+
+        it('should call hoverProperty function', function() {
+            spyOnTableGetCalls(tableData, tableData.length, definition.cols, definition.sortColIndex, undefined, definition.pagination);
+            table.onDataReceived();
+
+            var tableRowComponent = table.getTableRowItem({string: 'abc', integer: 5, time: 1417455952}, 0);
+            expect(tableRowComponent.props.children[0].props.children[0].props.children).toEqual('abc');
+            expect(tableRowComponent.props.children[0].props.children[0].props.title).toEqual(5);
+            expect(tableRowComponent.props.children[3].props.children[0].props.children).toEqual(1417455952);
+            expect(tableRowComponent.props.children[3].props.children[0].props.title).toEqual('Jan 17th 1970 2:44 AM');
         });
     });
 
