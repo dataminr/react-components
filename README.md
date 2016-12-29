@@ -76,7 +76,6 @@ $ git checkout master
 * [Flux](https://facebook.github.io/flux/) Application architecture for building user interfaces
 * [lodash](https://lodash.com/docs) JavaScript utility library
 * [Moment](http://momentjs.com/docs/) Parse, validate, manipulate, and display dates in JavaScript
-* [jQuery](http://jquery.com/) Fast, small, and feature-rich JavaScript library
 * [d3](http://d3js.org/) Manipulate documents based on data with Data-Driven Documents
 
 ##### Style
@@ -153,7 +152,7 @@ The developers that made this project possible by contributing to the the follow
 [React](http://facebook.github.io/react/), [Flux](https://facebook.github.io/flux/), [Compass](http://compass-style.org/),
 [Sass](http://sass-lang.com/), [Require](http://requirejs.org/), [Grunt](http://gruntjs.com/), [Jasmine](http://jasmine.github.io/2.2/introduction.html),
 [Istanbul](https://github.com/gotwarlost/istanbul), [ESLint](http://eslint.org/), [Watch](https://github.com/gruntjs/grunt-contrib-watch),
-[d3](http://d3js.org/), [lodash](https://lodash.com/docs), [jQuery](http://jquery.com/), and [Moment](http://momentjs.com/docs/)
+[d3](http://d3js.org/), [lodash](https://lodash.com/docs), and [Moment](http://momentjs.com/docs/)
 
 [npm-image]: https://badge.fury.io/js/dataminr-react-components.svg
 [npm-url]: https://www.npmjs.com/package/dataminr-react-components

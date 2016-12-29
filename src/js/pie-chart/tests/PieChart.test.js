@@ -1,9 +1,4 @@
-// var AppDispatcher = require('../../dispatcher/AppDispatcher');
 var PieChart = require('../PieChart');
-
-// var BasicTable = require('../BasicTable');
-// var _ = require('lodash');
-// var Moment = require('moment');
 var React = require('react');
 var PieChartStore = require('../PieChartStore');
 var Utils = require('../../utils/Utils');
