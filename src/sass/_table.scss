@@ -265,38 +265,4 @@
       color: rgba(88, 201, 158, 0.50);
     }
   }
-
-  /*****************************
-  /*   Grouped Actions Table   *
-  /****************************/
-  tr.sub-action {
-    color: grey;
-    display: none;
-  }
-
-  .wrap-inner {
-    display: none;
-  }
-
-  .expanded-row-indicator {
-    display: inline-block;
-    min-width: 60px;
-    padding: 0;
-    width: 60px;
-
-    i {
-      font-size: 12px;
-      margin-left: 5px;
-      position: relative;
-      top: -1px;
-    }
-
-    &.inactive {
-      color: $light-blue;
-    }
-  }
-
-  .nested-text {
-    margin-left: 75px;
-  }
 }

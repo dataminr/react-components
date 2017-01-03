@@ -1,4 +1,3 @@
-var $ = require('jquery');
 var _ = require('lodash');
 var React = require('react');
 var RequestHandler = require('RequestHandler');
@@ -88,6 +87,26 @@ var Search = React.createClass({
     },
 
     /**
+     * When the list goes from not shown to shown, add a mouseup listener to close the list if a user
+     * clicks of the list. If the list is going from shown to hidden, remove the listener.
+     * @param  {Object} prevProps Props before update
+     * @param  {Object} prevState State before update
+     */
+    componentDidUpdate: function(prevProps, prevState){
+        if(!prevState.shownList.length && this.state.shownList.length){
+            this.eventListener = document.addEventListener('click', _.bind(function(e){
+                var container = this.refs.searchContainer;
+                if(e.target !== container && !container.contains(e.target)){
+                    this.hideList();
+                }
+            }, this));
+        }
+        if(prevState.shownList.length && !this.state.shownList.length){
+            document.removeEventListener('mouseup', this.eventListener);
+        }
+    },
+
+    /**
      * Subscribe to specific change event and fire off a data request to do initial
      * data population
      */
@@ -95,15 +114,6 @@ var Search = React.createClass({
         if(this.props.isFullDataResponse){
             this.requestFullData();
         }
-
-        //Hook up page click event to close list when user clicks outside search component
-        $(document).mouseup(_.bind(function(e){
-            var container = $(".search-component");
-
-            if(!container.is(e.target) && container.has(e.target).length === 0){
-                this.hideList();
-            }
-        }, this));
     },
 
     /**
@@ -459,17 +469,14 @@ var Search = React.createClass({
 
     /**
      * Returns list of autocomplete items to show in dropdown
-     * @param {Array} rowData - List of node data
-     * @return {Array} - List of nodes to display
+     * @param  {Array}    rowData          List of node data
+     * @param  {Function} listEnterHandler Method to invoke on list enter
+     * @return {Array}                     List of nodes to display
      */
-    getAutocompleteComponents: function(rowData){
-        var markup = [];
-        _.forEach(rowData, function(item){
-            markup.push(
-                <li key={item.id} data-id={item.id} tabIndex="-1" onMouseEnter={this.handleListMouseEnter}>{item.name}</li>
-            );
+    getAutocompleteComponents: function(rowData, listEnterHandler){
+        return _.map(rowData, function(item){
+            return <li key={item.id} data-id={item.id} tabIndex="-1" onMouseEnter={listEnterHandler}>{item.name}</li>;
         }, this);
-        return markup;
     },
 
     render: function() {
@@ -483,7 +490,7 @@ var Search = React.createClass({
         var placeholderText = this.state.itemList ? this.props.placeholder : 'Loading...';
 
         return (
-            <div className="search-component">
+            <div ref="searchContainer" className="search-component">
                 <div className="input-group">
                     <i className={searchIconClasses}/>
                     <input ref="searchInput"
@@ -502,7 +509,6 @@ var Search = React.createClass({
                         onClick={this.itemSelect}
                         onMouseLeave={this.handleListMouseLeave}
                         onKeyDown={this.onListKeyPress}>
-
                         {autoCompleteMarkup}
                     </ul>
                 </div>

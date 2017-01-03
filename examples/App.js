@@ -189,9 +189,7 @@ module.exports = React.createClass({
                 );
                 break;
             case 'search':
-                componentSet = (
-                    <Search url={'/test/search'} onSelect={searchSubmitCallback} isFullDataResponse={true} minLength={1}/>
-                );
+                componentSet = <Search url={'/test/search'} onSelect={searchSubmitCallback} isFullDataResponse minLength={1}/>;
                 break;
             case 'table':
                 componentSet = (
