@@ -1,9 +1,10 @@
 var React = require('react');
 var d3Select = require('d3-selection');
 var d3Shape = require('d3-shape');
-var d3Transition = require('d3-transition');
 var d3Interpolate = require('d3-interpolate');
 var _ = require('lodash');
+//This automatically adds a `transition` method to existing d3 selector methods, so no need to assign it's return
+require('d3-transition');
 
 var DataMixins = require('../mixins/DataMixins');
 var PieChartActions = require('./PieChartActions');
