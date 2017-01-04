@@ -17,7 +17,10 @@
   "homepage": "https://github.com/dataminr/react-components",
   "main": "src/js/",
   "dependencies": {
-    "d3": "4.2.6",
+    "d3-interpolate": "1.1.2",
+    "d3-selection": "1.0.3",
+    "d3-shape": "1.0.4",
+    "d3-transition": "1.0.3",
     "flux": "2.1.1",
     "lodash": "3.10.1"
   },
