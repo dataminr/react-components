@@ -1,6 +1,10 @@
 var React = require('react');
-var d3 = require('d3');
+var d3Select = require('d3-selection');
+var d3Shape = require('d3-shape');
+var d3Interpolate = require('d3-interpolate');
 var _ = require('lodash');
+//This automatically adds a `transition` method to existing d3 selector methods, so no need to assign it's return
+require('d3-transition');
 
 var DataMixins = require('../mixins/DataMixins');
 var PieChartActions = require('./PieChartActions');
@@ -66,11 +70,11 @@ var PieChart = React.createClass({
      * if we haven't yet received data
      * @return {Object} Initial state of chart
      */
-    getInitialState: function() {
+    getInitialState() {
         this.colors = this.props.colors && _.isArray(this.props.colors) ? this.props.colors : defaultColors;
         return {
             loading: true,
-            svgID: 'pieChart' + this.props.componentId,
+            svgID: `pieChart${this.props.componentId}`,
             dataStack: [],
             selectedRowName: null,
             width: 1,
@@ -85,17 +89,17 @@ var PieChart = React.createClass({
      * events for mouseover/mouseout/click to handle animations and drill ins
      * @param {Object} data Data to display in pie chart
      */
-    createVisualization: function(data){
+    createVisualization(data){
         var colorCounter = 0,
-        //For animation delays, only do a delay if we have a handful of elements. We don't want the chart to take 10 seconds to render
+            //For animation delays, only do a delay if we have a handful of elements. We don't want the chart to take 10 seconds to render
             delay = (data.length > 5) ? (data.length > 8) ? 25 : 50 : 75;
 
         //Clear out any existing svg path nodes
-        d3.select("#" + this.state.svgID + "-container").selectAll("*").remove();
+        d3Select.select(`#${this.state.svgID}-container`).selectAll("*").remove();
 
-        var pie = d3.pie()
+        var pie = d3Shape.pie()
             .padAngle(0.03)
-            .value(function(dataNode){return dataNode.value; })
+            .value((dataNode) => {return dataNode.value; })
             //Data comes pre-sorted from the server so don't let d3 to any additional sorting
             .sort(null);
 
@@ -106,30 +110,30 @@ var PieChart = React.createClass({
         var group = g.append('path');
 
         group
-            .style("fill", function() { return this.colors[colorCounter++]; }.bind(this))
-            .style("cursor", function(dataNode) {
+            .style("fill", () => { return this.colors[colorCounter++]; })
+            .style("cursor", (dataNode) => {
                 if (_.isArray(dataNode.data.children) && dataNode.data.children.length) {
                     return "pointer";
                 }
             })
             .transition()
-            .delay(function(dataNode, index) { return index * delay; })
+            .delay((dataNode, index) => { return index * delay; })
             .duration(150)
-            .attrTween('d', function(dataNode) {
-                var interpolate = d3.interpolate(dataNode.startAngle + 0.1, dataNode.endAngle);
-                return function(time) {
+            .attrTween('d', (dataNode) => {
+                var interpolate = d3Interpolate.interpolate(dataNode.startAngle + 0.1, dataNode.endAngle);
+                return (time) => {
                     dataNode.endAngle = interpolate(time);
                     return this.arc(dataNode);
-                }.bind(this);
-            }.bind(this))
+                };
+            })
             //Add mouse events only after animation is complete.
-            .each(function(){
-                setTimeout(function(){
+            .each(() => {
+                setTimeout(() => {
                     group.on("click", this.drillIn);
                     group.on("mouseover", this.mouseover);
                     group.on("mouseleave", this.mouseout);
-                }.bind(this), 400);
-            }.bind(this));
+                }, 400);
+            });
     },
 
     /**
@@ -137,29 +141,29 @@ var PieChart = React.createClass({
      * has no sub data, nothing will happen
      * @param {Object} node Data of segment clicked
      */
-    drillIn: function(node){
+    drillIn(node){
         if(!node.data.children){
             return;
         }
         var dataStack = this.state.dataStack;
         dataStack.push({
             data: node.data.children,
-            label: node.data.name + " - " + node.data.percent + "%"
+            label: `${node.data.name} - ${node.data.percent}%`
         });
         this.createVisualization(node.data.children);
         this.setState({dataStack: dataStack});
-        document.getElementById("item-list-" + this.props.componentId).scrollTop = 0;
+        document.getElementById(`item-list-${this.props.componentId}`).scrollTop = 0;
     },
 
     /**
      * Handles clicking on parent label to go back to parent data
      */
-    drillOut: function(){
+    drillOut(){
         var dataStack = this.state.dataStack;
         dataStack.pop();
         this.createVisualization(_.last(dataStack).data);
-        this.setState({dataStack: dataStack});
-        document.getElementById("item-list-" + this.props.componentId).scrollTop = 0;
+        this.setState({dataStack});
+        document.getElementById(`item-list-${this.props.componentId}`).scrollTop = 0;
     },
 
     /**
@@ -167,7 +171,7 @@ var PieChart = React.createClass({
      * size a bit.
      * @param {Object} dataNode Data of node that was hovered
      */
-    mouseover: function(dataNode){
+    mouseover(dataNode){
         this.setState({selectedRowName: dataNode.data.name});
 
         // Shrink all the segments back to normal radius.
@@ -175,8 +179,8 @@ var PieChart = React.createClass({
 
         //Expand radius of selected node
         this.extraRadius = 10;
-        this.chart.selectAll("#" + this.state.svgID + " path")
-            .filter(function(node) {
+        this.chart.selectAll(`#${this.state.svgID} path`)
+            .filter((node) => {
                 return node.data.name === dataNode.data.name;
             })
             .transition()
@@ -188,7 +192,7 @@ var PieChart = React.createClass({
     /**
      * Handles leaving a segment. Shinks radius back to normal size
      */
-    mouseout: function(){
+    mouseout(){
         var mouseover = this.mouseover;
         this.setState({selectedRowName: null});
         this.chart.selectAll("path").on("mouseover", null);
@@ -198,8 +202,8 @@ var PieChart = React.createClass({
             .transition()
             .duration(100)
             .attr("d", this.arc)
-            .each(function() {
-                d3.select(this).on("mouseover", mouseover);
+            .each(function(){
+                d3Select.select(this).on("mouseover", mouseover);
             });
     },
 
@@ -207,7 +211,7 @@ var PieChart = React.createClass({
      * Handle store change event. Calculate the width of the area we're rendering in and
      * build up the chart with the data
      */
-    onDataReceived: function() {
+    onDataReceived() {
         var data = PieChartStore.getData(this.props.componentId);
 
         if(!data){
@@ -216,7 +220,7 @@ var PieChart = React.createClass({
         }
 
         //Calculate height and width from the width of the container
-        var chartContainer = d3.select("#" + this.state.svgID),
+        var chartContainer = d3Select.select(`#${this.state.svgID}`),
             width = Math.min(325, parseInt(chartContainer.style("width"))) - 25,
             height = width * 0.75,
             radius = (Math.min(width, height) / 2) - 20;
@@ -235,12 +239,12 @@ var PieChart = React.createClass({
             loading: false
         });
 
-        this.chart = d3.select('#' + this.state.svgID + '-container');
+        this.chart = d3Select.select(`#${this.state.svgID}-container`);
 
-        this.arc = d3.arc()
-            .outerRadius(_.bind(function(){
+        this.arc = d3Shape.arc()
+            .outerRadius(() => {
                 return radius + this.extraRadius;
-            }, this))
+            })
             .innerRadius(radius - 50);
 
         this.createVisualization(data);
@@ -249,14 +253,14 @@ var PieChart = React.createClass({
     /**
      * Handle request error.
      */
-    onError: function(){
+    onError(){
         this.setState({loading: false, dataError: true});
     },
 
     /**
      * Send a request for data
      */
-    requestData: function() {
+    requestData() {
         this.setState({loading: true, dataError: false});
         PieChartActions.requestData(this.props.componentId, this.props.definition, this.props.filters);
     },
@@ -266,7 +270,7 @@ var PieChart = React.createClass({
      * scroll to the item in the list. This makes it so the pie chart segment being hovered
      * is always visible in the table.
      */
-    componentDidUpdate: function(){
+    componentDidUpdate(){
         var selectedRow = document.querySelector('tr.selected');
         if(selectedRow && selectedRow.rowIndex !== undefined){
             var rowIndex = selectedRow.rowIndex,
@@ -277,7 +281,7 @@ var PieChart = React.createClass({
                 //only scroll every 4th item
                 scrollHeight = 47 * (rowIndex - (rowIndex % 4));
             }
-            document.getElementById("item-list-" + this.props.componentId).scrollTop = scrollHeight;
+            document.getElementById(`item-list-${this.props.componentId}`).scrollTop = scrollHeight;
         }
     },
 
@@ -285,7 +289,7 @@ var PieChart = React.createClass({
      * Generates markup for table to display data list
      * @returns {Array|Boolean} - The rows for the data list
      */
-    getRowDisplay: function(){
+    getRowDisplay(){
         var dataList = _.last(this.state.dataStack);
 
         if(!dataList){
@@ -293,23 +297,23 @@ var PieChart = React.createClass({
         }
         dataList = dataList.data;
 
-        return _.map(dataList, function(data, index){
+        return _.map(dataList, (data, index) => {
             var color = {backgroundColor: this.colors[index]},
                 isSelected = this.state.selectedRowName === data.name,
-                rowBackground = isSelected ? {'borderLeft': "solid 6px " + this.colors[index]} : {},
+                rowBackground = isSelected ? {borderLeft: `solid 6px ${this.colors[index]}`} : {},
                 rowClasses = Utils.classSet({
                     'table-even': index % 2,
                     'table-odd': index % 2 === 0,
-                    'selected': isSelected
+                    selected: isSelected
                 }),
-                value = <span className="table-val" title={"Count: " + data.value}>{data.percent + "%"}</span>;
+                value = <span className="table-val" title={`Count: ${data.value}`}>{`${data.percent}%`}</span>;
 
             if (typeof this.props.definition.valueFormat === 'function') {
                 value = this.props.definition.valueFormat(data);
             }
 
             return (
-                <tr key={'table-row-' + index} className={rowClasses}><td>
+                <tr key={`table-row-${index}`} className={rowClasses}><td>
                     <div className="row-container" style={rowBackground}>
                         <span className="color-legend" style={color} />
                         <span className="table-key">{data.name}</span>
@@ -320,17 +324,14 @@ var PieChart = React.createClass({
         }, this);
     },
 
-    render: function() {
-        var noResults;
-        var tableContents = this.getRowDisplay(),
-            currentData = _.last(this.state.dataStack),
-            breadCrumb;
+    render() {
+        var currentData = _.last(this.state.dataStack),
+            breadCrumb, noResults;
         if(currentData && currentData.label){
             breadCrumb = <span className="breadCrumb" onClick={this.drillOut}><i className="ion ion-chevron-left" />{currentData.label}</span>;
         }
 
-        var containerClasses = Utils.classSet({
-            'data-container': true,
+        var containerClasses = Utils.classSet('data-container', {
             masked: this.state.loading || this.state.dataError,
             error: this.state.dataError
         });
@@ -349,14 +350,14 @@ var PieChart = React.createClass({
                         {noResults}
                         <div id={this.state.svgID} ref="chartNode" className="pie-chart-wrapper">
                             <svg height={this.state.height} width={this.state.width}>
-                                <g key={this.state.svgID} id={this.state.svgID + '-container'} transform={'translate(' + this.state.width / 2 + ',' + this.state.height / 2 + ')'} />
+                                <g id={`${this.state.svgID}-container`} transform={`translate(${this.state.width / 2},${this.state.height / 2})`} />
                             </svg>
                         </div>
                     </div>
-                    <div className="table-container" id={"item-list-" + this.props.componentId}>
+                    <div className="table-container" id={`item-list-${this.props.componentId}`}>
                         <table className="table-body">
                             <tbody>
-                                {tableContents}
+                                {this.getRowDisplay()}
                             </tbody>
                         </table>
                     </div>
