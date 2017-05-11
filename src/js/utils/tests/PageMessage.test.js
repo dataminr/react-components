@@ -2,7 +2,7 @@ var ExpandedTestUtils = require('expanded-react-test-utils');
 var PageMessage = require('../PageMessage');
 var PortalMixins = require('../../mixins/PortalMixins');
 var React = require('react');
-var TestUtils = require('react-addons-test-utils');
+var TestUtils = require('react-dom/test-utils');
 
 describe('PageMessage', function() {
     var pageMessage;

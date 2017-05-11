@@ -1,5 +1,5 @@
 var React = require('react');
-var TestUtils = require('react-addons-test-utils');
+var TestUtils = require('react-dom/test-utils');
 var Search = require('../Search');
 var RequestHandler = require('RequestHandler');
 

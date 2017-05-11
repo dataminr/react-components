@@ -1,7 +1,7 @@
 var ConfirmDialog = require('../ConfirmDialog');
 var PortalMixins = require('../../mixins/PortalMixins');
 var React = require('react');
-var TestUtils = require('react-addons-test-utils');
+var TestUtils = require('react-dom/test-utils');
 
 describe('ConfirmDialog', function() {
     var okButtonSpy = jasmine.createSpy(),

@@ -53,10 +53,11 @@ iconClasses
 #### Example Usage
 
 ```javascript
+var createReactClass = require('create-react-class');
 var Modal = require('dataminr-react-components/dist/modal/Modal');
 var PortalMixins = require('dataminr-react-components/dist/mixins/PortalMixins');
 
-return React.createClass({
+return createReactClass({
     displayName: 'App',
     mixins: [PortalMixins],
     // ...

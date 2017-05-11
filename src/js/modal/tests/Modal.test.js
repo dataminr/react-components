@@ -2,7 +2,7 @@ var _ = require('lodash');
 var Modal = require('../Modal');
 var React = require('react');
 var ReactDOM = require('react-dom');
-var TestUtils = require('react-addons-test-utils');
+var TestUtils = require('react-dom/test-utils');
 
 describe('Modal', function() {
     var node, modal, props;
