@@ -1,16 +1,18 @@
+var createReactClass = require('create-react-class');
 var PortalMixins = require('../mixins/PortalMixins');
+var PropTypes = require('prop-types');
 var React = require('react');
 var _ = require('lodash');
 
-var ConfirmDialog = React.createClass({
+var ConfirmDialog = createReactClass({
     propTypes: {
-        message: React.PropTypes.string,
-        okButtonText: React.PropTypes.string,
-        cancelButtonText: React.PropTypes.string,
-        okButtonClickHandler: React.PropTypes.func,
-        cancelButtonClickHandler: React.PropTypes.func,
-        okIconClasses: React.PropTypes.string,
-        cancelIconClasses: React.PropTypes.string
+        message: PropTypes.string,
+        okButtonText: PropTypes.string,
+        cancelButtonText: PropTypes.string,
+        okButtonClickHandler: PropTypes.func,
+        cancelButtonClickHandler: PropTypes.func,
+        okIconClasses: PropTypes.string,
+        cancelIconClasses: PropTypes.string
     },
 
     getDefaultProps: function() {

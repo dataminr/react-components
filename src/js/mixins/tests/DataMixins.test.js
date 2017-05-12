@@ -1,6 +1,7 @@
+var createReactClass = require('create-react-class');
 var DataMixins = require('../DataMixins');
 var React = require('react');
-var TestUtils = require('react-addons-test-utils');
+var TestUtils = require('react-dom/test-utils');
 
 describe('DataMixins', function() {
     var MockActions = {
@@ -11,7 +12,7 @@ describe('DataMixins', function() {
         removeListener: function() {}
     };
 
-    var MockChild = React.createClass({
+    var MockChild = createReactClass({
         mixins: [
             DataMixins.dataRequest,
             DataMixins.destroySelfOnUnmount(MockActions),
@@ -22,7 +23,7 @@ describe('DataMixins', function() {
         },
         requestData: function() {}
     });
-    var Mock = React.createClass({
+    var Mock = createReactClass({
         getInitialState: function() {
             return {
                 updated: false,
@@ -87,14 +88,14 @@ describe('DataMixins', function() {
             var UpdateMockChild, UpdateMockParent;
 
             beforeEach(function () {
-                UpdateMockChild = React.createClass({
+                UpdateMockChild = createReactClass({
                     mixins: [DataMixins.dataRequest],
                     render: function() {
                         return <div>Mock Child</div>;
                     },
                     requestData: function(){}
                 });
-                UpdateMockParent = React.createClass({
+                UpdateMockParent = createReactClass({
                     render: function() {
                         return <UpdateMockChild ref='mockChild' filters={{foo: 'bar'}} />;
                     }

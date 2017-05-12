@@ -1,24 +1,26 @@
+var createReactClass = require('create-react-class');
 var _ = require('lodash');
+var PropTypes = require('prop-types');
 var React = require('react');
 var RequestHandler = require('RequestHandler');
 var Utils = require('../utils/Utils');
 
-var Search = React.createClass({
+var Search = createReactClass({
     /**
      * Prop validation
      * @type {Object}
      */
     propTypes: {
-        url: React.PropTypes.string.isRequired,
-        isFullDataResponse: React.PropTypes.bool,
-        minLength: React.PropTypes.number,
-        additionalFilters: React.PropTypes.object,
-        searchFilterName: React.PropTypes.string,
-        placeholder: React.PropTypes.string,
-        onDataReceived: React.PropTypes.func,
-        onSelect: React.PropTypes.func,
-        onInputSubmit: React.PropTypes.func,
-        rowFormatter: React.PropTypes.func
+        url: PropTypes.string.isRequired,
+        isFullDataResponse: PropTypes.bool,
+        minLength: PropTypes.number,
+        additionalFilters: PropTypes.object,
+        searchFilterName: PropTypes.string,
+        placeholder: PropTypes.string,
+        onDataReceived: PropTypes.func,
+        onSelect: PropTypes.func,
+        onInputSubmit: PropTypes.func,
+        rowFormatter: PropTypes.func
     },
 
     /**

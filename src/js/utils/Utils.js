@@ -1,3 +1,4 @@
+var createReactClass = require('create-react-class');
 var _ = require('lodash');
 var moment = require('moment');
 var PageMessage = require('../utils/PageMessage');
@@ -136,7 +137,7 @@ var Utils = {
     extendReactClass: function(base, clobber, add) {
         add.mixins = [_.extend(_.cloneDeep(base), clobber)];
 
-        return React.createClass(add);
+        return createReactClass(add);
     },
 
     /**

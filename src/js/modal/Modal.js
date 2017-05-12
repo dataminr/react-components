@@ -1,3 +1,5 @@
+var createReactClass = require('create-react-class');
+var PropTypes = require('prop-types');
 var React = require('react');
 var ReactDOM = require('react-dom');
 var _ = require('lodash');
@@ -6,13 +8,13 @@ var iconClasses = {
     close: 'fa fa-close'
 };
 
-module.exports = React.createClass({
+module.exports = createReactClass({
     displayName: 'Modal',
 
     propTypes: {
-        autoFocusModal: React.PropTypes.bool,
-        closeModalCallback: React.PropTypes.func,
-        backgroundClickToClose: React.PropTypes.bool,
+        autoFocusModal: PropTypes.bool,
+        closeModalCallback: PropTypes.func,
+        backgroundClickToClose: PropTypes.bool,
         footerButtonCallback: function(props) {
             if(props.footerButtonCallback && (typeof props.footerButtonCallback !== 'function' || !props.footerButtonText)) {
                 return new Error('footerButtonCallback must be a function if included, and footerButtonText must be used with it.');
@@ -23,9 +25,9 @@ module.exports = React.createClass({
                 return new Error('footerButtonText must be a string if included, and footerButtonCallback must be used with it.');
             }
         },
-        iconClasses: React.PropTypes.object,
-        showCloseIcon: React.PropTypes.bool,
-        title: React.PropTypes.string
+        iconClasses: PropTypes.object,
+        showCloseIcon: PropTypes.bool,
+        title: PropTypes.string
     },
 
     getDefaultProps: function() {

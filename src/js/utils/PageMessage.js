@@ -1,15 +1,17 @@
+var createReactClass = require('create-react-class');
+var {CSSTransitionGroup} = require('react-transition-group');
+var PropTypes = require('prop-types');
 var PortalMixins = require('../mixins/PortalMixins');
 var React = require('react');
-var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 
-var PageMessage = React.createClass({
+var PageMessage = createReactClass({
     propTypes: {
-        message: React.PropTypes.string.isRequired,
-        type: React.PropTypes.string.isRequired,
-        duration: React.PropTypes.number,
-        icon: React.PropTypes.string,
-        closeIcon: React.PropTypes.string,
-        disableTransition: React.PropTypes.bool
+        message: PropTypes.string.isRequired,
+        type: PropTypes.string.isRequired,
+        duration: PropTypes.number,
+        icon: PropTypes.string,
+        closeIcon: PropTypes.string,
+        disableTransition: PropTypes.bool
     },
 
     getDefaultProps: function() {
@@ -42,11 +44,11 @@ var PageMessage = React.createClass({
     render: function() {
         var messageMarkup = this.getMessageMarkup();
         if (!this.props.disableTransition) {
-            // wrap message markup in ReactCSSTransitionGroup if transitioning is not disabled
+            // wrap message markup in CSSTransitionGroup if transitioning is not disabled
             messageMarkup = (
-                <ReactCSSTransitionGroup transitionName="message" transitionAppear transitionEnterTimeout={300} transitionLeaveTimeout={300} transitionAppearTimeout={300}>
+                <CSSTransitionGroup transitionName="message" transitionAppear transitionEnterTimeout={300} transitionLeaveTimeout={300} transitionAppearTimeout={300}>
                     {messageMarkup}
-                </ReactCSSTransitionGroup>
+                </CSSTransitionGroup>
             );
         }
         return (
@@ -85,7 +87,7 @@ var PageMessage = React.createClass({
         // If the close button was clicked, don't animate the message off of the screen. Simply remove it immediately.
         var animationAllowance = animate ? 1000 : 0;
 
-        // Triggers removal of the message for the ReactCSSTransitionGroup
+        // Triggers removal of the message for the CSSTransitionGroup
         this.setState({
             leaving: animate
         });

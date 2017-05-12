@@ -1,3 +1,4 @@
+var createReactClass = require('create-react-class');
 var Modal = require('../src/js/modal/Modal');
 var PieChart = require('../src/js/pie-chart/PieChart');
 var PortalMixins = require('../src/js/mixins/PortalMixins');
@@ -130,7 +131,7 @@ var searchSubmitCallback = function(event) {
     /* eslint-enable no-alert */
 };
 
-module.exports = React.createClass({
+module.exports = createReactClass({
     displayName: 'App',
 
     mixins: [PortalMixins],

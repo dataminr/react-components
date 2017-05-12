@@ -5,7 +5,7 @@ var React = require('react');
 var TableActions = require('../TableActions');
 var TableStore = require('../TableStore');
 var Utils = require('../../utils/Utils');
-var TestUtils = require('react-addons-test-utils');
+var TestUtils = require('react-dom/test-utils');
 
 describe('Table', function() {
     var table, props, id;

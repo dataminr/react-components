@@ -3,7 +3,7 @@ define(function(require) {
     var React = require('react');
     var Utils = require('../Utils');
 
-    var TestUtils = require('react-addons-test-utils');
+    var TestUtils = require('react-dom/test-utils');
 
     describe('Utils', function() {
         describe('guid', function() {
@@ -135,7 +135,6 @@ define(function(require) {
             var reactClass;
 
             beforeEach(function() {
-                spyOn(React, 'createClass').and.callThrough();
                 reactClass = TestUtils.renderIntoDocument(React.createElement(Utils.extendReactClass(base, clobber, add)));
             });
 
@@ -150,10 +149,6 @@ define(function(require) {
 
             it('should add new functionality.', function() {
                 expect(reactClass.addMe()).toEqual('added');
-            });
-
-            it('should create a React class.', function() {
-                expect(React.createClass).toHaveBeenCalled();
             });
         });
 

@@ -1,3 +1,5 @@
+var createReactClass = require('create-react-class');
+var PropTypes = require('prop-types');
 var React = require('react');
 var d3Select = require('d3-selection');
 var d3Shape = require('d3-shape');
@@ -29,15 +31,15 @@ var defaultColors = [
 /**
  * PieChart React Class
  */
-var PieChart = React.createClass({
+var PieChart = createReactClass({
     propTypes: {
-        componentId: React.PropTypes.string.isRequired,
-        colors: React.PropTypes.array,
-        definition: React.PropTypes.object.isRequired,
-        filters: React.PropTypes.object,
-        loadingIconClasses: React.PropTypes.oneOfType([
-            React.PropTypes.string,
-            React.PropTypes.array
+        componentId: PropTypes.string.isRequired,
+        colors: PropTypes.array,
+        definition: PropTypes.object.isRequired,
+        filters: PropTypes.object,
+        loadingIconClasses: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.array
         ])
     },
 

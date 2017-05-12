@@ -2,7 +2,7 @@ var PieChart = require('../PieChart');
 var React = require('react');
 var PieChartStore = require('../PieChartStore');
 var Utils = require('../../utils/Utils');
-var TestUtils = require('react-addons-test-utils');
+var TestUtils = require('react-dom/test-utils');
 
 describe('PieChart', function() {
     var pieChart, props, id;

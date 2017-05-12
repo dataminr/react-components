@@ -1,5 +1,7 @@
+var createReactClass = require('create-react-class');
 var React = require('react');
 var _ = require('lodash');
+var PropTypes = require('prop-types');
 var DataMixins = require('../mixins/DataMixins');
 var TableActions = require('../table/TableActions');
 var TableStore = require('../table/TableStore');
@@ -23,23 +25,22 @@ var iconClasses = {
     statusOff: 'fa fa-circle-o'
 };
 
-
-module.exports = React.createClass({
+module.exports = createReactClass({
     displayName: 'Table',
 
     propTypes: {
-        componentId: React.PropTypes.string.isRequired,
-        dataFormatter: React.PropTypes.func,
-        definition: React.PropTypes.object.isRequired,
-        filters: React.PropTypes.object,
-        iconClasses: React.PropTypes.object,
-        loadingIconClasses: React.PropTypes.oneOfType([
-            React.PropTypes.string,
-            React.PropTypes.array
+        componentId: PropTypes.string.isRequired,
+        dataFormatter: PropTypes.func,
+        definition: PropTypes.object.isRequired,
+        filters: PropTypes.object,
+        iconClasses: PropTypes.object,
+        loadingIconClasses: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.array
         ]),
-        noResultsText: React.PropTypes.string,
-        quickFilterPlaceholder: React.PropTypes.string,
-        selectedRowPredicate: React.PropTypes.object
+        noResultsText: PropTypes.string,
+        quickFilterPlaceholder: PropTypes.string,
+        selectedRowPredicate: PropTypes.object
     },
 
     getDefaultProps: function() {
