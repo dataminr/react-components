@@ -6,6 +6,8 @@ var RequestHandler = require('RequestHandler');
 var Utils = require('../utils/Utils');
 
 var Search = createReactClass({
+    displayName: 'Search',
+
     /**
      * Prop validation
      * @type {Object}
