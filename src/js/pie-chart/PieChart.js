@@ -32,6 +32,8 @@ var defaultColors = [
  * PieChart React Class
  */
 var PieChart = createReactClass({
+    displayName: 'PieChart',
+
     propTypes: {
         componentId: PropTypes.string.isRequired,
         colors: PropTypes.array,
