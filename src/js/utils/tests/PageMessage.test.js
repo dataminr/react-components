@@ -63,8 +63,8 @@ describe('PageMessage', function() {
             var markup = pageMessage.render();
             expect(markup.type).toEqual('div');
             expect(markup.props.className).toEqual('page-message');
-            expect(markup.props.children.props.transitionName).toEqual('message');
-            expect(markup.props.children.props.transitionAppear).toBeTrue();
+            expect(markup.props.children.props.children.props.classNames).toEqual('message');
+            expect(markup.props.children.props.children.props.appear).toBeTrue();
         });
 
         it('should ignore transition if props are set appropriately', function() {
@@ -72,8 +72,8 @@ describe('PageMessage', function() {
             var markup = pageMessage.render();
             expect(markup.type).toEqual('div');
             expect(markup.props.className).toEqual('page-message');
-            expect(markup.props.children.props.transitionName).toBeUndefined();
-            expect(markup.props.children.props.className).toEqual('message message');
+            expect(markup.props.children.props.children.props.classNames).toBeUndefined();
+            expect(markup.props.children.props.children.props.className).toEqual('message message');
         });
     });
 
@@ -81,7 +81,7 @@ describe('PageMessage', function() {
         it('should return the message if it is in a leaving state', function() {
             expect(ExpandedTestUtils.findComponentCountWithSelector(pageMessage, '.message', 1)).toBeTrue();
             pageMessage.state.leaving = true;
-            expect(pageMessage.getMessageMarkup()).toBeNull();
+            expect(pageMessage.getMessageMarkup().type).toEqual('div');
         });
 
         it('should not display a close icon if one was not set', function() {
