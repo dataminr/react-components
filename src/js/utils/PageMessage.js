@@ -1,8 +1,8 @@
 var createReactClass = require('create-react-class');
-var {CSSTransitionGroup} = require('react-transition-group');
 var PropTypes = require('prop-types');
 var PortalMixins = require('../mixins/PortalMixins');
 var React = require('react');
+var {TransitionGroup, CSSTransition} = require('react-transition-group');
 
 var PageMessage = createReactClass({
     propTypes: {
@@ -44,28 +44,30 @@ var PageMessage = createReactClass({
     render: function() {
         var messageMarkup = this.getMessageMarkup();
         if (!this.props.disableTransition) {
-            // wrap message markup in CSSTransitionGroup if transitioning is not disabled
+            // wrap message markup in TransitionGroup if transitioning is not disabled
             messageMarkup = (
-                <CSSTransitionGroup transitionName="message" transitionAppear transitionEnterTimeout={300} transitionLeaveTimeout={300} transitionAppearTimeout={300}>
+                <CSSTransition classNames="message" timeout={{enter: 300, exit: 300}} appear>
                     {messageMarkup}
-                </CSSTransitionGroup>
+                </CSSTransition>
             );
         }
         return (
             <div className="page-message">
-                {messageMarkup}
+                <TransitionGroup>
+                    {messageMarkup}
+                </TransitionGroup>
             </div>
         );
     },
 
     /**
      * Builds the markup for the message that is to be displayed.
-     * @returns {ReactElement|Null} - The element containing the message.
+     * @return {ReactElement} The element containing the message
      */
     getMessageMarkup: function() {
         // When null is returned, the message will remain in the DOM until the animation has completed if an animation was requested.
         if (this.state.leaving) {
-            return null;
+            return <div/>;
         }
 
         var closeIcon = this.props.closeIcon ? <i className={this.props.closeIcon + ' close'} onClick={this.dismiss.bind(this, false)} /> : null;
@@ -87,7 +89,7 @@ var PageMessage = createReactClass({
         // If the close button was clicked, don't animate the message off of the screen. Simply remove it immediately.
         var animationAllowance = animate ? 1000 : 0;
 
-        // Triggers removal of the message for the CSSTransitionGroup
+        // Triggers removal of the message for the TransitionGroup
         this.setState({
             leaving: animate
         });
