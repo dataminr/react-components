@@ -79,8 +79,8 @@ var ConfirmDialog = createReactClass({
                     {this.props.message}
                 </div>
                 <div className="confirm-buttons">
-                    <button className="button" onClick={this.handleOkClick}>{this.getButtonText(this.props.okIconClasses, this.props.okButtonText)}</button>
                     <button className="button" onClick={this.handleCancelClick}>{this.getButtonText(this.props.cancelIconClasses, this.props.cancelButtonText)}</button>
+                    <button className="button" onClick={this.handleOkClick}>{this.getButtonText(this.props.okIconClasses, this.props.okButtonText)}</button>
                 </div>
             </div>
         );

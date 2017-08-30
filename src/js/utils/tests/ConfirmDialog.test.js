@@ -57,14 +57,14 @@ describe('ConfirmDialog', function() {
 
             var buttons = TestUtils.scryRenderedDOMComponentsWithTag(confirmDialog, 'button');
 
-            TestUtils.Simulate.click(buttons[0]);
+            TestUtils.Simulate.click(buttons[1]);
 
             expect(okButtonSpy).toHaveBeenCalled();
             expect(confirmDialog.closePortal).toHaveBeenCalled();
 
             confirmDialog.closePortal.calls.reset();
 
-            TestUtils.Simulate.click(buttons[1]);
+            TestUtils.Simulate.click(buttons[0]);
 
             expect(cancelButtonSpy).toHaveBeenCalled();
             expect(confirmDialog.closePortal).toHaveBeenCalled();
