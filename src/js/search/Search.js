@@ -91,23 +91,31 @@ var Search = createReactClass({
     },
 
     /**
-     * When the list goes from not shown to shown, add a mouseup listener to close the list if a user
+     * When the list goes from not shown to shown, add a click listener to close the list if a user
      * clicks of the list. If the list is going from shown to hidden, remove the listener.
      * @param  {Object} prevProps Props before update
      * @param  {Object} prevState State before update
      */
     componentDidUpdate: function(prevProps, prevState){
-        if(!prevState.shownList.length && this.state.shownList.length){
-            this.eventListener = document.addEventListener('click', _.bind(function(e){
+        if(!prevState.shownList.length && this.state.shownList.length && !this.eventListener){
+            this.eventListener = _.bind(function(e){
                 var container = this.refs.searchContainer;
-                if(e.target !== container && !container.contains(e.target)){
+                if(e.target !== container && !_.includes(container, e.target)){
                     this.hideList();
                 }
-            }, this));
+            }, this);
+            document.addEventListener('click', this.eventListener);
         }
         if(prevState.shownList.length && !this.state.shownList.length){
-            document.removeEventListener('mouseup', this.eventListener);
+            document.removeEventListener('click', this.eventListener);
         }
+    },
+
+    /**
+     * Removes event listener when component unmounts
+     */
+    componentWillUnmount() {
+        document.removeEventListener('click', this.eventListener);
     },
 
     /**

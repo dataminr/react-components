@@ -38,6 +38,14 @@ describe('Search', function() {
         });
     });
 
+    describe('componentWillUnmount function', function(){
+        it('removes event listener', function(){
+            spyOn(document, 'removeEventListener')
+            search.componentWillUnmount();
+            expect(document.removeEventListener).toHaveBeenCalled();
+        });
+    });
+
     describe('requestFullData function', function(){
         it('pass props to request handler', function(){
             search.requestFullData();
