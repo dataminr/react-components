@@ -115,7 +115,9 @@ var Search = createReactClass({
      * Removes event listener when component unmounts
      */
     componentWillUnmount() {
-        document.removeEventListener('click', this.eventListener);
+        if(this.eventListener) {
+            document.removeEventListener('click', this.eventListener);
+        }
     },
 
     /**
