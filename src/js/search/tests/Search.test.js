@@ -38,6 +38,22 @@ describe('Search', function() {
         });
     });
 
+    describe('componentWillUnmount function', function(){
+        it('removes event listener', function(){
+            spyOn(document, 'removeEventListener')
+            search.eventListener = function() {return 'function';};
+            search.componentWillUnmount();
+            expect(document.removeEventListener).toHaveBeenCalled();
+        });
+
+        it('does nothing if no event listener', function(){
+            spyOn(document, 'removeEventListener')
+            search.eventListener = undefined;
+            search.componentWillUnmount();
+            expect(document.removeEventListener).not.toHaveBeenCalled();
+        });
+    });
+
     describe('requestFullData function', function(){
         it('pass props to request handler', function(){
             search.requestFullData();
