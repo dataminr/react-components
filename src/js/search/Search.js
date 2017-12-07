@@ -106,7 +106,7 @@ var Search = createReactClass({
             }, this);
             document.addEventListener('click', this.eventListener);
         }
-        if(prevState.shownList.length && !this.state.shownList.length){
+        if(this.eventListener && prevState.shownList.length && !this.state.shownList.length){
             document.removeEventListener('click', this.eventListener);
         }
     },
