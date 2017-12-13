@@ -84,6 +84,14 @@ module.exports = createReactClass({
     },
 
     /**
+     * When the table component is receiving props, format the latest data
+     */
+    componentWillReceiveProps() {
+        var table = TableStore.getInstance(this.props.componentId);
+        table.onDataReceived(table.getData());
+    },
+
+    /**
      * Handle store change event.
      */
     onDataReceived: function() {

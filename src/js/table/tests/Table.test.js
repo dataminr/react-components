@@ -199,6 +199,16 @@ describe('Table', function() {
         });
     });
 
+    describe('componentWillReceiveProps', function() {
+        it('should call table onDataReceived', function() {
+            var tableInstance = TableStore.getInstance(id);
+            spyOn(tableInstance, 'onDataReceived').and.callFake(function() {return;});
+            spyOn(tableInstance, 'getData').and.callFake(function() {return;});
+            table.componentWillReceiveProps();
+            expect(tableInstance.onDataReceived.calls.count()).toEqual(1);
+        });
+    });
+
     describe('componentWillUnmount function', function() {
         it('should remove listeners', function() {
             spyOn(TableStore, 'removeListener');
