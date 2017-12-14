@@ -199,6 +199,26 @@ describe('Table', function() {
         });
     });
 
+    describe('componentWillReceiveProps', function() {
+        it('should call table onDataReceived', function() {
+            var tableInstance = TableStore.getInstance(id);
+            spyOn(tableInstance, 'getDataCount').and.returnValue({data: 'data'});
+            spyOn(tableInstance, 'onDataReceived').and.callFake(function() {return;});
+            spyOn(tableInstance, 'getData').and.callFake(function() {return;});
+            table.componentWillReceiveProps();
+            expect(tableInstance.onDataReceived.calls.count()).toEqual(1);
+        });
+
+        it('should not call table onDataReceived if there is no data', function() {
+            var tableInstance = TableStore.getInstance(id);
+            spyOn(tableInstance, 'getDataCount').and.returnValue(null);
+            spyOn(tableInstance, 'onDataReceived');
+            spyOn(tableInstance, 'getData');
+            table.componentWillReceiveProps();
+            expect(tableInstance.onDataReceived.calls.count()).toEqual(0);
+        });
+    });
+
     describe('componentWillUnmount function', function() {
         it('should remove listeners', function() {
             spyOn(TableStore, 'removeListener');
