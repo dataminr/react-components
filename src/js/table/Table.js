@@ -89,7 +89,7 @@ module.exports = createReactClass({
     componentWillReceiveProps() {
         var table = TableStore.getInstance(this.props.componentId);
         if(table.getDataCount()) {
-            table.onDataReceived(table.getData());
+            table.onDataReceived(table.data);
         }
     },
 

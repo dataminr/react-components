@@ -204,7 +204,6 @@ describe('Table', function() {
             var tableInstance = TableStore.getInstance(id);
             spyOn(tableInstance, 'getDataCount').and.returnValue({data: 'data'});
             spyOn(tableInstance, 'onDataReceived').and.callFake(function() {return;});
-            spyOn(tableInstance, 'getData').and.callFake(function() {return;});
             table.componentWillReceiveProps();
             expect(tableInstance.onDataReceived.calls.count()).toEqual(1);
         });
