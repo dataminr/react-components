@@ -44,12 +44,29 @@ module.exports = createReactClass({
         return {};
     },
 
+    /**
+     * Draws focus to the content rendered within the modal once the component mounts.
+     */
     componentDidMount: function() {
         if(this.props.autoFocusModal) {
             this.refs.content.focus();
         }
     },
 
+    /**
+     * We only want the component to rerender if the content to be rendered has changed. This will prevent a non-render
+     * related prop change from swapping out input fields which causes a loss of focus while typing.
+     * @param {object}   nextProps The next set of properties to be received by the component
+     * @return {boolean}           Whether the component should update or not
+     */
+    shouldComponentUpdate(nextProps) {
+        return nextProps.children !== this.props.children;
+    },
+
+    /**
+     * Draws focus to the content rendered within the modal when the content changes. This generally happens with
+     * modals that are reused for multi-step modal functionality.
+     */
     componentDidUpdate: function() {
         if(this.props.autoFocusModal) {
             this.refs.content.focus();
