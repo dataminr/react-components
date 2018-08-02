@@ -44,7 +44,7 @@ describe('PieChartStore', function() {
             it('should remove an item from the collection.', function() {
                 PieChartStore.collection[id] = {test: 'object'};
                 PieChartStore.destroyInstance(id);
-                expect(_.isEmpty(PieChartStore.collection)).toBeTruthy();
+                expect(PieChartStore.collection[id]).toBeUndefined();
             });
         });
 
