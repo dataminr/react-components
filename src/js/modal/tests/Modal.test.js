@@ -5,13 +5,14 @@ var ReactDOM = require('react-dom');
 var TestUtils = require('react-dom/test-utils');
 
 describe('Modal', function() {
-    var node, modal, props;
+    var node, modal, props, child;
 
     beforeEach(function() {
         props = {
             title: 'Modal Title',
             closeModalCallback: jasmine.createSpy('closeModalCallback')
         };
+        child = 'child';
         node = document.createElement('div');
         document.body.appendChild(node);
 
@@ -33,7 +34,7 @@ describe('Modal', function() {
                 closeModalCallback: function() {},
                 iconClasses: {close: 'test-class'}
             };
-            modal = TestUtils.renderIntoDocument(<Modal {...props}>Child</Modal>);
+            modal = TestUtils.renderIntoDocument(<Modal {...props}>{child}</Modal>);
 
             expect(modal.iconClasses).toEqual({close: 'test-class'});
         });
@@ -63,6 +64,16 @@ describe('Modal', function() {
             spyOn(contentElement, 'focus');
             modal.componentDidUpdate();
             expect(contentElement.focus).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('shouldComponentUpdate', function() {
+        it('should return true if the children on props has changed', function() {
+            expect(modal.shouldComponentUpdate({children: 'new child'})).toBeTruthy();
+        });
+
+        it('should return false if the children on the props has not changed', function() {
+            expect(modal.shouldComponentUpdate(modal.props)).toBeFalsy();
         });
     });
 
