@@ -132,7 +132,7 @@ var Search = createReactClass({
 
     /**
      * Makes a request on load to request full data set of this.props.isFullDataResponse is set. Once done, invokes
-     * onDataRecieved method with results.
+     * onDataReceived method with results.
      */
     requestFullData: function(){
         RequestHandler.request(this.props.url, this.props.additionalFilters, this.onDataReceived, this.onError, this);
@@ -145,19 +145,23 @@ var Search = createReactClass({
      */
     requestDataForTerm: function(searchTerm){
         var cachedData = this.cache[this.getSearchTermCacheKey(searchTerm)];
+
         if(cachedData){
             this.updateStateForNewData(cachedData);
             return;
         }
-        var searchFilter = this.props.additionalFilters || {};
-        searchFilter[this.props.searchFilterName] = searchTerm;
+        var searchFilter = this.getSearchFilter(searchTerm);
 
         //Cancel any existing requests
         if(this.outstandingRequest && this.outstandingRequest.abort){
             this.outstandingRequest.abort();
         }
 
-        this.outstandingRequest = RequestHandler.request(this.props.url, searchFilter, this.onDataReceived, this.onError, this);
+        var onSuccess = function(data) {
+            return this.onDataReceived(data, searchTerm);
+        };
+
+        this.outstandingRequest = RequestHandler.request(this.props.url, searchFilter, onSuccess, this.onError, this);
     },
 
     /**
@@ -172,22 +176,25 @@ var Search = createReactClass({
 
     /**
      * Handle store change event.
-     * @param {Object} data - The data received from the server.
+     * @param {Object} data       The data received from the server.
+     * @param {String} searchTerm The search term. Defaults to state.inputValue
      */
-    onDataReceived: function(data) {
+    onDataReceived: function(data, searchTerm) {
         if(!data){
             this.onError();
             return;
         }
+
+        searchTerm = searchTerm || this.state.inputValue;
         if(this.props.onDataReceived){
-            data = this.props.onDataReceived(data, this.state.inputValue);
+            data = this.props.onDataReceived(data, searchTerm);
             this.setState({shownList: data});
         }
 
         if(!this.props.isFullDataResponse && data.length){
             data = data.sort(this.sortMatchingEntries);
         }
-        this.cache[this.getSearchTermCacheKey(this.state.inputValue)] = data;
+        this.cache[this.getSearchTermCacheKey(searchTerm)] = data;
         this.updateStateForNewData(data);
     },
 
@@ -286,13 +293,25 @@ var Search = createReactClass({
     /* eslint-enable complexity */
 
     /**
-     * Returns a modified cache key for the search term. Trims leading and trailing
+     * Returns an object containing the searchFilterName plus any additional filters
+     * @param  {String} searchTerm The term to search
+     * @return {Object}            A search filter object
+     */
+    getSearchFilter: function(searchTerm) {
+        var searchFilter = this.props.additionalFilters || {};
+        searchFilter[this.props.searchFilterName] = searchTerm;
+
+        return searchFilter;
+    },
+
+    /**
+     * Returns a modified cache key for the search term, and additionalFilters. Trims leading and trailing
      * whitespace, replaces multiple spaces with a single, and lowercases the value.
      * @param  {String} searchTerm User entered search term
      * @return {String}            Cache key modified search term
      */
     getSearchTermCacheKey: function(searchTerm){
-        return _.trim(searchTerm.toLowerCase().replace(/\s{2,}/g, ' '));
+        return JSON.stringify(this.getSearchFilter(_.trim(searchTerm))).toLowerCase().replace(/\s{2,}/g, ' ');
     },
 
     /**
