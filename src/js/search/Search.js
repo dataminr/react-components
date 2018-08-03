@@ -150,7 +150,6 @@ var Search = createReactClass({
             this.updateStateForNewData(cachedData);
             return;
         }
-        var searchFilter = this.getSearchFilter(searchTerm);
 
         //Cancel any existing requests
         if(this.outstandingRequest && this.outstandingRequest.abort){
@@ -161,7 +160,7 @@ var Search = createReactClass({
             return this.onDataReceived(data, searchTerm);
         };
 
-        this.outstandingRequest = RequestHandler.request(this.props.url, searchFilter, onSuccess, this.onError, this);
+        this.outstandingRequest = RequestHandler.request(this.props.url, this.getSearchFilters(searchTerm), onSuccess, this.onError, this);
     },
 
     /**
@@ -297,11 +296,11 @@ var Search = createReactClass({
      * @param  {String} searchTerm The term to search
      * @return {Object}            A search filter object
      */
-    getSearchFilter: function(searchTerm) {
-        var searchFilter = this.props.additionalFilters || {};
-        searchFilter[this.props.searchFilterName] = searchTerm;
+    getSearchFilters: function(searchTerm) {
+        var filters = this.props.additionalFilters || {};
+        filters[this.props.searchFilterName] = searchTerm;
 
-        return searchFilter;
+        return filters;
     },
 
     /**
@@ -311,7 +310,7 @@ var Search = createReactClass({
      * @return {String}            Cache key modified search term
      */
     getSearchTermCacheKey: function(searchTerm){
-        return JSON.stringify(this.getSearchFilter(_.trim(searchTerm))).toLowerCase().replace(/\s{2,}/g, ' ');
+        return JSON.stringify(this.getSearchFilters(_.trim(searchTerm))).toLowerCase().replace(/\s{2,}/g, ' ');
     },
 
     /**

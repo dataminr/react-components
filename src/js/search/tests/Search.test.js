@@ -61,16 +61,16 @@ describe('Search', function() {
         });
     });
 
-    describe('getSearchFilter function', function(){
+    describe('getSearchFilters function', function(){
         it('returns an object having search term', function(){
-            var searchFilter = search.getSearchFilter('monkey');
+            var searchFilter = search.getSearchFilters('monkey');
             expect(searchFilter).toEqual({myTerm: 'monkey'});
         });
 
         it('returns an object having search term and additional filters', function(){
             props.additionalFilters = {showDisabled: false};
             search = TestUtils.renderIntoDocument(<Search {...props}/>);
-            var searchFilter = search.getSearchFilter('monkey');
+            var searchFilter = search.getSearchFilters('monkey');
             expect(searchFilter).toEqual({myTerm: 'monkey', showDisabled: false});
         });
     });
