@@ -61,9 +61,31 @@ describe('Search', function() {
         });
     });
 
+    describe('getSearchFilters function', function(){
+        it('returns an object having search term', function(){
+            var searchFilter = search.getSearchFilters('monkey');
+            expect(searchFilter).toEqual({myTerm: 'monkey'});
+        });
+
+        it('returns an object having search term and additional filters', function(){
+            props.additionalFilters = {showDisabled: false};
+            search = TestUtils.renderIntoDocument(<Search {...props}/>);
+            var searchFilter = search.getSearchFilters('monkey');
+            expect(searchFilter).toEqual({myTerm: 'monkey', showDisabled: false});
+        });
+    });
+
+    describe('getSearchTermCacheKey function', function(){
+        it('returns expected cache keys using searchFilter', function(){
+            expect(search.getSearchTermCacheKey('monkey')).toEqual('{"myterm":"monkey"}');
+            expect(search.getSearchTermCacheKey(' bad  monkey ')).toEqual('{"myterm":"bad monkey"}');
+            expect(search.getSearchTermCacheKey('bad  "monkey"')).toEqual('{"myterm":"bad \\"monkey\\""}');
+        });
+    });
+
     describe('requestDataForTerm function', function(){
         it('checks cache and returns if present', function(){
-            search.cache.foo = {bar: 'baz'};
+            search.cache['{"myterm":"foo"}'] = {bar: 'baz'};
             spyOn(search, 'updateStateForNewData');
 
             search.requestDataForTerm('foo');
@@ -122,7 +144,7 @@ describe('Search', function() {
             expect(search.setState.calls.count()).toEqual(0);
         });
 
-        it('calls custom on data recieved handler', function(){
+        it('calls custom on data received handler', function(){
             props.onDataReceived = jasmine.createSpy().and.returnValue([{foo: 'bar'}]);
             search = TestUtils.renderIntoDocument(<Search {...props}/>);
             search.setState({
@@ -133,7 +155,7 @@ describe('Search', function() {
             search.onDataReceived([{foo: 'bar'}]);
 
             expect(props.onDataReceived).toHaveBeenCalledWith([{foo: 'bar'}], 'custom');
-            expect(search.cache.custom).toEqual([{foo: 'bar'}]);
+            expect(search.cache['{"myterm":"custom"}']).toEqual([{foo: 'bar'}]);
             expect(search.setState).toHaveBeenCalledWith({shownList: [{foo: 'bar'}]});
             expect(search.updateStateForNewData).toHaveBeenCalledWith([{foo: 'bar'}]);
         });
@@ -147,6 +169,14 @@ describe('Search', function() {
 
             search.onDataReceived(data);
             expect(search.state.itemList).toEqual([{name: 'a', id: 2, matchIndex: 3}, {name: 'b', id: 1, matchIndex: 3}]);
+        });
+
+        it('sets cache using searchTerm', function(){
+            props.onDataReceived = null;
+            search = TestUtils.renderIntoDocument(<Search {...props}/>);
+            var data = [{one: 1, two: 2}];
+            search.onDataReceived(data, 'llama');
+            expect(search.cache['{"myterm":"llama"}']).toEqual(data);
         });
     });
 
