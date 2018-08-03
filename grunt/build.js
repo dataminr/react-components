@@ -9,8 +9,8 @@ module.exports.tasks = {
                 'rm -rf dist',
                 'mkdir dist',
                 'chmod 777 dist',
-                'node_modules/babel-cli/bin/babel.js --presets="react,es2015" src/js --out-dir dist',
                 'grunt compass',
+                'node_modules/babel-cli/bin/babel.js --presets="react,es2015" src/js --out-dir dist',
                 //Clear out all unit tests
                 "find dist -type d -name tests -prune -exec rm -rf {} \\;",
             ].join('&&'),
@@ -35,4 +35,3 @@ module.exports.tasks = {
         },
     },
 };
-
