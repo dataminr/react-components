@@ -157,9 +157,7 @@ var Search = createReactClass({
             this.outstandingRequest = RequestHandler.request(
                 this.props.url,
                 this.getSearchFilters(searchTerm),
-                function(data) {
-                    return this.onDataReceived(data, searchTerm);
-                },
+                function(data) {return this.onDataReceived(data, searchTerm);},
                 this.onError,
                 this
             );
