@@ -144,23 +144,24 @@ var Search = createReactClass({
      * @param {String} searchTerm Term searched on
      */
     requestDataForTerm: function(searchTerm){
-        var cachedData = this.cache[this.getSearchTermCacheKey(searchTerm)];
-
-        if(cachedData){
-            this.updateStateForNewData(cachedData);
-            return;
-        }
-
         //Cancel any existing requests
         if(this.outstandingRequest && this.outstandingRequest.abort){
             this.outstandingRequest.abort();
         }
 
-        var onSuccess = function(data) {
-            return this.onDataReceived(data, searchTerm);
-        };
-
-        this.outstandingRequest = RequestHandler.request(this.props.url, this.getSearchFilters(searchTerm), onSuccess, this.onError, this);
+        var cachedData = this.cache[this.getSearchTermCacheKey(searchTerm)];
+        if(cachedData){
+            this.updateStateForNewData(cachedData);
+        }
+        else {
+            this.outstandingRequest = RequestHandler.request(
+                this.props.url,
+                this.getSearchFilters(searchTerm),
+                function(data) {return this.onDataReceived(data, searchTerm);},
+                this.onError,
+                this
+            );
+        }
     },
 
     /**
