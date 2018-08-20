@@ -42,7 +42,7 @@ Table.prototype = {
      * @param {Object} data - The data retrieved from the server for the Table instance.
      */
     onDataReceived: function(data) {
-        this.data = _.values(data);
+        this.data = _.values(_.cloneDeep(data));
 
         // Run data through definition formatter if it exists.
         if (this.dataFormatter) {
