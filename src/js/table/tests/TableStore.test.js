@@ -525,7 +525,7 @@ describe('TableStore', function() {
             });
 
             it('should filter data for each column that has quickFilter set to true and set the dataCount', function() {
-                expect(table.quickFilterData(definition.data, 14).length).toEqual(2);
+                expect(table.quickFilterData(definition.data, 14).length).toEqual(5);
             });
 
             // Reset definition
