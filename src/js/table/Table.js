@@ -257,6 +257,7 @@ module.exports = createReactClass({
         var rowClasses = Utils.classSet('text-select', {
             'hover-enabled': this.state.rowClick,
             'error-row': rowData.isError,
+            [rowData.className]: rowData.className,
             'row-selected': this.props.selectedRowPredicate ? _.findIndex([rowData], this.props.selectedRowPredicate) === 0 : false
         });
 
