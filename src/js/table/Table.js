@@ -267,7 +267,21 @@ module.exports = createReactClass({
 
         var row = _.map(this.state.colDefinitions, function(val, colIndex) {
             var hoverProperty = val.hoverProperty ? (typeof val.hoverProperty === 'function' ? val.hoverProperty(rowData) : rowData[val.hoverProperty]) : null;
-            return this.getTableData(rowData[val.dataProperty], val, hoverProperty, colIndex, rowData.online);
+            var dataType = val.dataType;
+            var dataProperty = val.dataProperty;
+
+            // For specific data types (time, status, percent, duration), the formatted value is contained in a different field.
+            if (dataType === 'time' || dataType === 'status') {
+                dataProperty = dataProperty + 'Timestamp';
+            }
+            else if (dataType === 'percent') {
+                dataProperty = dataProperty + 'Percent';
+            }
+            else if (dataType === 'duration') {
+                dataProperty = dataProperty + 'Duration';
+            }
+
+            return this.getTableData(rowData[dataProperty], val, hoverProperty, colIndex, rowData.online);
         }.bind(this));
 
         if (this.state.rowClick) {

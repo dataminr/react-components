@@ -56,9 +56,8 @@ Table.prototype = {
             if (item[col.dataProperty] === null || typeof item[col.dataProperty] === 'undefined') {
                 item[col.dataProperty] = 0;
             }
-            // Need to keep track of the original value for column sorting to work properly.
-            item[`${col.dataProperty}Percent`] = item[col.dataProperty];
-            item[col.dataProperty] += '%';
+            // Provide formatted value in different field.
+            item[`${col.dataProperty}Percent`] = item[col.dataProperty] + '%';
         };
 
         var formatTimeStatus = (col, item) => {
@@ -66,9 +65,9 @@ Table.prototype = {
                 item.online = moment(item[col.dataProperty]).valueOf() > moment(Date.now()).subtract(col.onlineLimit, 'minutes').valueOf();
             }
 
-            // Need to keep track of the original timestamp for column sorting to work properly.
-            item[`${col.dataProperty}Timestamp`] = item[col.dataProperty] || null;
-            item[col.dataProperty] = item[col.dataProperty] && typeof item[col.dataProperty] !== 'string'
+            item[col.dataProperty] = item[col.dataProperty] || null;
+            // Provide formatted value in different field.
+            item[`${col.dataProperty}Timestamp`] = item[col.dataProperty] && typeof item[col.dataProperty] !== 'string'
                 ? (typeof col.timeFormat === 'function' ? col.timeFormat(item[col.dataProperty]) : moment(item[col.dataProperty]).format(col.timeFormat))
                 : '--';
         };
@@ -102,9 +101,8 @@ Table.prototype = {
                 }, '').trim();
             };
 
-            // Need to keep track of the original duration for column sorting to work properly.
-            item[`${col.dataProperty}Duration`] = item[col.dataProperty];
-            item[col.dataProperty] = formattedDuration(moment.duration(item[col.dataProperty]), col.durationFormat || 'minutes');
+            // Provide formatted value in different field.
+            item[`${col.dataProperty}Duration`] = formattedDuration(moment.duration(item[col.dataProperty]), col.durationFormat || 'minutes');
         };
 
         // Run data through built in data formatters.
@@ -364,20 +362,7 @@ Table.prototype = {
 
         var defaultDirection = this.cols[colIndex].defaultSortDirection;
         var dataType = this.cols[this.sortColIndex].dataType;
-        var key;
-
-        if (dataType === 'time' || dataType === 'status') {
-            key = this.cols[this.sortColIndex].dataProperty + 'Timestamp';
-        }
-        else if (dataType === 'percent') {
-            key = this.cols[this.sortColIndex].dataProperty + 'Percent';
-        }
-        else if (dataType === 'duration') {
-            key = this.cols[this.sortColIndex].dataProperty + 'Duration';
-        }
-        else {
-            key = this.cols[this.sortColIndex].dataProperty;
-        }
+        var key = this.cols[this.sortColIndex].dataProperty;
 
         if (this.pagination) {
             this.resetPagination();
