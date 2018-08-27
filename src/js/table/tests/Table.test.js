@@ -609,10 +609,10 @@ describe('Table', function() {
             spyOnTableGetCalls(tableData, tableData.length, definition.cols, definition.sortColIndex, undefined, definition.pagination);
             table.onDataReceived();
 
-            var tableRowComponent = table.getTableRowItem({string: 'abc', integer: 5, time: 1417455952}, 0);
+            var tableRowComponent = table.getTableRowItem({string: 'abc', integer: 5, time: 1417455952, timeTimestamp: 2417455952}, 0);
             expect(tableRowComponent.props.children[0].props.children[0].props.children).toEqual('abc');
             expect(tableRowComponent.props.children[0].props.children[0].props.title).toEqual(5);
-            expect(tableRowComponent.props.children[3].props.children[0].props.children).toEqual(1417455952);
+            expect(tableRowComponent.props.children[3].props.children[0].props.children).toEqual(2417455952);
             expect(tableRowComponent.props.children[3].props.children[0].props.title).toEqual('Jan 17th 1970 2:44 AM');
         });
     });

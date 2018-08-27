@@ -145,7 +145,7 @@ describe('TableStore', function() {
                 it('should correctly format a percent dataType', function() {
                     table.onDataReceived(definition.data);
 
-                    expect(table.data[0].percent).toEqual('43%');
+                    expect(table.data[0].percentPercent).toEqual('43%');
                 });
             });
 
@@ -153,23 +153,23 @@ describe('TableStore', function() {
                 it('should format the time and keep track of the original timestamp', function() {
                     table.onDataReceived(definition.data);
 
-                    expect(table.data[0].time).toBeNonEmptyString();
-                    expect(table.data[0].timeTimestamp).toEqual(1416591981);
+                    expect(table.data[0].time).toEqual(1416591981);
+                    expect(table.data[0].timeTimestamp).toBeNonEmptyString();
 
-                    expect(table.data[0].time).toEqual('Jan 17th, 2 AM');
-                    expect(table.data[0].status).toEqual('2:29 AM');
-                    expect(table.data[1].time).toEqual('Jan 17th, 2 AM');
-                    expect(table.data[1].status).toEqual('2:48 AM');
-                    expect(table.data[2].time).toEqual('Jan 17th, 2 AM');
-                    expect(table.data[2].status).toEqual('2:44 AM');
-                    expect(table.data[3].time).toEqual('--');
-                    expect(table.data[3].status).toEqual('--');
-                    expect(table.data[4].time).toEqual('--');
-                    expect(table.data[4].status).toEqual('--');
-                    expect(table.data[5].time).toEqual('Jan 16th, 11 PM');
-                    expect(table.data[5].status).toEqual('Jan 16th 1970');
-                    expect(table.data[6].time).toEqual('--');
-                    expect(table.data[6].status).toEqual('--');
+                    expect(table.data[0].timeTimestamp).toEqual('Jan 17th, 2 AM');
+                    expect(table.data[0].statusTimestamp).toEqual('2:29 AM');
+                    expect(table.data[1].timeTimestamp).toEqual('Jan 17th, 2 AM');
+                    expect(table.data[1].statusTimestamp).toEqual('2:48 AM');
+                    expect(table.data[2].timeTimestamp).toEqual('Jan 17th, 2 AM');
+                    expect(table.data[2].statusTimestamp).toEqual('2:44 AM');
+                    expect(table.data[3].timeTimestamp).toEqual('--');
+                    expect(table.data[3].statusTimestamp).toEqual('--');
+                    expect(table.data[4].timeTimestamp).toEqual('--');
+                    expect(table.data[4].statusTimestamp).toEqual('--');
+                    expect(table.data[5].timeTimestamp).toEqual('Jan 16th, 11 PM');
+                    expect(table.data[5].statusTimestamp).toEqual('Jan 16th 1970');
+                    expect(table.data[6].timeTimestamp).toEqual('--');
+                    expect(table.data[6].statusTimestamp).toEqual('--');
                 });
             });
 
@@ -204,8 +204,8 @@ describe('TableStore', function() {
                 it('should correctly format the time and keep track of the original timestamp', function() {
                     table.onDataReceived(definition.data);
 
-                    expect(table.data[0].status).toBeNonEmptyString();
-                    expect(table.data[0].statusTimestamp).toEqual(1416591981);
+                    expect(table.data[0].status).toEqual(1416591981);
+                    expect(table.data[0].statusTimestamp).toBeNonEmptyString();
                 });
 
                 it('should set the online attribute of a data element to true if the time is within the onlineLimit', function() {
@@ -231,54 +231,54 @@ describe('TableStore', function() {
                 it('should format the time and keep track of the original timestamp', function() {
                     table.onDataReceived(definition.data);
 
-                    expect(table.data[0].duration).toEqual('1d 10h 17m');
-                    expect(table.data[0].durationDuration).toEqual(123456789);
-                    expect(table.data[0].durationToHours).toEqual('1d 10h');
-                    expect(table.data[0].durationToHoursDuration).toEqual(123456789);
-                    expect(table.data[0].durationToMilliseconds).toEqual('1d 10h 17m 36s 789ms');
-                    expect(table.data[0].durationToMillisecondsDuration).toEqual(123456789);
+                    expect(table.data[0].duration).toEqual(123456789);
+                    expect(table.data[0].durationDuration).toEqual('1d 10h 17m');
+                    expect(table.data[0].durationToHours).toEqual(123456789);
+                    expect(table.data[0].durationToHoursDuration).toEqual('1d 10h');
+                    expect(table.data[0].durationToMilliseconds).toEqual(123456789);
+                    expect(table.data[0].durationToMillisecondsDuration).toEqual('1d 10h 17m 36s 789ms');
 
-                    expect(table.data[1].duration).toEqual('2m');
-                    expect(table.data[1].durationDuration).toEqual(123456);
-                    expect(table.data[1].durationToHours).toEqual('');
-                    expect(table.data[1].durationToHoursDuration).toEqual(123456);
-                    expect(table.data[1].durationToMilliseconds).toEqual('2m 3s 456ms');
-                    expect(table.data[1].durationToMillisecondsDuration).toEqual(123456);
+                    expect(table.data[1].duration).toEqual(123456);
+                    expect(table.data[1].durationDuration).toEqual('2m');
+                    expect(table.data[1].durationToHours).toEqual(123456);
+                    expect(table.data[1].durationToHoursDuration).toEqual('');
+                    expect(table.data[1].durationToMilliseconds).toEqual(123456);
+                    expect(table.data[1].durationToMillisecondsDuration).toEqual('2m 3s 456ms');
 
-                    expect(table.data[2].duration).toEqual('');
-                    expect(table.data[2].durationDuration).toEqual(1234);
-                    expect(table.data[2].durationToHours).toEqual('');
-                    expect(table.data[2].durationToHoursDuration).toEqual(1234);
-                    expect(table.data[2].durationToMilliseconds).toEqual('1s 234ms');
-                    expect(table.data[2].durationToMillisecondsDuration).toEqual(1234);
+                    expect(table.data[2].duration).toEqual(1234);
+                    expect(table.data[2].durationDuration).toEqual('');
+                    expect(table.data[2].durationToHours).toEqual(1234);
+                    expect(table.data[2].durationToHoursDuration).toEqual('');
+                    expect(table.data[2].durationToMilliseconds).toEqual(1234);
+                    expect(table.data[2].durationToMillisecondsDuration).toEqual('1s 234ms');
 
-                    expect(table.data[3].duration).toEqual('142d 21h 21m');
-                    expect(table.data[3].durationDuration).toEqual(12345678912);
-                    expect(table.data[3].durationToHours).toEqual('142d 21h');
-                    expect(table.data[3].durationToHoursDuration).toEqual(12345678912);
-                    expect(table.data[3].durationToMilliseconds).toEqual('142d 21h 21m 18s 912ms');
-                    expect(table.data[3].durationToMillisecondsDuration).toEqual(12345678912);
+                    expect(table.data[3].duration).toEqual(12345678912);
+                    expect(table.data[3].durationDuration).toEqual('142d 21h 21m');
+                    expect(table.data[3].durationToHours).toEqual(12345678912);
+                    expect(table.data[3].durationToHoursDuration).toEqual('142d 21h');
+                    expect(table.data[3].durationToMilliseconds).toEqual(12345678912);
+                    expect(table.data[3].durationToMillisecondsDuration).toEqual('142d 21h 21m 18s 912ms');
 
-                    expect(table.data[4].duration).toEqual('1d 10h 0m');
-                    expect(table.data[4].durationDuration).toEqual(122436789);
-                    expect(table.data[4].durationToHours).toEqual('1d 10h');
-                    expect(table.data[4].durationToHoursDuration).toEqual(122436789);
-                    expect(table.data[4].durationToMilliseconds).toEqual('1d 10h 0m 36s 789ms');
-                    expect(table.data[4].durationToMillisecondsDuration).toEqual(122436789);
+                    expect(table.data[4].duration).toEqual(122436789);
+                    expect(table.data[4].durationDuration).toEqual('1d 10h 0m');
+                    expect(table.data[4].durationToHours).toEqual(122436789);
+                    expect(table.data[4].durationToHoursDuration).toEqual('1d 10h');
+                    expect(table.data[4].durationToMilliseconds).toEqual(122436789);
+                    expect(table.data[4].durationToMillisecondsDuration).toEqual('1d 10h 0m 36s 789ms');
 
-                    expect(table.data[5].duration).toEqual('1m');
-                    expect(table.data[5].durationDuration).toEqual(60000);
-                    expect(table.data[5].durationToHours).toEqual('');
-                    expect(table.data[5].durationToHoursDuration).toEqual(60000);
-                    expect(table.data[5].durationToMilliseconds).toEqual('1m 0s 0ms');
-                    expect(table.data[5].durationToMillisecondsDuration).toEqual(60000);
+                    expect(table.data[5].duration).toEqual(60000);
+                    expect(table.data[5].durationDuration).toEqual('1m');
+                    expect(table.data[5].durationToHours).toEqual(60000);
+                    expect(table.data[5].durationToHoursDuration).toEqual('');
+                    expect(table.data[5].durationToMilliseconds).toEqual(60000);
+                    expect(table.data[5].durationToMillisecondsDuration).toEqual('1m 0s 0ms');
 
-                    expect(table.data[6].duration).toEqual('');
-                    expect(table.data[6].durationDuration).toEqual(59999);
-                    expect(table.data[6].durationToHours).toEqual('');
-                    expect(table.data[6].durationToHoursDuration).toEqual(59999);
-                    expect(table.data[6].durationToMilliseconds).toEqual('59s 999ms');
-                    expect(table.data[6].durationToMillisecondsDuration).toEqual(59999);
+                    expect(table.data[6].duration).toEqual(59999);
+                    expect(table.data[6].durationDuration).toEqual('');
+                    expect(table.data[6].durationToHours).toEqual(59999);
+                    expect(table.data[6].durationToHoursDuration).toEqual('');
+                    expect(table.data[6].durationToMilliseconds).toEqual(59999);
+                    expect(table.data[6].durationToMillisecondsDuration).toEqual('59s 999ms');
                 });
             });
 
@@ -781,81 +781,81 @@ describe('TableStore', function() {
             it('should sort objects on a key of type timestamps in ascending order', function() {
                 table.sortData(3, 'ascending');
                 // null values will be first because sorting to opposite of default sort order
-                expect(table.data[0].timeTimestamp).toBeNull();
-                expect(table.data[1].timeTimestamp).toBeNull();
-                expect(table.data[2].timeTimestamp).toBeNull();
-                expect(table.data[3].timeTimestamp).toBeNull();
-                expect(table.data[4].timeTimestamp).toBeNull();
-                expect(table.data[5].timeTimestamp).toEqual(1406479597);
-                expect(table.data[6].timeTimestamp).toEqual(1416591981);
-                expect(table.data[7].timeTimestamp).toEqual(1417455952);
-                expect(table.data[8].timeTimestamp).toEqual(1417715098);
+                expect(table.data[0].time).toBeNull();
+                expect(table.data[1].time).toBeNull();
+                expect(table.data[2].time).toBeNull();
+                expect(table.data[3].time).toBeNull();
+                expect(table.data[4].time).toBeNull();
+                expect(table.data[5].time).toEqual(1406479597);
+                expect(table.data[6].time).toEqual(1416591981);
+                expect(table.data[7].time).toEqual(1417455952);
+                expect(table.data[8].time).toEqual(1417715098);
             });
 
             it('should sort objects on a key of type timestamps in descending order', function() {
                 table.sortData(3, 'descending');
                 // null values will be last because sorting to same as default sort order
-                expect(table.data[0].timeTimestamp).toEqual(1417715098);
-                expect(table.data[1].timeTimestamp).toEqual(1417455952);
-                expect(table.data[2].timeTimestamp).toEqual(1416591981);
-                expect(table.data[3].timeTimestamp).toEqual(1406479597);
-                expect(table.data[4].timeTimestamp).toBeNull();
-                expect(table.data[5].timeTimestamp).toBeNull();
-                expect(table.data[6].timeTimestamp).toBeNull();
-                expect(table.data[7].timeTimestamp).toBeNull();
-                expect(table.data[8].timeTimestamp).toBeNull();
+                expect(table.data[0].time).toEqual(1417715098);
+                expect(table.data[1].time).toEqual(1417455952);
+                expect(table.data[2].time).toEqual(1416591981);
+                expect(table.data[3].time).toEqual(1406479597);
+                expect(table.data[4].time).toBeNull();
+                expect(table.data[5].time).toBeNull();
+                expect(table.data[6].time).toBeNull();
+                expect(table.data[7].time).toBeNull();
+                expect(table.data[8].time).toBeNull();
             });
 
             it('should sort objects on a key of type percent in ascending order', function() {
                 table.sortData(4, 'ascending');
-                expect(table.data[0].percentPercent).toEqual(0);
-                expect(table.data[1].percentPercent).toEqual(0);
-                expect(table.data[2].percentPercent).toEqual(0);
-                expect(table.data[3].percentPercent).toEqual(8);
-                expect(table.data[4].percentPercent).toEqual(70);
-                expect(table.data[5].percentPercent).toEqual(80);
-                expect(table.data[6].percentPercent).toEqual(80);
-                expect(table.data[7].percentPercent).toEqual(82);
-                expect(table.data[8].percentPercent).toEqual(83);
+                expect(table.data[0].percent).toEqual(0);
+                expect(table.data[1].percent).toEqual(0);
+                expect(table.data[2].percent).toEqual(0);
+                expect(table.data[3].percent).toEqual(8);
+                expect(table.data[4].percent).toEqual(70);
+                expect(table.data[5].percent).toEqual(80);
+                expect(table.data[6].percent).toEqual(80);
+                expect(table.data[7].percent).toEqual(82);
+                expect(table.data[8].percent).toEqual(83);
             });
 
             it('should sort objects on a key of type percent in descending order', function() {
                 table.sortData(4, 'descending');
-                expect(table.data[0].percentPercent).toEqual(83);
-                expect(table.data[1].percentPercent).toEqual(82);
-                expect(table.data[2].percentPercent).toEqual(80);
-                expect(table.data[3].percentPercent).toEqual(80);
-                expect(table.data[4].percentPercent).toEqual(70);
-                expect(table.data[5].percentPercent).toEqual(8);
-                expect(table.data[6].percentPercent).toEqual(0);
-                expect(table.data[7].percentPercent).toEqual(0);
-                expect(table.data[8].percentPercent).toEqual(0);
+                expect(table.data[0].percent).toEqual(83);
+                expect(table.data[1].percent).toEqual(82);
+                expect(table.data[2].percent).toEqual(80);
+                expect(table.data[3].percent).toEqual(80);
+                expect(table.data[4].percent).toEqual(70);
+                expect(table.data[5].percent).toEqual(8);
+                expect(table.data[6].percent).toEqual(0);
+                expect(table.data[7].percent).toEqual(0);
+                expect(table.data[8].percent).toEqual(0);
             });
 
             it('should sort objects on a key of type duration in ascending order', function() {
                 table.sortData(5, 'ascending');
-                expect(table.data[0].durationDuration).toEqual(0);
-                expect(table.data[1].durationDuration).toEqual(0);
-                expect(table.data[2].durationDuration).toEqual(0);
-                expect(table.data[3].durationDuration).toEqual(8);
-                expect(table.data[4].durationDuration).toEqual(70);
-                expect(table.data[5].durationDuration).toEqual(80);
-                expect(table.data[6].durationDuration).toEqual(80);
-                expect(table.data[7].durationDuration).toEqual(82);
-                expect(table.data[8].durationDuration).toEqual(83);
+                expect(table.data[0].duration).toEqual(0);
+                expect(table.data[1].duration).toEqual(0);
+                expect(table.data[2].duration).toEqual(0);
+                expect(table.data[3].duration).toEqual(8);
+                expect(table.data[4].duration).toEqual(70);
+                expect(table.data[5].duration).toEqual(80);
+                expect(table.data[6].duration).toEqual(80);
+                expect(table.data[7].duration).toEqual(82);
+                expect(table.data[8].duration).toEqual(83);
             });
 
             it('should sort objects on a key of type duration in descending order', function() {
                 table.sortData(5, 'descending');
-                expect(table.data[0].durationDuration).toEqual(83);
-                expect(table.data[1].durationDuration).toEqual(82);
-                expect(table.data[2].durationDuration).toEqual(80);
-                expect(table.data[3].durationDuration).toEqual(80);
-                expect(table.data[4].durationDuration).toEqual(70);
-                expect(table.data[5].durationDuration).toEqual(8);
-                expect(table.data[6].durationDuration).toEqual(0);
-                expect(table.data[7].durationDuration).toEqual(0);
-                expect(table.data[8].durationDuration).toEqual(0);
+                expect(table.data[0].duration).toEqual(83);
+                expect(table.data[1].duration).toEqual(82);
+                expect(table.data[2].duration).toEqual(80);
+                expect(table.data[3].duration).toEqual(80);
+                expect(table.data[4].duration).toEqual(70);
+                expect(table.data[5].duration).toEqual(8);
+                expect(table.data[6].duration).toEqual(0);
+                expect(table.data[7].duration).toEqual(0);
+                expect(table.data[8].duration).toEqual(0);
             });
         });
 
