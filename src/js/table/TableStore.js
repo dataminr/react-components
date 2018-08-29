@@ -67,7 +67,7 @@ Table.prototype = {
 
             item[col.dataProperty] = item[col.dataProperty] || null;
             // Provide formatted value in different field.
-            item[`${col.dataProperty}Timestamp`] = item[col.dataProperty] && typeof item[col.dataProperty] !== 'string'
+            item[`${col.dataProperty}Timestamp`] = item[col.dataProperty]
                 ? (typeof col.timeFormat === 'function' ? col.timeFormat(item[col.dataProperty]) : moment(item[col.dataProperty]).format(col.timeFormat))
                 : '--';
         };
