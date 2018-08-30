@@ -171,6 +171,16 @@ describe('TableStore', function() {
                     expect(table.data[6].timeTimestamp).toEqual('--');
                     expect(table.data[6].statusTimestamp).toEqual('--');
                 });
+
+                it('should support string times', function() {
+                    definition.data = [
+                        {string: 'aaa', integer: -2, mixedCase: 'Aaa', time: '2017-05-31T04:18:15.648Z', percent: 14, status: 1417455952, duration: 1234, durationToHours: 1234, durationToMilliseconds: 1234},
+                    ];
+                    table.onDataReceived(definition.data);
+
+                    expect(table.data[0].time).toEqual('2017-05-31T04:18:15.648Z');
+                    expect(table.data[0].timeTimestamp).toEqual('May 30th, 10 PM');
+                });
             });
 
             describe('status formatter', function() {
