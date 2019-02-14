@@ -200,7 +200,7 @@ var searchData = [
     {"id": 5, "name": "KeyCorp"}
 ];
 
-module.exports = {
+export default {
     /**
      * Make an ajax request.
      * @param  {string} url - Url to request
