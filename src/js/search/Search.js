@@ -2,7 +2,7 @@ var createReactClass = require('create-react-class');
 var _ = require('lodash');
 var PropTypes = require('prop-types');
 var React = require('react');
-var RequestHandler = require('RequestHandler');
+var RequestHandler = require('RequestHandler').default;
 var Utils = require('../utils/Utils');
 
 var Search = createReactClass({

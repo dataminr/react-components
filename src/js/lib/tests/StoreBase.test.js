@@ -1,5 +1,5 @@
 var StoreBase = require('../StoreBase');
-var RequestHandler = require('RequestHandler');
+var RequestHandler = require('RequestHandler').default;
 
 describe('StoreBase', function() {
     StoreBase.collection = {};

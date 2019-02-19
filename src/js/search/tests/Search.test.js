@@ -1,7 +1,7 @@
 var React = require('react');
 var TestUtils = require('react-dom/test-utils');
 var Search = require('../Search');
-var RequestHandler = require('RequestHandler');
+var RequestHandler = require('RequestHandler').default;
 
 describe('Search', function() {
     var search, props;

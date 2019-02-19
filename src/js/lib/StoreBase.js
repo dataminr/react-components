@@ -1,6 +1,6 @@
 var EventEmitter = require('./EventEmitter');
 var _ = require('lodash');
-var RequestHandler = require('RequestHandler');
+var RequestHandler = require('RequestHandler').default;
 
 /**
  * All stores will be merged with the StoreBase. All of the functionality here has been abstracted from the
